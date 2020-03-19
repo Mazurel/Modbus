@@ -69,6 +69,7 @@ git clone https://github.com/Mazurel/Modbus
 
 Then add to your CMakeLists.txt
 ```cmake
+add_subdirectory(Modbus)
 target_link_libraries(<your exec/lib> Modbus)
 ``` 
 
