@@ -24,11 +24,14 @@ namespace MB::Serial
 {
 class Connection
 {
+public:
+    const unsigned int DefaultSerialTimeout = 1000;
+
 private:
     termios _termios;
     int _fd;
 
-    int _timeout = MB::utils::SerialTimeout;
+    int _timeout = DefaultSerialTimeout;
 
     /**
      * @brief Sends data through the serial

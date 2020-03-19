@@ -22,10 +22,13 @@ namespace MB::TCP
 {
 class Connection
 {
+public:
+    static const unsigned int DefaultTCPTimeout = 500;
+
 private:
     int _sockfd = -1;
     uint16_t _messageID = 0;
-    int _timeout = MB::utils::TCPTimeout;
+    int _timeout = DefaultTCPTimeout;
 
 public:
     explicit Connection() noexcept : _sockfd(-1), _messageID(0) {};

@@ -14,5 +14,5 @@ TEST(ModbusException , Exists)
 
 TEST(ModbusException, Other)
 {
-    EXPECT_EQ(MB::ModbusException({0x0A, 0x82, 0x02}).getFunctionCode(), MB::utils::ReadDiscreteInputContacts);
+    EXPECT_EQ(MB::ModbusException({0x0A, 0x82, 0x02}).functionCode(), MB::utils::ReadDiscreteInputContacts);
 }

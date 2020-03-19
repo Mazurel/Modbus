@@ -6,6 +6,8 @@
 #include "modbusRequest.hpp"
 #include "modbusException.hpp"
 
+#include "TCP/server.hpp"
+
 #include <iostream>
 #include <iomanip>
 

@@ -1,8 +1,9 @@
-set(HEADER_FILES_DIR ../../../include/MB/TCP)
+set(MODBUS_TCP_HEADER_FILES ${HEADER_FILES_DIR}/TCP/connection.hpp
+        ${HEADER_FILES_DIR}/TCP/server.hpp)
 
-set(HEADER_FILES ${HEADER_FILES_DIR}/connection.hpp
-        ${HEADER_FILES_DIR}/server.hpp)
+set(MODBUS_TCP_SOURCE_FILES connection.cpp server.cpp)
 
-set(SOURCE_FILES connection.cpp server.cpp)
-
-target_sources(Modbus PRIVATE ${SOURCE_FILES} PUBLIC ${HEADER_FILES})
+add_library(Modbus_TCP)
+target_include_directories(Modbus_TCP PRIVATE ${HEADER_FILES_DIR})
+target_link_libraries(Modbus_TCP Modbus_Core)
+target_sources(Modbus_TCP PRIVATE ${MODBUS_TCP_SOURCE_FILES} PUBLIC ${MODBUS_TCP_HEADER_FILES})

@@ -1,6 +1,7 @@
-//
-// Created by Mateusz Mazur on 06.01.2020.
-//
+// Copyright Mateusz Mazur 2020
+// MIT License
+
+// This header files contain various utilities for Modbus Core library
 
 #ifndef PROTOCOLCONVERTER_MODBUSUTILS_HPP
 #define PROTOCOLCONVERTER_MODBUSUTILS_HPP
@@ -9,9 +10,6 @@
 #include <string>
 
 namespace MB::utils {
-    const unsigned int TCPTimeout = 500;
-    const unsigned int SerialTimeout = 1000;
-
     enum MBErrorCode : uint8_t {
         // Documentation modbus errors
         IllegalFunction = 0x01,
@@ -35,6 +33,11 @@ namespace MB::utils {
         Timeout = 0xF6
     };
 
+    /* @brief
+     * Checks if error code is Modbus standard error code
+     * @note
+     * This library uses custom error codes which are specified in modbusUtils.hpp
+     * */
     inline bool isStandardErrorCode(MBErrorCode code)
     {
         switch (code)
@@ -63,9 +66,9 @@ namespace MB::utils {
     }
 
     /**
-     * Convert ModbusCode to it's string representation
+     * Converts Modbus error code to it's string representation
      * @param code - The requested code
-     * @return String represenation
+     * @return string represenation
      */
     inline std::string mbErrorCodeToStr(MBErrorCode code) noexcept
     {
@@ -136,6 +139,8 @@ namespace MB::utils {
         WriteMultiple
     };
 
+    /* @brief Checks "Function type", according to MBFunctionType
+     * */
     inline MBFunctionType functionType(const MBFunctionCode code) {
         switch (code) {
             case ReadDiscreteOutputCoils:
@@ -208,7 +213,7 @@ namespace MB::utils {
         return static_cast<uint16_t>(buf[1]) + (static_cast<uint16_t>(buf[0]) << 8); // NOLINT(hicpp-signed-bitwise)
     }
 
-// No clue how it works, but it works
+    // Calculates CRC
     inline uint16_t calculateCRC(const uint8_t *buff, size_t len) {
         static const uint16_t wCRCTable[] = {
                 0X0000, 0XC0C1, 0XC181, 0X0140, 0XC301, 0X03C0, 0X0280, 0XC241,
