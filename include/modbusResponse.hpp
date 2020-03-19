@@ -52,6 +52,7 @@ public:
 
     ModbusResponse(const ModbusResponse &) = default;
 
+    // Converts object to it's string representation
     [[nodiscard]] std::string toString() const;
     [[nodiscard]] std::vector<uint8_t> toRaw() const;
     // Fills all data from associated request

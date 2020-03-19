@@ -53,7 +53,37 @@ Currently Modbus Core is fully functional and (I belive) it doesn't have bugs.
 
 Modbus Communication is working *currently* only for linux, it works well on TCP, not tested on Serial.
 
+# How to learn Modbus ?
+
+Just use [Simply modbus](http://www.simplymodbus.ca/FAQ.htm).
+
 # API
 
-To be added ...
+## Enums
+- `MB::utils::MBErrorCode` - Enum that contains all the standard Modbus error Codes as well as Modbus library specific errors.
 
+
+## Methods
+
+## Classes
+
+### ModbusResponse
+
+- Constructors:
+    - `static ModbusResponse::fromRaw(const std::vector<uint8_t>&)` - Creates ModbusResponse from raw bytes
+    - `static ModbusResponse::fromRawCRC(const std::vector<uint8_t>&)` - Creates ModbusResponse from raw bytes and checks CRC. 
+    When CRC is invalid throws InvalidCRC exception.
+    - `ModbusResponse(uint8_t slaveId = 0, 
+                      utils::MBFunctionCode functionCode = 0x00,
+                      uint16_t address = 0, 
+                      uint16_t registersNumber = 0,
+                      std::vector<ModbusCell> values = {})` 
+                      - Self explanatory constructor
+- Methods:
+    - `std::string toString()` - Returns ModbusResponse string representation.
+    - `std::vector<uint8_t> toRaw()` - Converts ModbusResponse to vector of raw bytes.
+    - `void from(const ModbusRequest&)` - Fills ModbusRequest with the request.
+    Needed if you want ModbusResponse to have all the data.
+    This method is needed because modbus protocol response doesn't have all the data.
+- Getters:
+- Setters:

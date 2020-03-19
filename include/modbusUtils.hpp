@@ -24,13 +24,13 @@ namespace MB::utils {
         GatewayTargetDeviceFailedToRespond = 0x11,
 
         // Custom modbus errors
-        ErrorCodeCRCError = 0xF0,
-        InvalidCRC = 0xF1,
-        InvalidByteOrder = 0xF2,
-        InvalidMessageID = 0xF3,
-        ProtocolError = 0xF4,
-        ConnectionClosed = 0xF5,
-        Timeout = 0xF6
+        ErrorCodeCRCError = 0b0111111,
+        InvalidCRC = 0b01111110,
+        InvalidByteOrder = 0b01111101,
+        InvalidMessageID = 0b01111100,
+        ProtocolError = 0b01111011,
+        ConnectionClosed = 0b01111010,
+        Timeout = 0b01111001
     };
 
     /* @brief
