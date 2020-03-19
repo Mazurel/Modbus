@@ -1,4 +1,4 @@
-set(HEADER_FILES_DIR ${PROJECT_SOURCE_DIR}/include/)
+set(HEADER_FILES_DIR ${CMAKE_SOURCE_DIR}/include/)
 
 # Include modbus core files
 set(CORE_HEADER_FILES ${HEADER_FILES_DIR}/modbusCell.hpp

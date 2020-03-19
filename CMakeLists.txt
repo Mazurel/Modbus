@@ -19,5 +19,5 @@ if(MODBUS_EXAMPLE)
 endif()
 
 if(MODBUS_TEST)
-    add_subdirectory(Google_tests)
+    add_subdirectory(tests)
 endif()
