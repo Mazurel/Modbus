@@ -8,7 +8,7 @@ When I was working on my last project and tried to find a good c++ Modbus librar
 That is why I have decided to share my own implementation of it.
 
 ## Important Concept
-This library is **mainly** for prowiding modbus logic, it doesnt aim to have best communiaction implementation.
+This library is **mainly** for providing Modbus logic, it doesnt aim to have best communiaction implementation.
 It gives user ability to create Modbus frames in high level api and convert them to raw bytes or show them as string.
 That is why *Modbus Core* is OS independent and can be used with many great librarys that are good at transporting data.
 
@@ -56,6 +56,23 @@ Modbus Communication is working *currently* only for linux, it works well on TCP
 # How to learn Modbus ?
 
 Just use [Simply modbus](http://www.simplymodbus.ca/FAQ.htm).
+
+# How to install it ?
+
+### Using CMAKE
+
+First go to directory that will contain this library.
+
+``` bash
+git clone https://github.com/Mazurel/Modbus
+```
+
+Then add to your CMakeLists.txt
+```cmake
+target_link_libraries(<your exec/lib> Modbus)
+``` 
+
+That is all !!!
 
 # API
 
