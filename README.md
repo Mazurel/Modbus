@@ -1,4 +1,4 @@
-<h1> Modbus library for modern c++</h1>
+<h1>Modbus library for modern c++</h1>
 
 **WORK IN PROGRESS ...**
 
@@ -13,10 +13,10 @@
 When I was working on my last project and tried to find a good c++ Modbus library (other than Qt) I was unable to find it.
 That is why I have decided to share my own implementation of it.
 
-## Important Concept
+# Important Concept
 This library is **mainly** for providing Modbus logic, it doesnt aim to have best communiaction implementation.
 It gives user ability to create Modbus frames in high level api and convert them to raw bytes or show them as string.
-That is why *Modbus Core* is OS independent and can be used with many great librarys that are good at transporting data.
+That is why *Modbus Core* is OS independent and can be eaisly used with other communication frameworks.
 
 # Quick Example
 
@@ -26,30 +26,41 @@ Code:
 ```c++
 #include <modbusRequest.hpp>
 
-MB::ModbusRequest request(
-                      1 , // Slave ID
-                      MB::utils::ReadDiscreteOutputCoils, // Function Code
-                      100, // Address
-                      10   // Number of registers
-                      );
+// Create simple request
+MB::ModbusRequest request(1, MB::utils::ReadDiscreteOutputCoils, 100, 10);
 
 std::cout << "Stringed Request: " << request.toString() << std::endl;
+
 std::cout << "Raw request:" << std::endl;
 
-auto rawed = request.toRaw(); // simple std::vector
-for (const auto& byte: rawed)
+// Get raw represenatation for request
+std::vector<uint8_t> rawed = request.toRaw();
+
+// Method for showing byte
+auto showByte = [](const uint8_t& byte)
 {
-    std::cout << " " << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(byte);
-}
+    std::cout << " 0x" << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(byte);
+};
+
+// Show all bytes
+std::for_each(rawed.begin(), rawed.end(), showByte);
 std::cout << std::endl;
+
+// Create CRC and pointer to its bytes
+uint16_t CRC = MB::utils::calculateCRC(rawed);
+auto CRCptr = reinterpret_cast<uint8_t *>(&CRC);
+
+// Show byted CRC for request
+std::cout << "CRC for the above code: ";
+std::for_each(CRCptr, CRCptr + 2, showByte);
+std::cout << std::endl;
+
 
 auto request1 = MB::ModbusRequest::fromRaw(rawed);
 std::cout << "Stringed Request 1 after rawed: " << request1.toString() << std::endl;
 
-uint16_t CRC = MB::utils::calculateCRC(rawed.begin().base(), rawed.size());
-auto CRCptr = reinterpret_cast<uint8_t *>(&CRC);
+// Add CRC to the end of raw request so that it can be loaded with CRC check
 rawed.insert(rawed.end() , CRCptr, CRCptr + 2);
-
 auto request2 = MB::ModbusRequest::fromRawCRC(rawed); // Throws on invalid CRC
 std::cout << "Stringed Request 2 after rawed: " << request2.toString() << std::endl;
 ```
@@ -57,12 +68,11 @@ Output:
 ```bash
 Stringed Request: Read from output coils, from slave 1, starting from address 100, on 10 registers
 Raw request:
- 01 01 00 64 00 0a
+ 0x01 0x01 0x00 0x64 0x00 0x0a
+CRC for the above code:  0xfd 0xd2
 Stringed Request 1 after rawed: Read from output coils, from slave 1, starting from address 100, on 10 registers
 Stringed Request 2 after rawed: Read from output coils, from slave 1, starting from address 100, on 10 registers
 ```
- 
-*More examples are in the examples directory*
 
 # STATUS
 
@@ -80,7 +90,7 @@ Just use [Simply modbus](http://www.simplymodbus.ca/FAQ.htm).
 
 First go to directory that will contain this library.
 
-``` bash
+```bash
 git clone https://github.com/Mazurel/Modbus
 ```
 
@@ -90,9 +100,12 @@ add_subdirectory(Modbus)
 target_link_libraries(<your exec/lib> Modbus)
 ``` 
 
-That is all !!!
+You should be able to use library.
 
 # API
+- [Enums](#enums)
+- [Methods](#methods)
+- [Classes](#classes)
 
 ## Enums
 Below each enum there are all values of enum.
@@ -100,56 +113,56 @@ Below each enum there are all values of enum.
 - `MB::utils::MBErrorCode` - Enum that contains all the standard Modbus error Codes as well as Modbus library specific errors.
     ```c++
     // Documentation modbus errors:
-    IllegalFunction = 0x01,
-    IllegalDataAddress = 0x02,
-    IllegalDataValue = 0x03,
-    SlaveDeviceFailure = 0x04,
-    Acknowledge = 0x05,
-    SlaveDeviceBusy = 0x06,
-    NegativeAcknowledge = 0x07,
-    MemoryParityError = 0x08,
-    GatewayPathUnavailable = 0x10,
-    GatewayTargetDeviceFailedToRespond = 0x11,
+    IllegalFunction = 0x01
+    IllegalDataAddress = 0x02
+    IllegalDataValue = 0x03
+    SlaveDeviceFailure = 0x04
+    Acknowledge = 0x05
+    SlaveDeviceBusy = 0x06
+    NegativeAcknowledge = 0x07
+    MemoryParityError = 0x08
+    GatewayPathUnavailable = 0x10
+    GatewayTargetDeviceFailedToRespond = 0x11
   
     // Custom modbus errors:
-    ErrorCodeCRCError = 0b0111111,
-    InvalidCRC = 0b01111110,
-    InvalidByteOrder = 0b01111101,
-    InvalidMessageID = 0b01111100,
-    ProtocolError = 0b01111011,
-    ConnectionClosed = 0b01111010,
+    ErrorCodeCRCError = 0b0111111
+    InvalidCRC = 0b01111110
+    InvalidByteOrder = 0b01111101
+    InvalidMessageID = 0b01111100
+    ProtocolError = 0b01111011
+    ConnectionClosed = 0b01111010
     Timeout = 0b01111001
     ```
 - `MB::utils::MBFunctionCode` - Enum that contains all Modbus function codes.
     ```c++
     // Reading functions
-    ReadDiscreteOutputCoils = 0x01,
-    ReadDiscreteInputContacts = 0x02,
-    ReadAnalogOutputHoldingRegisters = 0x03,
-    ReadAnalogInputRegisters = 0x04,
+    ReadDiscreteOutputCoils = 0x01
+    ReadDiscreteInputContacts = 0x02
+    ReadAnalogOutputHoldingRegisters = 0x03
+    ReadAnalogInputRegisters = 0x04
     
     // Single write functions
-    WriteSingleDiscreteOutputCoil = 0x05,
-    WriteSingleAnalogOutputRegister = 0x06,
+    WriteSingleDiscreteOutputCoil = 0x05
+    WriteSingleAnalogOutputRegister = 0x06
     
     // Multiple write functions
-    WriteMultipleDiscreteOutputCoils = 0x0F,
-    WriteMultipleAnalogOutputHoldingRegisters = 0x10,
+    WriteMultipleDiscreteOutputCoils = 0x0F
+    WriteMultipleAnalogOutputHoldingRegisters = 0x10
     
     // Custom
     Undefined = 0x00
     ```
 - `MB::utils::MBFunctionType` - Enum that contains function types.
     ```c++
-    Read,
-    WriteSingle,
+    Read
+    WriteSingle
     WriteMultiple
     ```
 - `MB::utils::MBFunctionRegisters` - Enum that contains all register types.
     ```c++        
-    OutputCoils,
-    InputContacts,
-    HoldingRegisters,
+    OutputCoils
+    InputContacts
+    HoldingRegisters
     InputRegisters
     ```
 
@@ -185,12 +198,27 @@ Below each enum there are all values of enum.
                       uint16_t address = 0, 
                       uint16_t registersNumber = 0,
                       std::vector<ModbusCell> values = {})` 
-                      - Self explanatory constructor
+                      - Self explanatory constructor.
 - Methods:
     - `std::string toString()` - Returns ModbusResponse string representation.
     - `std::vector<uint8_t> toRaw()` - Converts ModbusResponse to vector of raw bytes.
     - `void from(const ModbusRequest&)` - Fills ModbusResponse with the request.
     Needed if you want ModbusResponse to have all the data.
     This method is needed when you create object from raw.
-- Getters:
-- Setters:
+    - `MB::utils::MBFunctionType functionType() const` - 
+    Gets function type for current function code.
+    - `MB::utils::MBFunctionRegisters functionRegisters() const` - 
+    Gets function register for current function code.
+
+> For each getter and setter field there is:
+>
+> \<name\>() const - that gets the value
+>
+> get\<Name\>(value) - that sets value
+- Getters and setters:
+    - slaveID
+    - functionCode
+    - registerAddress
+    - numberOfRegisters
+    - registerValues
+

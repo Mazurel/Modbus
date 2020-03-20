@@ -1,6 +1,5 @@
-//
-// Created by mateusz on 06.01.2020.
-//
+// Copyright Mateusz Mazur 2020
+// MIT License
 
 #ifndef PROTOCOLCONVERTER_MODBUSRESPONSE_HPP
 #define PROTOCOLCONVERTER_MODBUSRESPONSE_HPP

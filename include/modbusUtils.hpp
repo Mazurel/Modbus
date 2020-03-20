@@ -8,6 +8,7 @@
 
 #include <cstdint>
 #include <string>
+#include <vector>
 
 namespace MB::utils {
     enum MBErrorCode : uint8_t {
@@ -33,11 +34,8 @@ namespace MB::utils {
         Timeout = 0b01111001
     };
 
-    /* @brief
-     * Checks if error code is Modbus standard error code
-     * @note
-     * This library uses custom error codes which are specified in modbusUtils.hpp
-     * */
+
+    // Checks if error code is modbus standard error code
     inline bool isStandardErrorCode(MBErrorCode code)
     {
         switch (code)
@@ -65,11 +63,8 @@ namespace MB::utils {
         }
     }
 
-    /**
-     * Converts Modbus error code to it's string representation
-     * @param code - The requested code
-     * @return string represenation
-     */
+
+    // Converts Modbus error code to it's string representation
     inline std::string mbErrorCodeToStr(MBErrorCode code) noexcept
     {
         switch (code)
@@ -139,8 +134,7 @@ namespace MB::utils {
         WriteMultiple
     };
 
-    /* @brief Checks "Function type", according to MBFunctionType
-     * */
+    // Checks "Function type", according to MBFunctionType
     inline MBFunctionType functionType(const MBFunctionCode code) {
         switch (code) {
             case ReadDiscreteOutputCoils:
@@ -166,6 +160,7 @@ namespace MB::utils {
         InputRegisters
     };
 
+    // Get register type based on function code
     inline MBFunctionRegisters functionRegister(const MBFunctionCode code) {
         switch (code) {
             case ReadDiscreteOutputCoils:
@@ -185,7 +180,7 @@ namespace MB::utils {
         }
     }
 
-
+    // Converts modbus function code to its string represenatiton
     inline std::string mbFunctionToStr(MBFunctionCode code) noexcept {
         switch (code) {
             case ReadDiscreteOutputCoils:
@@ -209,6 +204,7 @@ namespace MB::utils {
         }
     }
 
+    // Create uint16_t from buffer of two bytes, ex. { 0x01, 0x02 } => 0x0102
     inline uint16_t bigEndianConv(const uint8_t *buf) {
         return static_cast<uint16_t>(buf[1]) + (static_cast<uint16_t>(buf[0]) << 8); // NOLINT(hicpp-signed-bitwise)
     }

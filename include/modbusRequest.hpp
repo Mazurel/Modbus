@@ -1,6 +1,5 @@
-//
-// Created by mateusz on 04.01.2020.
-//
+// Copyright Mateusz Mazur 2020
+// MIT License
 
 #ifndef PROTOCOLCONVERTER_MODBUSREQUEST_HPP
 #define PROTOCOLCONVERTER_MODBUSREQUEST_HPP

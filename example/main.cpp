@@ -6,35 +6,47 @@
 #include "modbusRequest.hpp"
 #include "modbusException.hpp"
 
-#include "TCP/server.hpp"
-
 #include <iostream>
 #include <iomanip>
+#include <algorithm>
 
 void createRequest()
 {
-    MB::ModbusRequest request(1 ,
-                          MB::utils::ReadDiscreteOutputCoils,
-                              100,
-                            10);
+    // Create simple request
+    MB::ModbusRequest request(1 , MB::utils::ReadDiscreteOutputCoils, 100, 10);
 
     std::cout << "Stringed Request: " << request.toString() << std::endl;
+
     std::cout << "Raw request:" << std::endl;
 
-    auto rawed = request.toRaw(); // simple std::vector
-    for (const auto& byte: rawed)
+    // Get raw represenatation for request
+    std::vector<uint8_t> rawed = request.toRaw();
+
+    // Method for showing byte
+    auto showByte = [](const uint8_t& byte)
     {
-        std::cout << " " << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(byte);
-    }
+        std::cout << " 0x" << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(byte);
+    };
+
+    // Show all bytes
+    std::for_each(rawed.begin(), rawed.end(), showByte);
     std::cout << std::endl;
+
+    // Create CRC and pointer to its bytes
+    uint16_t CRC = MB::utils::calculateCRC(rawed);
+    auto CRCptr = reinterpret_cast<uint8_t *>(&CRC);
+
+    // Show byted CRC for request
+    std::cout << "CRC for the above code: ";
+    std::for_each(CRCptr, CRCptr + 2, showByte);
+    std::cout << std::endl;
+
 
     auto request1 = MB::ModbusRequest::fromRaw(rawed);
     std::cout << "Stringed Request 1 after rawed: " << request1.toString() << std::endl;
 
-    uint16_t CRC = MB::utils::calculateCRC(rawed.begin().base(), rawed.size());
-    auto CRCptr = reinterpret_cast<uint8_t *>(&CRC);
+    // Add CRC to the end of raw request so that it can be loaded with CRC check
     rawed.insert(rawed.end() , CRCptr, CRCptr + 2);
-
     auto request2 = MB::ModbusRequest::fromRawCRC(rawed); // Throws on invalid CRC
     std::cout << "Stringed Request 2 after rawed: " << request2.toString() << std::endl;
 }

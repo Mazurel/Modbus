@@ -1,6 +1,5 @@
-//
-// Created by mateusz on 07.01.2020.
-//
+// Copyright Mateusz Mazur 2020
+// MIT License
 
 #ifndef PROTOCOLCONVERTER_MODBUSEXCEPTION_HPP
 #define PROTOCOLCONVERTER_MODBUSEXCEPTION_HPP

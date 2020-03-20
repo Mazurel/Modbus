@@ -1,6 +1,5 @@
-//
-// Created by mateusz on 23.01.2020.
-//
+// Copyright Mateusz Mazur 2020
+// MIT License
 
 #ifndef PROTOCOLCONVERTER_CONNECTION_HPP
 #define PROTOCOLCONVERTER_CONNECTION_HPP
