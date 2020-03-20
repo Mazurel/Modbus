@@ -6,19 +6,19 @@
 - [Important Concept](#important-concept)
 - [Quick Example](#quick-example)
 - [Status](#status)
-- [Installation](#how-to-install-it-?)
+- [Installation](#how-to-install-it-)
 - [Api](#api)
 
-#Why
+# Why
 When I was working on my last project and tried to find a good c++ Modbus library (other than Qt) I was unable to find it.
 That is why I have decided to share my own implementation of it.
 
-##Important Concept
+## Important Concept
 This library is **mainly** for providing Modbus logic, it doesnt aim to have best communiaction implementation.
 It gives user ability to create Modbus frames in high level api and convert them to raw bytes or show them as string.
 That is why *Modbus Core* is OS independent and can be used with many great librarys that are good at transporting data.
 
-#Quick Example
+# Quick Example
 
 Quick example of what Modbus Core can do:
 
