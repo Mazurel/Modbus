@@ -1,6 +1,8 @@
 <h1>Modbus library for modern c++</h1>
 
-**WORK IN PROGRESS ...**
+Modbus for high level frame manipulation with modern c++17/20.
+
+**This readme file as well as Modbus Communication module are not finished, see [status](#status)**
 
 - [Why](#why)
 - [Important Concept](#important-concept)
@@ -76,7 +78,9 @@ Stringed Request 2 after rawed: Read from output coils, from slave 1, starting f
 
 # STATUS
 
-Currently Modbus Core is fully functional and (I belive) it doesn't have bugs.
+Currently Modbus Core is fully functional and (I belive) it doesn't have any bugs.
+
+API for it is in progress.
 
 Modbus Communication is working *currently* only for linux, it works well on TCP, not tested on Serial.
 
