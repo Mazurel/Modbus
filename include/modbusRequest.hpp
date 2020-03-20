@@ -1,5 +1,6 @@
-// Copyright Mateusz Mazur 2020
-// MIT License
+// Modbus for c++ <https://github.com/Mazurel/Modbus>
+// Copyright (c) 2020 Mateusz Mazur aka Mazurel
+// Licensed under: MIT License <http://opensource.org/licenses/MIT>
 
 #ifndef PROTOCOLCONVERTER_MODBUSREQUEST_HPP
 #define PROTOCOLCONVERTER_MODBUSREQUEST_HPP

@@ -1,6 +1,6 @@
-//
-// Created by mateusz on 23.01.2020.
-//
+// Modbus for c++ <https://github.com/Mazurel/Modbus>
+// Copyright (c) 2020 Mateusz Mazur aka Mazurel
+// Licensed under: MIT License <http://opensource.org/licenses/MIT>
 
 #include "TCP/server.hpp"
 
