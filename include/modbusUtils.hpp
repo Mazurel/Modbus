@@ -16,7 +16,7 @@ namespace MB::utils {
         IllegalDataAddress = 0x02,
         IllegalDataValue = 0x03,
         SlaveDeviceFailure = 0x04,
-        Acknowledge = 0x05, //TODO implement this thing
+        Acknowledge = 0x05,
         SlaveDeviceBusy = 0x06,
         NegativeAcknowledge = 0x07,
         MemoryParityError = 0x08,
@@ -258,6 +258,11 @@ namespace MB::utils {
             wCRCWord ^= wCRCTable[nTemp];
         }
         return wCRCWord;
+    }
+
+    inline uint16_t calculateCRC(const std::vector<uint8_t>& buffer)
+    {
+        return calculateCRC(buffer.begin().base(), buffer.size());
     }
 }
 #endif //PROTOCOLCONVERTER_MODBUSUTILS_HPP
