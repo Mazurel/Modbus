@@ -193,6 +193,8 @@ Below each enum there are all values of enum.
 > modbusRequest.hpp
 #### ModbusRequest
 
+Its purpose is to represent modbus request frame.
+
 - Constructors:
     - `static ModbusRequest::fromRaw(const std::vector<uint8_t>& inputData)` - Creates ModbusRequest from raw bytes.
     - `static ModbusRequest::fromRawCRC(const std::vector<uint8_t>& inputData)` - Creates ModbusRequest from raw bytes and checks CRC.
@@ -203,8 +205,30 @@ Below each enum there are all values of enum.
                      uint16_t registersNumber = 0,
                      std::vector<ModbusCell> values = {})` -
                      Self explanatory.
+- Methods:
+    - `std::string ModbusRequest::toString()` - Returns string representation of a request.
+    - `std::vector<uint8_t> ModbusRequest::toRaw()` - Converts ModbusRequest to raw bytes.
+    - `MB::utils::MBFunctionType functionType() const` - 
+    Gets function type for current function code.
+    - `MB::utils::MBFunctionRegisters functionRegisters() const` - 
+    Gets function register for current function code.
+
+> For each getter and setter field there is:
+>
+> \<name\>() const - that gets the value
+>
+> get\<Name\>(value) - that sets value
+- Getters and setters:
+    - slaveID
+    - functionCode
+    - registerAddress
+    - numberOfRegisters
+    - registerValues
+
 > modbusResponse.hpp
 #### ModbusResponse
+
+Its purpose is to represent response frame.
 
 - Constructors:
     - `static ModbusResponse::fromRaw(const std::vector<uint8_t>&)` - Creates ModbusResponse from raw bytes
