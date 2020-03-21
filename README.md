@@ -190,6 +190,19 @@ Below each enum there are all values of enum.
   Pretty self explanatory.
 ## Classes
 
+> modbusRequest.hpp
+#### ModbusRequest
+
+- Constructors:
+    - `static ModbusRequest::fromRaw(const std::vector<uint8_t>& inputData)` - Creates ModbusRequest from raw bytes.
+    - `static ModbusRequest::fromRawCRC(const std::vector<uint8_t>& inputData)` - Creates ModbusRequest from raw bytes and checks CRC.
+    When CRC is invalid throws InvalidCRC exception.
+    - `ModbusRequest(uint8_t slaveId = 0, 
+                     utils::MBFunctionCode functionCode = static_cast<utils::MBFunctionCode>(0),
+                     uint16_t address = 0, 
+                     uint16_t registersNumber = 0,
+                     std::vector<ModbusCell> values = {})` -
+                     Self explanatory.
 > modbusResponse.hpp
 #### ModbusResponse
 
