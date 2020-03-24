@@ -2,9 +2,9 @@
 // Created by mateusz on 18.03.2020.
 //
 
-#include "modbusResponse.hpp"
-#include "modbusRequest.hpp"
-#include "modbusException.hpp"
+#include "MB/modbusResponse.hpp"
+#include "MB/modbusRequest.hpp"
+#include "MB/modbusException.hpp"
 
 #include <iostream>
 #include <iomanip>
