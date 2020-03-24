@@ -113,7 +113,6 @@ You should be able to use library.
 
 ## Enums
 Below each enum there are all values of enum.
-> modbusutils.hpp
 - `MB::utils::MBErrorCode` - Enum that contains all the standard Modbus error Codes as well as Modbus library specific errors.
     ```c++
     // Documentation modbus errors:
@@ -172,8 +171,6 @@ Below each enum there are all values of enum.
 
 ## Methods
 
-> modbusutils.hpp
-
 - `bool MB::utils::isStandardErrorCode(MBErrorCode code)` - 
     Returns true if specified code is a Modbus standard error code.
 - `std::string MB::utils::mbErrorCodeToStr(MBErrorCode code)` -
@@ -189,7 +186,7 @@ Below each enum there are all values of enum.
   `uint16_t MB::utils::calculateCRC(const std::vector<uint8_t>& buffer)` - 
   Pretty self explanatory.
 ## Classes
-> modbusException.hpp
+
 #### ModbusException
 
 Its prupose is to represent Modbus exception, either frame or c++ exception
@@ -210,7 +207,7 @@ Its prupose is to represent Modbus exception, either frame or c++ exception
 - Methods:
     - `static ModbusException::exist(const std::vector<uint8_t>& inputData)` -
     Checks if there is exception in modbus frame.
-> modbusRequest.hpp
+
 #### ModbusRequest
 
 Its purpose is to represent modbus request frame.
@@ -239,7 +236,7 @@ Its purpose is to represent modbus request frame.
 >
 > \<name\>() const - that gets the value
 >
-> get\<Name\>(value) - that sets value
+> set\<Name\>(value) - that sets value
 - Getters and setters:
     - slaveID
     - functionCode
@@ -247,7 +244,6 @@ Its purpose is to represent modbus request frame.
     - numberOfRegisters
     - registerValues
 
-> modbusResponse.hpp
 #### ModbusResponse
 
 Its purpose is to represent response frame.
@@ -279,7 +275,7 @@ Its purpose is to represent response frame.
 >
 > \<name\>() const - that gets the value
 >
-> get\<Name\>(value) - that sets value
+> set\<Name\>(value) - that sets value
 - Getters and setters:
     - slaveID
     - functionCode
