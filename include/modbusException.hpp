@@ -34,18 +34,13 @@ public:
 
 
     // Constructs Exception based on error code, function code and slaveId
-    explicit ModbusException(utils::MBErrorCode errorCode, uint8_t slaveId, utils::MBFunctionCode functionCode = utils::Undefined)
-                                                                                        noexcept :
-                                                                                        _slaveId(slaveId),
-                                                                                        _validSlave(true),
-                                                                                        _errorCode(errorCode),
-                                                                                        _functionCode(functionCode)
-                                                                                        {}
-
-
-    // Constructs Exception based on error code (with no slaveId specified)
-    explicit ModbusException(utils::MBErrorCode errorCode) noexcept : _slaveId(0xFF), _validSlave(false),
-                                                                      _errorCode(errorCode), _functionCode(utils::Undefined){}
+    explicit ModbusException(utils::MBErrorCode errorCode, uint8_t slaveId = 0xFF, utils::MBFunctionCode functionCode = utils::Undefined)
+                                                            noexcept :
+                                                            _slaveId(slaveId),
+                                                            _validSlave(true),
+                                                            _errorCode(errorCode),
+                                                            _functionCode(functionCode)
+                                                            {}
 
     /*
      * Check if there is Modbus error in raw modbus input
@@ -53,7 +48,7 @@ public:
      * */
     static bool exist(const std::vector<uint8_t>& inputData) noexcept
     {
-        if (inputData.size() < 2) //todo Figure out better solution to such mistake
+        if (inputData.size() < 2) //TODO Figure out better solution to such mistake
             return false;
 
         return inputData[1] & 0b10000000;

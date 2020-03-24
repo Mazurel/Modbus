@@ -6,7 +6,7 @@ Modbus for high level frame manipulation with modern c++17/20.
 
 - [Why](#why)
 - [Important Concept](#important-concept)
-- [Quick Example](#quick-example)
+- [Possibilities](#possibilities)
 - [Status](#status)
 - [Installation](#how-to-install-it-)
 - [Api](#api)
@@ -20,7 +20,7 @@ This library is **mainly** for providing Modbus logic, it doesnt aim to have bes
 It gives user ability to create Modbus frames in high level api and convert them to raw bytes or show them as string.
 That is why *Modbus Core* is OS independent and can be eaisly used with other communication frameworks.
 
-# Quick Example
+# Possibilities 
 
 Quick example of what Modbus Core can do:
 
@@ -189,13 +189,35 @@ Below each enum there are all values of enum.
   `uint16_t MB::utils::calculateCRC(const std::vector<uint8_t>& buffer)` - 
   Pretty self explanatory.
 ## Classes
+> modbusException.hpp
+#### ModbusException
 
+Its prupose is to represent Modbus exception, either frame or c++ exception
+
+- Constructor:
+    - `ModbusException(const std::vector<uint8_t>& inputData, bool CRC = false);` - 
+    Creates ModbusException from raw bytes, with CRC check based on parameter.
+    - `ModbusException(utils::MBErrorCode errorCode, 
+                       uint8_t slaveId = 0xFF, 
+                       utils::MBFunctionCode functionCode = utils::Undefined)
+                                                            noexcept :
+                                                            _slaveId(slaveId),
+                                                            _validSlave(true),
+                                                            _errorCode(errorCode),
+                                                            _functionCode(functionCode)
+                                                            {}` - 
+    Creates Modbus exception based on it's properties.
+- Methods:
+    - `static ModbusException::exist(const std::vector<uint8_t>& inputData)` -
+    Checks if there is exception in modbus frame.
 > modbusRequest.hpp
 #### ModbusRequest
 
 Its purpose is to represent modbus request frame.
 
 - Constructors:
+    - `static ModbusRequest(std::vector<uint8_t> inputData, bool CRC = false)` -
+    Creates Modbus request based on raw bytes and CRC boolean. If CRC is ON and the check fails constructor throws exception.
     - `static ModbusRequest::fromRaw(const std::vector<uint8_t>& inputData)` - Creates ModbusRequest from raw bytes.
     - `static ModbusRequest::fromRawCRC(const std::vector<uint8_t>& inputData)` - Creates ModbusRequest from raw bytes and checks CRC.
     When CRC is invalid throws InvalidCRC exception.
@@ -231,6 +253,8 @@ Its purpose is to represent modbus request frame.
 Its purpose is to represent response frame.
 
 - Constructors:
+    - `static ModbusResponse(std::vector<uint8_t> inputData, bool CRC = false)` -
+    Creates Modbus response based on raw bytes and CRC boolean. If CRC is ON and the check fails constructor throws exception.
     - `static ModbusResponse::fromRaw(const std::vector<uint8_t>&)` - Creates ModbusResponse from raw bytes
     - `static ModbusResponse::fromRawCRC(const std::vector<uint8_t>&)` - Creates ModbusResponse from raw bytes and checks CRC. 
     When CRC is invalid throws InvalidCRC exception.

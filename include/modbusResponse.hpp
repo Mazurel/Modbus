@@ -29,20 +29,20 @@ private:
 
     std::vector<ModbusCell> _values;
 
+public:
     /**
-     * @brief
-     * Constructs Response from raw data
-     * @note
-     * 1) if CRC = true input data needs to contain 2 CRC bytes on back (used in RS)
-     * @note
-     * 2) This is private constructor, you need to use fromRaw or fromRawCRC
-     * @param inputData - Is vector of bytes that will be be interpreted, whereas
-     * based on CRC parameter method performs CRC calculation and throws exception if it is invalid
-     * @throws ModbusException
-     **/
+    * @brief
+    * Constructs Response from raw data
+    * @note
+    * 1) if CRC = true input data needs to contain 2 CRC bytes on back (used in RS)
+    * @note
+    * 2) This is private constructor, you need to use fromRaw or fromRawCRC
+    * @param inputData - Is vector of bytes that will be be interpreted, whereas
+    * based on CRC parameter method performs CRC calculation and throws exception if it is invalid
+    * @throws ModbusException
+    **/
     explicit ModbusResponse(std::vector<uint8_t> inputData, bool CRC = false);
 
-public:
     static ModbusResponse fromRaw(std::vector<uint8_t> inputData) { return ModbusResponse(inputData); }
     static ModbusResponse fromRawCRC(std::vector<uint8_t> inputData) { return ModbusResponse(inputData, true); }
 
