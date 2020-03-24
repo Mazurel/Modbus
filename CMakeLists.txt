@@ -7,7 +7,7 @@ if (DCMAKE_BUILD_TYPE MATCHES Debug)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -lpthread -Wall")
 endif()
 
-option(MODBUS_EXAMPLE "Run example program" ON)
+option(MODBUS_EXAMPLE "Run example program" OFF)
 option(MODBUS_TESTS "Run tests" OFF)
 option(MODBUS_COMMUNICATION "Use Modbus communication library" ON)
 
