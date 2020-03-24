@@ -187,6 +187,12 @@ Below each enum there are all values of enum.
   Pretty self explanatory.
 ## Classes
 
+> For each getter and setter field there is:
+>
+> \<name\>() const - that gets the value
+>
+> set\<Name\>(value) - that sets value
+
 #### ModbusException
 
 Its prupose is to represent Modbus exception, either frame or c++ exception
@@ -207,6 +213,13 @@ Its prupose is to represent Modbus exception, either frame or c++ exception
 - Methods:
     - `static ModbusException::exist(const std::vector<uint8_t>& inputData)` -
     Checks if there is exception in modbus frame.
+    - `std::string toString()` - 
+    Returns string representation of exception.
+    - `std::vector<uint8_t> toRaw()` -
+    Retruns raw frame represenation of a excaption.
+- Getters and setters:
+    - functionCode
+    - slaveID
 
 #### ModbusRequest
 
@@ -215,8 +228,10 @@ Its purpose is to represent modbus request frame.
 - Constructors:
     - `static ModbusRequest(std::vector<uint8_t> inputData, bool CRC = false)` -
     Creates Modbus request based on raw bytes and CRC boolean. If CRC is ON and the check fails constructor throws exception.
-    - `static ModbusRequest::fromRaw(const std::vector<uint8_t>& inputData)` - Creates ModbusRequest from raw bytes.
-    - `static ModbusRequest::fromRawCRC(const std::vector<uint8_t>& inputData)` - Creates ModbusRequest from raw bytes and checks CRC.
+    - `static ModbusRequest::fromRaw(const std::vector<uint8_t>& inputData)` -
+    Creates ModbusRequest from raw bytes.
+    - `static ModbusRequest::fromRawCRC(const std::vector<uint8_t>& inputData)` - 
+    Creates ModbusRequest from raw bytes and checks CRC.
     When CRC is invalid throws InvalidCRC exception.
     - `ModbusRequest(uint8_t slaveId = 0, 
                      utils::MBFunctionCode functionCode = static_cast<utils::MBFunctionCode>(0),
@@ -225,18 +240,14 @@ Its purpose is to represent modbus request frame.
                      std::vector<ModbusCell> values = {})` -
                      Self explanatory.
 - Methods:
-    - `std::string ModbusRequest::toString()` - Returns string representation of a request.
-    - `std::vector<uint8_t> ModbusRequest::toRaw()` - Converts ModbusRequest to raw bytes.
+    - `std::string ModbusRequest::toString()` -
+    Returns string representation of a request.
+    - `std::vector<uint8_t> ModbusRequest::toRaw()` -
+    Converts ModbusRequest to raw bytes.
     - `MB::utils::MBFunctionType functionType() const` - 
     Gets function type for current function code.
     - `MB::utils::MBFunctionRegisters functionRegisters() const` - 
     Gets function register for current function code.
-
-> For each getter and setter field there is:
->
-> \<name\>() const - that gets the value
->
-> set\<Name\>(value) - that sets value
 - Getters and setters:
     - slaveID
     - functionCode
@@ -251,31 +262,31 @@ Its purpose is to represent response frame.
 - Constructors:
     - `static ModbusResponse(std::vector<uint8_t> inputData, bool CRC = false)` -
     Creates Modbus response based on raw bytes and CRC boolean. If CRC is ON and the check fails constructor throws exception.
-    - `static ModbusResponse::fromRaw(const std::vector<uint8_t>&)` - Creates ModbusResponse from raw bytes
-    - `static ModbusResponse::fromRawCRC(const std::vector<uint8_t>&)` - Creates ModbusResponse from raw bytes and checks CRC. 
+    - `static ModbusResponse::fromRaw(const std::vector<uint8_t>&)` -
+    Creates ModbusResponse from raw bytes
+    - `static ModbusResponse::fromRawCRC(const std::vector<uint8_t>&)` -
+    Creates ModbusResponse from raw bytes and checks CRC. 
     When CRC is invalid throws InvalidCRC exception.
     - `ModbusResponse(uint8_t slaveId = 0, 
                       utils::MBFunctionCode functionCode = 0x00,
                       uint16_t address = 0, 
                       uint16_t registersNumber = 0,
                       std::vector<ModbusCell> values = {})` 
-                      - Self explanatory constructor.
+                      - 
+                      Self explanatory constructor.
 - Methods:
-    - `std::string toString()` - Returns ModbusResponse string representation.
-    - `std::vector<uint8_t> toRaw()` - Converts ModbusResponse to vector of raw bytes.
-    - `void from(const ModbusRequest&)` - Fills ModbusResponse with the request.
+    - `std::string toString()` - 
+    Returns ModbusResponse string representation.
+    - `std::vector<uint8_t> toRaw()` -
+    Converts ModbusResponse to vector of raw bytes.
+    - `void from(const ModbusRequest&)` - 
+    Fills ModbusResponse with the request.
     Needed if you want ModbusResponse to have all the data.
     This method is needed when you create object from raw.
     - `MB::utils::MBFunctionType functionType() const` - 
     Gets function type for current function code.
     - `MB::utils::MBFunctionRegisters functionRegisters() const` - 
     Gets function register for current function code.
-
-> For each getter and setter field there is:
->
-> \<name\>() const - that gets the value
->
-> set\<Name\>(value) - that sets value
 - Getters and setters:
     - slaveID
     - functionCode
