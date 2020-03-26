@@ -15,10 +15,10 @@
 #include <cerrno>
 #include <poll.h>
 
-#include "modbusUtils.hpp"
-#include "modbusResponse.hpp"
-#include "modbusRequest.hpp"
-#include "modbusException.hpp"
+#include "MB/modbusUtils.hpp"
+#include "MB/modbusResponse.hpp"
+#include "MB/modbusRequest.hpp"
+#include "MB/modbusException.hpp"
 
 namespace MB::Serial
 {
@@ -54,12 +54,24 @@ public:
     [[nodiscard]] MB::ModbusResponse awaitResponse();
     [[nodiscard]] MB::ModbusRequest awaitRequest();
 
-    void setParity(const bool parity)
+    void enableParity(const bool parity)
     {
         if (parity)
-            getTTY().c_iflag |= INPCK;
+            getTTY().c_iflag |= PARENB;
         else
-            getTTY().c_iflag &= ~INPCK;
+            getTTY().c_iflag &= ~PARENB;
+    }
+
+    void setEvenParity()
+    {
+        enableParity(true);
+        getTTY().c_cflag &= ~PARODD;
+    }
+
+    void setOddParity()
+    {
+        enableParity(true);
+        getTTY().c_cflag |= PARODD;
     }
 
     void setTwoStopBits(const bool two)

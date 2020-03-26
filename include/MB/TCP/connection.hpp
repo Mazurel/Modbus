@@ -14,9 +14,9 @@
 #include <poll.h>
 #include <cerrno>
 
-#include "modbusRequest.hpp"
-#include "modbusResponse.hpp"
-#include "modbusException.hpp"
+#include "MB/modbusRequest.hpp"
+#include "MB/modbusResponse.hpp"
+#include "MB/modbusException.hpp"
 
 namespace MB::TCP
 {
