@@ -32,3 +32,8 @@
 *.app
 
 build
+
+# Gtags
+GTAGS
+GRTAGS
+GPATH
