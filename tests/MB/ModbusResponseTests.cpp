@@ -1,10 +1,10 @@
-//
-// Created by mateusz on 06.01.2020.
-//
+// Modbus for c++ <https://github.com/Mazurel/Modbus>
+// Copyright (c) 2020 Mateusz Mazur aka Mazurel
+// Licensed under: MIT License <http://opensource.org/licenses/MIT>
 
 #include "gtest/gtest.h"
-#include "modbusRequest.hpp"
-#include "modbusResponse.hpp"
+#include "MB/modbusRequest.hpp"
+#include "MB/modbusResponse.hpp"
 
 using namespace MB;
 

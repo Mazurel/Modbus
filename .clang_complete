@@ -1,2 +1,3 @@
 -I/home/mateusz/Takie tam aplikacje i skrypty/cpp/Modbus/Modbus/include
+-I/home/mateusz/Takie tam aplikacje i skrypty/cpp/Modbus/Modbus/include/MB
 -std=gnu++2a

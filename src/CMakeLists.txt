@@ -7,7 +7,9 @@ set(CORE_HEADER_FILES ${MODBUS_HEADER_FILES_DIR}/modbusCell.hpp
         ${MODBUS_HEADER_FILES_DIR}/modbusResponse.hpp
         ${MODBUS_HEADER_FILES_DIR}/modbusUtils.hpp) 
 
-set(CORE_SOURCE_FILES modbusException.cpp modbusRequest.cpp modbusResponse.cpp)
+set(CORE_SOURCE_FILES modbusException.cpp
+  modbusRequest.cpp
+  modbusResponse.cpp)
 
 add_library(Modbus_Core)
 target_sources(Modbus_Core PRIVATE ${CORE_SOURCE_FILES} PUBLIC ${CORE_HEADER_FILES})

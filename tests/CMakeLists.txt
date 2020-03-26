@@ -2,7 +2,11 @@ project(Google_tests)
 add_subdirectory(googletest)
 include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 
-set(TestFiles MB/ModbusRequestTests.cpp MB/ModbusResponseTests.cpp MB/ModbusExceptionTests.cpp main.cpp)
+set(TestFiles MB/ModbusRequestTests.cpp
+  MB/ModbusResponseTests.cpp
+  MB/ModbusExceptionTests.cpp
+  MB/ModbusCellTests.cpp
+  main.cpp)
 
 add_executable(Google_Tests_run ${TestFiles})
 
