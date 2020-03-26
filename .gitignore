@@ -31,6 +31,4 @@
 *.out
 *.app
 
-cmake-build-debug
-private
-.idea
+build
