@@ -1,9 +1,8 @@
 <h1>Modbus library for modern c++</h1>
 
-Modbus for high level frame manipulation with modern c++17/20.
+Modbus library for high level frame manipulation with modern c++17/20 with simple linux implemetation.
 
-**This readme file as well as Modbus Communication module are not finished, see [status](#status)**
-
+# Contents
 - [Why](#why)
 - [Important Concept](#important-concept)
 - [Possibilities](#possibilities)
@@ -19,6 +18,8 @@ That is why I have decided to share my own implementation of it.
 This library is **mainly** for providing Modbus logic, it doesnt aim to have best communiaction implementation.
 It gives user ability to create Modbus frames in high level api and convert them to raw bytes or show them as string.
 That is why *Modbus Core* is OS independent and can be eaisly used with other communication frameworks.
+
+It does have communiaction module which is **enabled** by default, and works pretty well on linux.
 
 # Possibilities 
 
@@ -102,11 +103,13 @@ Then add to your CMakeLists.txt
 ```cmake
 add_subdirectory(Modbus)
 target_link_libraries(<your exec/lib> Modbus)
-``` 
-
+```
 You should be able to use library.
 
-# API
+**NOTE**
+If you are on other os then gnu/linux you should disable communication part of modbus via cmake vriable MODBUS_COMMUNICATION.
+
+# API (in progress)
 - [Enums](#enums)
 - [Methods](#methods)
 - [Classes](#classes)
