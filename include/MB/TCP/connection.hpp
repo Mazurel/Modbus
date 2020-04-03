@@ -2,8 +2,7 @@
 // Copyright (c) 2020 Mateusz Mazur aka Mazurel
 // Licensed under: MIT License <http://opensource.org/licenses/MIT>
 
-#ifndef PROTOCOLCONVERTER_CONNECTION_HPP
-#define PROTOCOLCONVERTER_CONNECTION_HPP
+#pragma once
 
 #include <memory>
 #include <type_traits>
@@ -77,6 +76,3 @@ public:
     }
 };
 }
-
-
-#endif //PROTOCOLCONVERTER_CONNECTION_HPP

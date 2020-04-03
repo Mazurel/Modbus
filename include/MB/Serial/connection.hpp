@@ -2,8 +2,7 @@
 // Copyright (c) 2020 Mateusz Mazur aka Mazurel
 // Licensed under: MIT License <http://opensource.org/licenses/MIT>
 
-#ifndef PROTOCOLCONVERTER_S_CONNECTION_HPP
-#define PROTOCOLCONVERTER_S_CONNECTION_HPP
+#pragma once
 
 #include <string>
 #include <stdexcept>
@@ -134,5 +133,3 @@ public:
     }
 };
 }
-
-#endif //PROTOCOLCONVERTER_S_CONNECTION_HPP

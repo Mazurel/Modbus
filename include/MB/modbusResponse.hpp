@@ -2,8 +2,7 @@
 // Copyright (c) 2020 Mateusz Mazur aka Mazurel
 // Licensed under: MIT License <http://opensource.org/licenses/MIT>
 
-#ifndef PROTOCOLCONVERTER_MODBUSRESPONSE_HPP
-#define PROTOCOLCONVERTER_MODBUSRESPONSE_HPP
+#pragma once
 
 #include <cstdint>
 #include <vector>
@@ -100,6 +99,3 @@ public:
     }
 };
 }
-
-
-#endif //PROTOCOLCONVERTER_MODBUSRESPONSE_HPP

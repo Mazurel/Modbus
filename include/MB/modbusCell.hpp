@@ -2,8 +2,7 @@
 // Copyright (c) 2020 Mateusz Mazur aka Mazurel
 // Licensed under: MIT License <http://opensource.org/licenses/MIT>
 
-#ifndef PROTOCOLCONVERTER_MODBUSCELL_HPP
-#define PROTOCOLCONVERTER_MODBUSCELL_HPP
+#pragma once
 
 #include <cstdint>
 #include <stdexcept>
@@ -112,5 +111,3 @@ namespace MB {
         }
     };
 }
-
-#endif //PROTOCOLCONVERTER_MODBUSCELL_HPP

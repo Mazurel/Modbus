@@ -2,8 +2,7 @@
 // Copyright (c) 2020 Mateusz Mazur aka Mazurel
 // Licensed under: MIT License <http://opensource.org/licenses/MIT>
 
-#ifndef PROTOCOLCONVERTER_MBTCPSERVER_HPP
-#define PROTOCOLCONVERTER_MBTCPSERVER_HPP
+#pragma once
 
 #include <string>
 #include <optional>
@@ -51,4 +50,3 @@ public:
     std::optional<Connection> awaitConnection();
 };
 }
-#endif //PROTOCOLCONVERTER_MBTCPSERVER_HPP

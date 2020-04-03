@@ -2,8 +2,7 @@
 // Copyright (c) 2020 Mateusz Mazur aka Mazurel
 // Licensed under: MIT License <http://opensource.org/licenses/MIT>
 
-#ifndef PROTOCOLCONVERTER_MODBUSEXCEPTION_HPP
-#define PROTOCOLCONVERTER_MODBUSEXCEPTION_HPP
+#pragma once
 
 #include <cstdint>
 #include <vector>
@@ -108,6 +107,3 @@ public:
 
 };
 }
-
-
-#endif //PROTOCOLCONVERTER_MODBUSEXCEPTION_HPP
