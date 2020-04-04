@@ -15,21 +15,20 @@ Connection::Connection(const std::string& path)
         throw std::runtime_error("Cannot open serial port " + path);
     }
 
-    _termios = {};
     if (tcgetattr(_fd , &_termios) != 0)
     {
         throw std::runtime_error("Error at tcgetattr - " + std::to_string(errno));
     }
 
-    getTTY().c_iflag &= ~ECHO;
+    cfmakeraw(&_termios);
 }
 
 void Connection::connect()
 {
-    tcflush(_fd, TCIFLUSH);
-    if (tcsetattr(_fd , TCSANOW, &_termios) != 0)
+    // tcflush(_fd, TCIFLUSH);
+    if (tcsetattr(_fd , TCSAFLUSH, &_termios) != 0)
     {
-        throw std::runtime_error("Error at tcsetattr - " + std::to_string(errno));
+        throw std::runtime_error("Error {" + std::to_string(_fd) + "} at tcsetattr - " + std::to_string(errno));
     }
 }
 
@@ -37,6 +36,7 @@ Connection::~Connection()
 {
     if (_fd >= 0)
         ::close(_fd);
+    _fd = -1;
 }
 
 void Connection::sendRequest(const MB::ModbusRequest &request)
@@ -115,3 +115,21 @@ void Connection::send(std::vector<uint8_t> &&data)
 
     ::write(_fd , data.begin().base(), data.size());
 }
+
+Connection::Connection(Connection&& moved) noexcept
+{
+    _fd = moved._fd;
+    _termios = moved._termios;
+    moved._fd = -1;
+}
+
+Connection& Connection::operator=(Connection&& moved)
+{
+    if (this == &moved) return *this;
+
+    _fd = moved._fd;
+    memcpy(&_termios, &(moved._termios), sizeof(moved._termios));
+    moved._fd = -1;
+    return *this;
+}
+

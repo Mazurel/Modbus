@@ -4,8 +4,7 @@
 
 // This header files contain various utilities for Modbus Core library
 
-#ifndef PROTOCOLCONVERTER_MODBUSUTILS_HPP
-#define PROTOCOLCONVERTER_MODBUSUTILS_HPP
+#pragma once
 
 #include <cstdint>
 #include <string>
@@ -263,4 +262,3 @@ namespace MB::utils {
         return calculateCRC(buffer.begin().base(), buffer.size());
     }
 }
-#endif //PROTOCOLCONVERTER_MODBUSUTILS_HPP

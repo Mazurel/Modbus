@@ -27,7 +27,7 @@ public:
     static const unsigned int DefaultSerialTimeout = 1000;
 
 private:
-    termios _termios;
+    struct termios _termios;
     int _fd;
 
     int _timeout = Connection::DefaultSerialTimeout;
@@ -41,6 +41,9 @@ private:
 public:
     constexpr explicit Connection() : _termios(), _fd(-1) {}
     explicit Connection(const std::string& path);
+    explicit Connection(const Connection&) = delete;
+    explicit Connection(Connection&&) noexcept;
+    Connection& operator=(Connection&&);
     ~Connection();
 
     void connect();
