@@ -20,12 +20,12 @@ Connection::Connection(const std::string& path)
         throw std::runtime_error("Error at tcgetattr - " + std::to_string(errno));
     }
 
-    cfmakeraw(&_termios);
+    //cfmakeraw(&_termios);
 }
 
 void Connection::connect()
 {
-    // tcflush(_fd, TCIFLUSH);
+    tcflush(_fd, TCIFLUSH);
     if (tcsetattr(_fd , TCSAFLUSH, &_termios) != 0)
     {
         throw std::runtime_error("Error {" + std::to_string(_fd) + "} at tcsetattr - " + std::to_string(errno));
@@ -53,7 +53,8 @@ void Connection::sendException(const MB::ModbusException &exception)
 {
     send(exception.toRaw());
 }
-
+#include <iostream>
+#include <errno.h>
 MB::ModbusResponse Connection::awaitResponse()
 {
     std::vector<uint8_t> data(1024);
@@ -74,6 +75,13 @@ MB::ModbusResponse Connection::awaitResponse()
 
     data.resize(size);
     data.shrink_to_fit();
+
+    std::cout << "Response:" << std::endl;
+    for (auto val: data)
+    {
+        std::cout << static_cast<int>(val) << " ";
+    }
+    std::cout << std::endl;
 
     if (MB::ModbusException::exist(data))
     {
@@ -113,7 +121,9 @@ void Connection::send(std::vector<uint8_t> &&data)
     data.push_back(reinterpret_cast<const uint8_t *>(&crc)[0]);
     data.push_back(reinterpret_cast<const uint8_t *>(&crc)[1]);
 
-    ::write(_fd , data.begin().base(), data.size());
+    ::tcflush(_fd, TCIOFLUSH);
+    ::write(_fd, &data.begin().base(), data.size());
+    ::tcdrain(_fd);
 }
 
 Connection::Connection(Connection&& moved) noexcept
