@@ -53,8 +53,7 @@ void Connection::sendException(const MB::ModbusException &exception)
 {
     send(exception.toRaw());
 }
-#include <iostream>
-#include <errno.h>
+
 MB::ModbusResponse Connection::awaitResponse()
 {
     std::vector<uint8_t> data(1024);
@@ -75,13 +74,6 @@ MB::ModbusResponse Connection::awaitResponse()
 
     data.resize(size);
     data.shrink_to_fit();
-
-    std::cout << "Response:" << std::endl;
-    for (auto val: data)
-    {
-        std::cout << static_cast<int>(val) << " ";
-    }
-    std::cout << std::endl;
 
     if (MB::ModbusException::exist(data))
     {
