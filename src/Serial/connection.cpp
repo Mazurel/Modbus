@@ -20,7 +20,10 @@ Connection::Connection(const std::string& path)
         throw std::runtime_error("Error at tcgetattr - " + std::to_string(errno));
     }
 
-    //cfmakeraw(&_termios);
+    cfmakeraw(&_termios);
+
+    _termios.c_iflag &= ~(PARMRK | INPCK);
+    _termios.c_iflag |= IGNPAR;
 }
 
 void Connection::connect()
@@ -105,7 +108,9 @@ MB::ModbusRequest Connection::awaitRequest()
     return MB::ModbusRequest::fromRawCRC(data);
 }
 
-void Connection::send(std::vector<uint8_t> &&data)
+#include <iostream>
+
+void Connection::send(std::vector<uint8_t> data)
 {
     data.reserve(data.size() + 2);
     const auto crc = utils::calculateCRC(data.begin().base(), data.size());
@@ -113,8 +118,7 @@ void Connection::send(std::vector<uint8_t> &&data)
     data.push_back(reinterpret_cast<const uint8_t *>(&crc)[0]);
     data.push_back(reinterpret_cast<const uint8_t *>(&crc)[1]);
 
-    ::tcflush(_fd, TCIOFLUSH);
-    ::write(_fd, &data.begin().base(), data.size());
+    ::write(_fd, data.begin().base(), data.size());
     ::tcdrain(_fd);
 }
 

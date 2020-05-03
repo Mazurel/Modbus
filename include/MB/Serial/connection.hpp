@@ -32,12 +32,6 @@ private:
 
     int _timeout = Connection::DefaultSerialTimeout;
 
-    /**
-     * @brief Sends data through the serial
-     * @param data - Vectorized data
-     */
-    void send(std::vector<uint8_t>&& data);
-
 public:
     constexpr explicit Connection() : _termios(), _fd(-1) {}
     explicit Connection(const std::string& path);
@@ -53,15 +47,21 @@ public:
     void sendResponse(const MB::ModbusResponse& response);
     void sendException(const MB::ModbusException& exception);
 
+    /**
+     * @brief Sends data through the serial
+     * @param data - Vectorized data
+     */
+    void send(std::vector<uint8_t> data);
+
     [[nodiscard]] MB::ModbusResponse awaitResponse();
     [[nodiscard]] MB::ModbusRequest awaitRequest();
 
     void enableParity(const bool parity)
     {
         if (parity)
-            getTTY().c_iflag |= PARENB;
+            getTTY().c_cflag |= PARENB;
         else
-            getTTY().c_iflag &= ~PARENB;
+            getTTY().c_cflag &= ~PARENB;
     }
 
     void setEvenParity()
@@ -80,11 +80,11 @@ public:
     {
         if (two)
         {
-            getTTY().c_oflag |= CSTOPB;
+            getTTY().c_cflag |= CSTOPB;
         }
         else
         {
-            getTTY().c_oflag &= ~CSTOPB;
+            getTTY().c_cflag &= ~CSTOPB;
         }
     }
 
@@ -117,6 +117,7 @@ public:
                 throw std::runtime_error("Invalid baud rate");
         }
         cfsetospeed(&_termios , speed);
+        cfsetispeed(&_termios , speed);
     }
 #undef setBaud
 
