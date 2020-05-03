@@ -1,6 +1,8 @@
 <h1>Modbus library for modern c++</h1>
 
-Modbus library for high level frame manipulation with modern c++17/20 with simple linux implemetation.
+Modbus library for high level frame manipulation with modern c++17/20.
+
+Contains simple linux TCP and RTU implementation.
 
 # Contents
 - [Why](#why)
@@ -109,7 +111,8 @@ You should be able to use library.
 **NOTE**
 If you are on other os then gnu/linux you should disable communication part of modbus via cmake vriable MODBUS_COMMUNICATION.
 
-# API (in progress)
+# API
+> Api is not finished yet
 - [Enums](#enums)
 - [Methods](#methods)
 - [Classes](#classes)
