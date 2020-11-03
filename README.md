@@ -83,7 +83,7 @@ Currently Modbus Core is fully functional and (I belive) it doesn't have any bug
 
 API for it is in progress.
 
-Modbus Communication is working *currently* only for linux, it works well on TCP, not tested on Serial.
+Modbus Communication is working *currently* only for linux, it works well on TCP and Serial (tested on raspberry pi).
 
 # How to learn Modbus ?
 
@@ -107,9 +107,16 @@ target_link_libraries(<your exec/lib> Modbus)
 You should be able to use library.
 
 **NOTE**
-If you are on other os then gnu/linux you should disable communication part of modbus via cmake vriable MODBUS_COMMUNICATION.
+If you are on other os then gnu/linux you should disable communication part of modbus via cmake variable MODBUS_COMMUNICATION.
 
-# API (in progress)
+# API
+
+## It is the best to build the docs via doxygen 
+```bash
+doxygen Doxyfile
+```
+
+> The below API is not finished (propably wont be), it is preffered to use doxygen for code documentation.
 - [Enums](#enums)
 - [Methods](#methods)
 - [Classes](#classes)
