@@ -57,6 +57,33 @@ void Connection::sendException(const MB::ModbusException &exception)
     send(exception.toRaw());
 }
 
+#include <iostream>
+
+std::vector<uint8_t> Connection::awaitRawMessage()
+{
+    std::vector<uint8_t> data(1024);
+
+    pollfd waitingFD = { .fd = _fd, .events = POLLIN, .revents = POLLIN};
+
+    if (::poll(&waitingFD , 1 , _timeout) <= 0)
+    {
+        throw MB::ModbusException(MB::utils::Timeout);
+    }
+
+    auto size = ::read(_fd, data.begin().base() , 1024);
+
+    if (size < 0)
+    {
+        throw MB::ModbusException(MB::utils::SlaveDeviceFailure);
+    }
+
+    data.resize(size);
+    data.shrink_to_fit();
+
+    return data;
+
+}
+
 MB::ModbusResponse Connection::awaitResponse()
 {
     std::vector<uint8_t> data(1024);
@@ -119,7 +146,7 @@ void Connection::send(std::vector<uint8_t> data)
     data.push_back(reinterpret_cast<const uint8_t *>(&crc)[1]);
 
     ::write(_fd, data.begin().base(), data.size());
-    ::tcdrain(_fd);
+    // ::tcdrain(_fd);
 }
 
 Connection::Connection(Connection&& moved) noexcept
@@ -138,4 +165,3 @@ Connection& Connection::operator=(Connection&& moved)
     moved._fd = -1;
     return *this;
 }
-

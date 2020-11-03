@@ -85,8 +85,39 @@ void Connection::sendException(const MB::ModbusException &ex)
     ::send(_sockfd , rawReq.begin().base(), rawReq.size(), 0 );
 }
 
+std::vector<uint8_t> Connection::awaitRawMessage()
+{
+    pollfd _pfd = {.fd = _sockfd, .events = POLLIN , .revents = POLLIN};
+    if (::poll(&_pfd , 1 , 60 * 1000 /* 1 minute means the connection has died */) <= 0)
+    {
+        throw MB::ModbusException(MB::utils::ConnectionClosed);
+    }
+
+    std::vector<uint8_t > r(1024);
+
+    auto size = ::recv(_sockfd, r.begin().base(), r.size(), 0);
+
+    if (size == -1)
+        throw MB::ModbusException(MB::utils::ProtocolError);
+    else if (size == 0)
+    {
+        throw MB::ModbusException(MB::utils::ConnectionClosed);
+    }
+
+    r.resize(size); // Set vector to proper shape
+    r.shrink_to_fit();
+
+    return r;
+}
+
 MB::ModbusRequest Connection::awaitRequest()
 {
+    pollfd _pfd = {.fd = _sockfd, .events = POLLIN , .revents = POLLIN};
+    if (::poll(&_pfd , 1 , 60 * 1000 /* 1 minute means the connection has died */) <= 0)
+    {
+        throw MB::ModbusException(MB::utils::Timeout);
+    }
+
     std::vector<uint8_t > r(1024);
 
     auto size = ::recv(_sockfd, r.begin().base(), r.size(), 0);

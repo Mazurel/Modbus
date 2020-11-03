@@ -56,6 +56,8 @@ public:
     [[nodiscard]] MB::ModbusResponse awaitResponse();
     [[nodiscard]] MB::ModbusRequest awaitRequest();
 
+    [[nodiscard]] std::vector<uint8_t> awaitRawMessage();
+
     void enableParity(const bool parity)
     {
         if (parity)

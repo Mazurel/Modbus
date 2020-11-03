@@ -62,8 +62,10 @@ public:
     void sendResponse(const MB::ModbusResponse& res);
     void sendException(const MB::ModbusException& ex);
 
-    MB::ModbusRequest awaitRequest();
-    MB::ModbusResponse awaitResponse();
+    [[nodiscard]] MB::ModbusRequest awaitRequest();
+    [[nodiscard]] MB::ModbusResponse awaitResponse();
+
+    [[nodiscard]] std::vector<uint8_t> awaitRawMessage();
 
     [[nodiscard]] uint16_t getMessageId() const
     {
