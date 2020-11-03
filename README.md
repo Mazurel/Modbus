@@ -1,6 +1,8 @@
 <h1>Modbus library for modern c++</h1>
 
-Modbus library for high level frame manipulation with modern c++17/20 with simple linux implemetation.
+Modbus library for high level frame manipulation with modern c++17/20.
+
+Contains simple linux TCP and RTU implementation.
 
 # Contents
 - [Why](#why)
@@ -110,6 +112,7 @@ You should be able to use library.
 If you are on other os then gnu/linux you should disable communication part of modbus via cmake variable MODBUS_COMMUNICATION.
 
 # API
+<<<<<<< HEAD
 
 ## It is the best to build the docs via doxygen 
 ```bash
@@ -117,6 +120,9 @@ doxygen Doxyfile
 ```
 
 > The below API is not finished (propably wont be), it is preffered to use doxygen for code documentation.
+=======
+> Api is not finished yet
+>>>>>>> 49244ea3095d678a9ab7034ee155bc56b57e867e
 - [Enums](#enums)
 - [Methods](#methods)
 - [Classes](#classes)
