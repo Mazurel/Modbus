@@ -11,6 +11,10 @@
 #include <vector>
 #include <stdexcept>
 
+/*!
+ * Namespace that contains many useful utility functions and enums
+ * that are used in the whole project.
+ */
 namespace MB::utils {
     enum MBErrorCode : uint8_t {
         // Documentation modbus errors
@@ -36,7 +40,7 @@ namespace MB::utils {
     };
 
 
-    // Checks if error code is modbus standard error code
+    //! Checks if error code is modbus standard error code
     inline bool isStandardErrorCode(MBErrorCode code)
     {
         switch (code)
