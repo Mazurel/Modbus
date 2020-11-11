@@ -91,15 +91,15 @@ $(function() {
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">private</span>:</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    uint8_t _slaveId;</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keywordtype">bool</span> _validSlave;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    utils::MBErrorCode _errorCode;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    utils::MBFunctionCode _functionCode;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <a class="code" href="namespaceMB_1_1utils.html#aa34c557c9bf4c6bfeb86aa16b398de55">utils::MBErrorCode</a> _errorCode;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <a class="code" href="namespaceMB_1_1utils.html#aa8ebb89b73bf4d0e3485b6341a50f116">utils::MBFunctionCode</a> _functionCode;</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keyword">public</span>:</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keyword">explicit</span> <a class="code" href="classMB_1_1ModbusException.html#a27fc098093dfa4b7ff49acebb5c4a0bf">ModbusException</a>(<span class="keyword">const</span> std::vector&lt;uint8_t&gt;&amp; inputData, <span class="keywordtype">bool</span> CRC = <span class="keyword">false</span>) noexcept;</div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="comment">// Constructs Exception based on error code, function code and slaveId</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keyword">explicit</span> <a class="code" href="classMB_1_1ModbusException.html#a27fc098093dfa4b7ff49acebb5c4a0bf">ModbusException</a>(utils::MBErrorCode errorCode, uint8_t slaveId = 0xFF, utils::MBFunctionCode functionCode = utils::Undefined)</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keyword">explicit</span> <a class="code" href="classMB_1_1ModbusException.html#a27fc098093dfa4b7ff49acebb5c4a0bf">ModbusException</a>(<a class="code" href="namespaceMB_1_1utils.html#aa34c557c9bf4c6bfeb86aa16b398de55">utils::MBErrorCode</a> errorCode, uint8_t slaveId = 0xFF, <a class="code" href="namespaceMB_1_1utils.html#aa8ebb89b73bf4d0e3485b6341a50f116">utils::MBFunctionCode</a> functionCode = utils::Undefined)</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;                                                            noexcept :</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;                                                            _slaveId(slaveId),</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;                                                            _validSlave(<span class="keyword">true</span>),</div>
@@ -141,7 +141,7 @@ $(function() {
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    }</div>
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160; </div>
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="comment">// Returns detected error code</span></div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    [[nodiscard]] utils::MBErrorCode getErrorCode() <span class="keyword">const</span> noexcept {</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    [[nodiscard]] <a class="code" href="namespaceMB_1_1utils.html#aa34c557c9bf4c6bfeb86aa16b398de55">utils::MBErrorCode</a> getErrorCode() <span class="keyword">const</span> noexcept {</div>
 <div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        <span class="keywordflow">return</span> _errorCode;</div>
 <div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    }</div>
 <div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160; </div>
@@ -161,12 +161,12 @@ $(function() {
 <div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    <span class="comment">// Converts object to modbus byte representation</span></div>
 <div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    [[nodiscard]] std::vector&lt;uint8_t&gt; toRaw() <span class="keyword">const</span> noexcept;</div>
 <div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160; </div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    [[nodiscard]] utils::MBFunctionCode functionCode() <span class="keyword">const</span> noexcept</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    [[nodiscard]] <a class="code" href="namespaceMB_1_1utils.html#aa8ebb89b73bf4d0e3485b6341a50f116">utils::MBFunctionCode</a> functionCode() <span class="keyword">const</span> noexcept</div>
 <div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    {</div>
 <div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        <span class="keywordflow">return</span> _functionCode;</div>
 <div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    }</div>
 <div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160; </div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    <span class="keywordtype">void</span> setFunctionCode(utils::MBFunctionCode functionCode) noexcept</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    <span class="keywordtype">void</span> setFunctionCode(<a class="code" href="namespaceMB_1_1utils.html#aa8ebb89b73bf4d0e3485b6341a50f116">utils::MBFunctionCode</a> functionCode) noexcept</div>
 <div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    {</div>
 <div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        _functionCode = functionCode;</div>
 <div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    }</div>
@@ -174,6 +174,8 @@ $(function() {
 <div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;};</div>
 <div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
+<div class="ttc" id="anamespaceMB_1_1utils_html_aa8ebb89b73bf4d0e3485b6341a50f116"><div class="ttname"><a href="namespaceMB_1_1utils.html#aa8ebb89b73bf4d0e3485b6341a50f116">MB::utils::MBFunctionCode</a></div><div class="ttdeci">MBFunctionCode</div><div class="ttdoc">All modbus standard function codes + Undefined one.</div><div class="ttdef"><b>Definition:</b> modbusUtils.hpp:121</div></div>
+<div class="ttc" id="anamespaceMB_1_1utils_html_aa34c557c9bf4c6bfeb86aa16b398de55"><div class="ttname"><a href="namespaceMB_1_1utils.html#aa34c557c9bf4c6bfeb86aa16b398de55">MB::utils::MBErrorCode</a></div><div class="ttdeci">MBErrorCode</div><div class="ttdef"><b>Definition:</b> modbusUtils.hpp:22</div></div>
 <div class="ttc" id="aclassMB_1_1ModbusException_html_a27fc098093dfa4b7ff49acebb5c4a0bf"><div class="ttname"><a href="classMB_1_1ModbusException.html#a27fc098093dfa4b7ff49acebb5c4a0bf">MB::ModbusException::ModbusException</a></div><div class="ttdeci">ModbusException(const std::vector&lt; uint8_t &gt; &amp;inputData, bool CRC=false) noexcept</div><div class="ttdoc">Constructs Exception from raw data.</div><div class="ttdef"><b>Definition:</b> modbusException.cpp:10</div></div>
 <div class="ttc" id="aclassMB_1_1ModbusException_html"><div class="ttname"><a href="classMB_1_1ModbusException.html">MB::ModbusException</a></div><div class="ttdef"><b>Definition:</b> modbusException.hpp:18</div></div>
 <!-- start footer part -->

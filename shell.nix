@@ -5,9 +5,11 @@ pkgs.mkShell {
     gcc
     cmake
     cmakeCurses
+    doxygen
   ];
+
   shellHook = ''
-    rm -rf ./build 
-    mkdir build && cd build && cmake ..
+    alias build="rm -rf ./build;mkdir build && cd build && cmake .."
+    alias build-docs="doxygen"
   '';
 }

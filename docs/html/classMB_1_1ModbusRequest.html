@@ -81,7 +81,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:af3bab6bbf1cc4f57f683878444e09a26"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs Request from raw data.  <a href="classMB_1_1ModbusRequest.html#af3bab6bbf1cc4f57f683878444e09a26">More...</a><br /></td></tr>
 <tr class="separator:af3bab6bbf1cc4f57f683878444e09a26"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9d17929ef7908eb3c36df6d4d1c9b2c6"><td class="memItemLeft" align="right" valign="top"><a id="a9d17929ef7908eb3c36df6d4d1c9b2c6"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>ModbusRequest</b> (uint8_t slaveId=0, utils::MBFunctionCode functionCode=static_cast&lt; utils::MBFunctionCode &gt;(0), uint16_t address=0, uint16_t registersNumber=0, std::vector&lt; <a class="el" href="classMB_1_1ModbusCell.html">ModbusCell</a> &gt; values={}) noexcept</td></tr>
+&#160;</td><td class="memItemRight" valign="bottom"><b>ModbusRequest</b> (uint8_t slaveId=0, <a class="el" href="namespaceMB_1_1utils.html#aa8ebb89b73bf4d0e3485b6341a50f116">utils::MBFunctionCode</a> functionCode=static_cast&lt; <a class="el" href="namespaceMB_1_1utils.html#aa8ebb89b73bf4d0e3485b6341a50f116">utils::MBFunctionCode</a> &gt;(0), uint16_t address=0, uint16_t registersNumber=0, std::vector&lt; <a class="el" href="classMB_1_1ModbusCell.html">ModbusCell</a> &gt; values={}) noexcept</td></tr>
 <tr class="separator:a9d17929ef7908eb3c36df6d4d1c9b2c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4bdf13d31f10bdc3a46c84971458322e"><td class="memItemLeft" align="right" valign="top"><a id="a4bdf13d31f10bdc3a46c84971458322e"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>ModbusRequest</b> (const <a class="el" href="classMB_1_1ModbusRequest.html">ModbusRequest</a> &amp;)=default</td></tr>
@@ -93,16 +93,16 @@ std::string&#160;</td><td class="memItemRight" valign="bottom"><b>toString</b> (
 std::vector&lt; uint8_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>toRaw</b> () const noexcept</td></tr>
 <tr class="separator:a869361ddbd05931ca0dbcebe688b0cb3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a22966d0c19bb79c4e8cf03edb5b74a4e"><td class="memItemLeft" align="right" valign="top"><a id="a22966d0c19bb79c4e8cf03edb5b74a4e"></a>
-utils::MBFunctionType&#160;</td><td class="memItemRight" valign="bottom"><b>functionType</b> () const noexcept</td></tr>
+<a class="el" href="namespaceMB_1_1utils.html#a0b3590994f5ba26cd61929f5a394ab70">utils::MBFunctionType</a>&#160;</td><td class="memItemRight" valign="bottom"><b>functionType</b> () const noexcept</td></tr>
 <tr class="separator:a22966d0c19bb79c4e8cf03edb5b74a4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8097a0866398cef7f1244ca7ca412062"><td class="memItemLeft" align="right" valign="top"><a id="a8097a0866398cef7f1244ca7ca412062"></a>
-utils::MBFunctionRegisters&#160;</td><td class="memItemRight" valign="bottom"><b>functionRegisters</b> () const noexcept</td></tr>
+<a class="el" href="namespaceMB_1_1utils.html#a8098c5bcb6c33b219bafdee42334e260">utils::MBFunctionRegisters</a>&#160;</td><td class="memItemRight" valign="bottom"><b>functionRegisters</b> () const noexcept</td></tr>
 <tr class="separator:a8097a0866398cef7f1244ca7ca412062"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9cf13a29c9716ea32c54c7a218fb0b64"><td class="memItemLeft" align="right" valign="top"><a id="a9cf13a29c9716ea32c54c7a218fb0b64"></a>
 uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>slaveID</b> () const</td></tr>
 <tr class="separator:a9cf13a29c9716ea32c54c7a218fb0b64"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a871e5bb330d4788af84bf79c47da4332"><td class="memItemLeft" align="right" valign="top"><a id="a871e5bb330d4788af84bf79c47da4332"></a>
-utils::MBFunctionCode&#160;</td><td class="memItemRight" valign="bottom"><b>functionCode</b> () const</td></tr>
+<a class="el" href="namespaceMB_1_1utils.html#aa8ebb89b73bf4d0e3485b6341a50f116">utils::MBFunctionCode</a>&#160;</td><td class="memItemRight" valign="bottom"><b>functionCode</b> () const</td></tr>
 <tr class="separator:a871e5bb330d4788af84bf79c47da4332"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab78354ea2ad390575c0479235104e424"><td class="memItemLeft" align="right" valign="top"><a id="ab78354ea2ad390575c0479235104e424"></a>
 uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>registerAddress</b> () const</td></tr>
@@ -117,7 +117,7 @@ const std::vector&lt; <a class="el" href="classMB_1_1ModbusCell.html">ModbusCell
 void&#160;</td><td class="memItemRight" valign="bottom"><b>setSlaveId</b> (uint8_t slaveId)</td></tr>
 <tr class="separator:a446b1787c883aa2d5b3a692e3f9cd087"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a69a5649168768e27a3ae24fe7850d6ea"><td class="memItemLeft" align="right" valign="top"><a id="a69a5649168768e27a3ae24fe7850d6ea"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setFunctionCode</b> (utils::MBFunctionCode functionCode)</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setFunctionCode</b> (<a class="el" href="namespaceMB_1_1utils.html#aa8ebb89b73bf4d0e3485b6341a50f116">utils::MBFunctionCode</a> functionCode)</td></tr>
 <tr class="separator:a69a5649168768e27a3ae24fe7850d6ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a33e2dd3c3f74e8be2dc78c9e89480df7"><td class="memItemLeft" align="right" valign="top"><a id="a33e2dd3c3f74e8be2dc78c9e89480df7"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>setAddress</b> (uint16_t address)</td></tr>

@@ -76,7 +76,7 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
-<tr class="memitem:aa34c557c9bf4c6bfeb86aa16b398de55"><td class="memItemLeft" align="right" valign="top"><a id="aa34c557c9bf4c6bfeb86aa16b398de55"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><b>MBErrorCode</b> : uint8_t { <br />
+<tr class="memitem:aa34c557c9bf4c6bfeb86aa16b398de55"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceMB_1_1utils.html#aa34c557c9bf4c6bfeb86aa16b398de55">MBErrorCode</a> : uint8_t { <br />
 &#160;&#160;<b>IllegalFunction</b> = 0x01, 
 <b>IllegalDataAddress</b> = 0x02, 
 <b>IllegalDataValue</b> = 0x03, 
@@ -101,7 +101,7 @@ Enumerations</h2></td></tr>
 <br />
  }</td></tr>
 <tr class="separator:aa34c557c9bf4c6bfeb86aa16b398de55"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa8ebb89b73bf4d0e3485b6341a50f116"><td class="memItemLeft" align="right" valign="top"><a id="aa8ebb89b73bf4d0e3485b6341a50f116"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><b>MBFunctionCode</b> : uint8_t { <br />
+<tr class="memitem:aa8ebb89b73bf4d0e3485b6341a50f116"><td class="memItemLeft" align="right" valign="top"><a id="aa8ebb89b73bf4d0e3485b6341a50f116"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceMB_1_1utils.html#aa8ebb89b73bf4d0e3485b6341a50f116">MBFunctionCode</a> : uint8_t { <br />
 &#160;&#160;<b>ReadDiscreteOutputCoils</b> = 0x01, 
 <b>ReadDiscreteInputContacts</b> = 0x02, 
 <b>ReadAnalogOutputHoldingRegisters</b> = 0x03, 
@@ -115,50 +115,76 @@ Enumerations</h2></td></tr>
 &#160;&#160;<b>Undefined</b> = 0x00
 <br />
  }</td></tr>
+<tr class="memdesc:aa8ebb89b73bf4d0e3485b6341a50f116"><td class="mdescLeft">&#160;</td><td class="mdescRight">All modbus standard function codes + Undefined one. <br /></td></tr>
 <tr class="separator:aa8ebb89b73bf4d0e3485b6341a50f116"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0b3590994f5ba26cd61929f5a394ab70"><td class="memItemLeft" align="right" valign="top"><a id="a0b3590994f5ba26cd61929f5a394ab70"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><b>MBFunctionType</b> { <b>Read</b>, 
+<tr class="memitem:a0b3590994f5ba26cd61929f5a394ab70"><td class="memItemLeft" align="right" valign="top"><a id="a0b3590994f5ba26cd61929f5a394ab70"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceMB_1_1utils.html#a0b3590994f5ba26cd61929f5a394ab70">MBFunctionType</a> { <b>Read</b>, 
 <b>WriteSingle</b>, 
 <b>WriteMultiple</b>
  }</td></tr>
+<tr class="memdesc:a0b3590994f5ba26cd61929f5a394ab70"><td class="mdescLeft">&#160;</td><td class="mdescRight">Simplified function types. <br /></td></tr>
 <tr class="separator:a0b3590994f5ba26cd61929f5a394ab70"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8098c5bcb6c33b219bafdee42334e260"><td class="memItemLeft" align="right" valign="top"><a id="a8098c5bcb6c33b219bafdee42334e260"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><b>MBFunctionRegisters</b> { <b>OutputCoils</b>, 
+<tr class="memitem:a8098c5bcb6c33b219bafdee42334e260"><td class="memItemLeft" align="right" valign="top"><a id="a8098c5bcb6c33b219bafdee42334e260"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceMB_1_1utils.html#a8098c5bcb6c33b219bafdee42334e260">MBFunctionRegisters</a> { <b>OutputCoils</b>, 
 <b>InputContacts</b>, 
 <b>HoldingRegisters</b>, 
 <b>InputRegisters</b>
  }</td></tr>
+<tr class="memdesc:a8098c5bcb6c33b219bafdee42334e260"><td class="mdescLeft">&#160;</td><td class="mdescRight">Simplified register types. <br /></td></tr>
 <tr class="separator:a8098c5bcb6c33b219bafdee42334e260"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a7aa22230ea192f06612fbc809fca2335"><td class="memItemLeft" align="right" valign="top"><a id="a7aa22230ea192f06612fbc809fca2335"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceMB_1_1utils.html#a7aa22230ea192f06612fbc809fca2335">isStandardErrorCode</a> (MBErrorCode code)</td></tr>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceMB_1_1utils.html#a7aa22230ea192f06612fbc809fca2335">isStandardErrorCode</a> (<a class="el" href="namespaceMB_1_1utils.html#aa34c557c9bf4c6bfeb86aa16b398de55">MBErrorCode</a> code)</td></tr>
 <tr class="memdesc:a7aa22230ea192f06612fbc809fca2335"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if error code is modbus standard error code. <br /></td></tr>
 <tr class="separator:a7aa22230ea192f06612fbc809fca2335"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af467d314367c209ef830b2ae97393b6f"><td class="memItemLeft" align="right" valign="top"><a id="af467d314367c209ef830b2ae97393b6f"></a>
-std::string&#160;</td><td class="memItemRight" valign="bottom"><b>mbErrorCodeToStr</b> (MBErrorCode code) noexcept</td></tr>
+std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceMB_1_1utils.html#af467d314367c209ef830b2ae97393b6f">mbErrorCodeToStr</a> (<a class="el" href="namespaceMB_1_1utils.html#aa34c557c9bf4c6bfeb86aa16b398de55">MBErrorCode</a> code) noexcept</td></tr>
+<tr class="memdesc:af467d314367c209ef830b2ae97393b6f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts Modbus error code to it's string representation. <br /></td></tr>
 <tr class="separator:af467d314367c209ef830b2ae97393b6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab24a81a029cf6c4765eab5d74b7d8dff"><td class="memItemLeft" align="right" valign="top"><a id="ab24a81a029cf6c4765eab5d74b7d8dff"></a>
-MBFunctionType&#160;</td><td class="memItemRight" valign="bottom"><b>functionType</b> (const MBFunctionCode code)</td></tr>
+<a class="el" href="namespaceMB_1_1utils.html#a0b3590994f5ba26cd61929f5a394ab70">MBFunctionType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceMB_1_1utils.html#ab24a81a029cf6c4765eab5d74b7d8dff">functionType</a> (const <a class="el" href="namespaceMB_1_1utils.html#aa8ebb89b73bf4d0e3485b6341a50f116">MBFunctionCode</a> code)</td></tr>
+<tr class="memdesc:ab24a81a029cf6c4765eab5d74b7d8dff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks "Function type", according to MBFunctionType. <br /></td></tr>
 <tr class="separator:ab24a81a029cf6c4765eab5d74b7d8dff"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad967d0ef18fecbc1a231143db3793991"><td class="memItemLeft" align="right" valign="top"><a id="ad967d0ef18fecbc1a231143db3793991"></a>
-MBFunctionRegisters&#160;</td><td class="memItemRight" valign="bottom"><b>functionRegister</b> (const MBFunctionCode code)</td></tr>
+<a class="el" href="namespaceMB_1_1utils.html#a8098c5bcb6c33b219bafdee42334e260">MBFunctionRegisters</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceMB_1_1utils.html#ad967d0ef18fecbc1a231143db3793991">functionRegister</a> (const <a class="el" href="namespaceMB_1_1utils.html#aa8ebb89b73bf4d0e3485b6341a50f116">MBFunctionCode</a> code)</td></tr>
+<tr class="memdesc:ad967d0ef18fecbc1a231143db3793991"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get register type based on function code. <br /></td></tr>
 <tr class="separator:ad967d0ef18fecbc1a231143db3793991"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaf546a5a9bb27ee4f7300064d18d9a9e"><td class="memItemLeft" align="right" valign="top"><a id="aaf546a5a9bb27ee4f7300064d18d9a9e"></a>
-std::string&#160;</td><td class="memItemRight" valign="bottom"><b>mbFunctionToStr</b> (MBFunctionCode code) noexcept</td></tr>
+std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceMB_1_1utils.html#aaf546a5a9bb27ee4f7300064d18d9a9e">mbFunctionToStr</a> (<a class="el" href="namespaceMB_1_1utils.html#aa8ebb89b73bf4d0e3485b6341a50f116">MBFunctionCode</a> code) noexcept</td></tr>
+<tr class="memdesc:aaf546a5a9bb27ee4f7300064d18d9a9e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts modbus function code to its string represenatiton. <br /></td></tr>
 <tr class="separator:aaf546a5a9bb27ee4f7300064d18d9a9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2057e90dfbefb2bc7cea23f6140d5a04"><td class="memItemLeft" align="right" valign="top"><a id="a2057e90dfbefb2bc7cea23f6140d5a04"></a>
-uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>bigEndianConv</b> (const uint8_t *buf)</td></tr>
+uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceMB_1_1utils.html#a2057e90dfbefb2bc7cea23f6140d5a04">bigEndianConv</a> (const uint8_t *buf)</td></tr>
+<tr class="memdesc:a2057e90dfbefb2bc7cea23f6140d5a04"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create uint16_t from buffer of two bytes, ex. { 0x01, 0x02 } =&gt; 0x0102. <br /></td></tr>
 <tr class="separator:a2057e90dfbefb2bc7cea23f6140d5a04"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa419ed339bbdacd4108fb5cc1cd14539"><td class="memItemLeft" align="right" valign="top"><a id="aa419ed339bbdacd4108fb5cc1cd14539"></a>
-uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>calculateCRC</b> (const uint8_t *buff, size_t len)</td></tr>
+uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceMB_1_1utils.html#aa419ed339bbdacd4108fb5cc1cd14539">calculateCRC</a> (const uint8_t *buff, size_t len)</td></tr>
+<tr class="memdesc:aa419ed339bbdacd4108fb5cc1cd14539"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates CRC. <br /></td></tr>
 <tr class="separator:aa419ed339bbdacd4108fb5cc1cd14539"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a102e7bc4008a2658a5db76a9b70bec97"><td class="memItemLeft" align="right" valign="top"><a id="a102e7bc4008a2658a5db76a9b70bec97"></a>
-uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>calculateCRC</b> (const std::vector&lt; uint8_t &gt; &amp;buffer)</td></tr>
+uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceMB_1_1utils.html#a102e7bc4008a2658a5db76a9b70bec97">calculateCRC</a> (const std::vector&lt; uint8_t &gt; &amp;buffer)</td></tr>
+<tr class="memdesc:a102e7bc4008a2658a5db76a9b70bec97"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate CRC wrapper. <br /></td></tr>
 <tr class="separator:a102e7bc4008a2658a5db76a9b70bec97"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Namespace that contains many useful utility functions and enums that are used in the whole project. </p>
-</div></div><!-- contents -->
+</div><h2 class="groupheader">Enumeration Type Documentation</h2>
+<a id="aa34c557c9bf4c6bfeb86aa16b398de55"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa34c557c9bf4c6bfeb86aa16b398de55">&#9670;&nbsp;</a></span>MBErrorCode</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="namespaceMB_1_1utils.html#aa34c557c9bf4c6bfeb86aa16b398de55">MB::utils::MBErrorCode</a> : uint8_t</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>All possible modbus error codes </p><dl class="section note"><dt>Note</dt><dd>Contains custom, non standard codes </dd></dl>
+
+</div>
+</div>
+</div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by&#160;<a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.19

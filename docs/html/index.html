@@ -169,11 +169,11 @@ The below API is not finished (propably wont be), it is preffered to use doxygen
 <h2><a class="anchor" id="autotoc_md11"></a>
 Enums</h2>
 <p>Below each enum there are all values of enum.</p><ul>
-<li><p class="startli"><code>MB::utils::MBErrorCode</code> - Enum that contains all the standard Modbus error Codes as well as Modbus library specific errors. ```c++ // Documentation modbus errors: IllegalFunction = 0x01 IllegalDataAddress = 0x02 IllegalDataValue = 0x03 SlaveDeviceFailure = 0x04 Acknowledge = 0x05 SlaveDeviceBusy = 0x06 NegativeAcknowledge = 0x07 MemoryParityError = 0x08 GatewayPathUnavailable = 0x10 GatewayTargetDeviceFailedToRespond = 0x11</p>
-<p class="startli">// Custom modbus errors: ErrorCodeCRCError = 0b0111111 InvalidCRC = 0b01111110 InvalidByteOrder = 0b01111101 InvalidMessageID = 0b01111100 ProtocolError = 0b01111011 ConnectionClosed = 0b01111010 Timeout = 0b01111001 ``<code> -</code>MB::utils::MBFunctionCode&lt;tt&gt;- Enum that contains all Modbus function codes. ``c++ // Reading functions ReadDiscreteOutputCoils = 0x01 ReadDiscreteInputContacts = 0x02 ReadAnalogOutputHoldingRegisters = 0x03 ReadAnalogInputRegisters = 0x04</p>
+<li><p class="startli"><code><a class="el" href="namespaceMB_1_1utils.html#aa34c557c9bf4c6bfeb86aa16b398de55">MB::utils::MBErrorCode</a></code> - Enum that contains all the standard Modbus error Codes as well as Modbus library specific errors. ```c++ // Documentation modbus errors: IllegalFunction = 0x01 IllegalDataAddress = 0x02 IllegalDataValue = 0x03 SlaveDeviceFailure = 0x04 Acknowledge = 0x05 SlaveDeviceBusy = 0x06 NegativeAcknowledge = 0x07 MemoryParityError = 0x08 GatewayPathUnavailable = 0x10 GatewayTargetDeviceFailedToRespond = 0x11</p>
+<p class="startli">// Custom modbus errors: ErrorCodeCRCError = 0b0111111 InvalidCRC = 0b01111110 InvalidByteOrder = 0b01111101 InvalidMessageID = 0b01111100 ProtocolError = 0b01111011 ConnectionClosed = 0b01111010 Timeout = 0b01111001 ``<code> -</code><a class="el" href="namespaceMB_1_1utils.html#aa8ebb89b73bf4d0e3485b6341a50f116" title="All modbus standard function codes + Undefined one.">MB::utils::MBFunctionCode&lt;tt&gt;</a>- Enum that contains all Modbus function codes. ``c++ // Reading functions ReadDiscreteOutputCoils = 0x01 ReadDiscreteInputContacts = 0x02 ReadAnalogOutputHoldingRegisters = 0x03 ReadAnalogInputRegisters = 0x04</p>
 <p class="startli">// Single write functions WriteSingleDiscreteOutputCoil = 0x05 WriteSingleAnalogOutputRegister = 0x06</p>
 <p class="startli">// Multiple write functions WriteMultipleDiscreteOutputCoils = 0x0F WriteMultipleAnalogOutputHoldingRegisters = 0x10</p>
-<p class="startli">// Custom Undefined = 0x00 ``<code> -</code>MB::utils::MBFunctionType&lt;tt&gt;- Enum that contains function types. ``c++ Read WriteSingle WriteMultiple ``<code> -</code>MB::utils::MBFunctionRegisters&lt;tt&gt;- Enum that contains all register types. ``c++ <br  />
+<p class="startli">// Custom Undefined = 0x00 ``<code> -</code><a class="el" href="namespaceMB_1_1utils.html#a0b3590994f5ba26cd61929f5a394ab70" title="Simplified function types.">MB::utils::MBFunctionType&lt;tt&gt;</a>- Enum that contains function types. ``c++ Read WriteSingle WriteMultiple ``<code> -</code><a class="el" href="namespaceMB_1_1utils.html#a8098c5bcb6c33b219bafdee42334e260" title="Simplified register types.">MB::utils::MBFunctionRegisters&lt;tt&gt;</a>- Enum that contains all register types. ``c++ <br  />
  OutputCoils InputContacts HoldingRegisters InputRegisters ```</p>
 </li>
 </ul>
@@ -181,13 +181,13 @@ Enums</h2>
 Methods</h2>
 <ul>
 <li><code>bool <a class="el" href="namespaceMB_1_1utils.html#a7aa22230ea192f06612fbc809fca2335" title="Checks if error code is modbus standard error code.">MB::utils::isStandardErrorCode(MBErrorCode code)</a></code> - Returns true if specified code is a Modbus standard error code.</li>
-<li><code>std::string MB::utils::mbErrorCodeToStr(MBErrorCode code)</code> - Returns stringed name of a specified Modbus error code. <br  />
+<li><code>std::string <a class="el" href="namespaceMB_1_1utils.html#af467d314367c209ef830b2ae97393b6f" title="Converts Modbus error code to it&#39;s string representation.">MB::utils::mbErrorCodeToStr(MBErrorCode code)</a></code> - Returns stringed name of a specified Modbus error code. <br  />
 </li>
-<li><code>MBFunctionType MB::utils::functionType(const MBFunctionCode code)</code> - Get functions type based on function code.</li>
-<li><code>MBFunctionRegisters MB::utils::functionRegister(const MBFunctionCode code)</code> - Get functions register based on function code.</li>
-<li><code>uint16_t MB::utils::bigEndianConv(const uint8_t *buf)</code> - Creates uint16_t number from uint8_t buffer of two bytes (used when reading modbus frames).</li>
-<li><p class="startli"><code>uint16_t MB::utils::calculateCRC(const uint8_t *buff, size_t len)</code></p>
-<p class="startli"><code>uint16_t MB::utils::calculateCRC(const std::vector&lt;uint8_t&gt;&amp; buffer)</code> - Pretty self explanatory. </p>
+<li><code>MBFunctionType <a class="el" href="namespaceMB_1_1utils.html#ab24a81a029cf6c4765eab5d74b7d8dff" title="Checks &quot;Function type&quot;, according to MBFunctionType.">MB::utils::functionType(const MBFunctionCode code)</a></code> - Get functions type based on function code.</li>
+<li><code>MBFunctionRegisters <a class="el" href="namespaceMB_1_1utils.html#ad967d0ef18fecbc1a231143db3793991" title="Get register type based on function code.">MB::utils::functionRegister(const MBFunctionCode code)</a></code> - Get functions register based on function code.</li>
+<li><code>uint16_t <a class="el" href="namespaceMB_1_1utils.html#a2057e90dfbefb2bc7cea23f6140d5a04" title="Create uint16_t from buffer of two bytes, ex. { 0x01, 0x02 } =&gt; 0x0102.">MB::utils::bigEndianConv(const uint8_t *buf)</a></code> - Creates uint16_t number from uint8_t buffer of two bytes (used when reading modbus frames).</li>
+<li><p class="startli"><code>uint16_t <a class="el" href="namespaceMB_1_1utils.html#aa419ed339bbdacd4108fb5cc1cd14539" title="Calculates CRC.">MB::utils::calculateCRC(const uint8_t *buff, size_t len)</a></code></p>
+<p class="startli"><code>uint16_t <a class="el" href="namespaceMB_1_1utils.html#aa419ed339bbdacd4108fb5cc1cd14539" title="Calculates CRC.">MB::utils::calculateCRC</a>(const std::vector&lt;uint8_t&gt;&amp; buffer)</code> - Pretty self explanatory. </p>
 </li>
 </ul>
 <h2><a class="anchor" id="autotoc_md13"></a>
@@ -232,8 +232,8 @@ ModbusRequest</h4>
 <li>Methods:<ul>
 <li><code>std::string ModbusRequest::toString()</code> - Returns string representation of a request.</li>
 <li><code>std::vector&lt;uint8_t&gt; ModbusRequest::toRaw()</code> - Converts ModbusRequest to raw bytes.</li>
-<li><code>MB::utils::MBFunctionType functionType() const</code> - Gets function type for current function code.</li>
-<li><code>MB::utils::MBFunctionRegisters functionRegisters() const</code> - Gets function register for current function code.</li>
+<li><code><a class="el" href="namespaceMB_1_1utils.html#a0b3590994f5ba26cd61929f5a394ab70" title="Simplified function types.">MB::utils::MBFunctionType</a> functionType() const</code> - Gets function type for current function code.</li>
+<li><code><a class="el" href="namespaceMB_1_1utils.html#a8098c5bcb6c33b219bafdee42334e260" title="Simplified register types.">MB::utils::MBFunctionRegisters</a> functionRegisters() const</code> - Gets function register for current function code.</li>
 </ul>
 </li>
 <li>Getters and setters:<ul>
@@ -263,8 +263,8 @@ ModbusResponse</h4>
 <li><code>std::string toString()</code> - Returns ModbusResponse string representation.</li>
 <li><code>std::vector&lt;uint8_t&gt; toRaw()</code> - Converts ModbusResponse to vector of raw bytes.</li>
 <li><code>void from(const ModbusRequest&amp;)</code> - Fills ModbusResponse with the request. Needed if you want ModbusResponse to have all the data. This method is needed when you create object from raw.</li>
-<li><code>MB::utils::MBFunctionType functionType() const</code> - Gets function type for current function code.</li>
-<li><code>MB::utils::MBFunctionRegisters functionRegisters() const</code> - Gets function register for current function code.</li>
+<li><code><a class="el" href="namespaceMB_1_1utils.html#a0b3590994f5ba26cd61929f5a394ab70" title="Simplified function types.">MB::utils::MBFunctionType</a> functionType() const</code> - Gets function type for current function code.</li>
+<li><code><a class="el" href="namespaceMB_1_1utils.html#a8098c5bcb6c33b219bafdee42334e260" title="Simplified register types.">MB::utils::MBFunctionRegisters</a> functionRegisters() const</code> - Gets function register for current function code.</li>
 </ul>
 </li>
 <li>Getters and setters:<ul>
