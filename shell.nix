@@ -1,15 +1,12 @@
 { pkgs ? import <nixpkgs> {} }:
-pkgs.mkShell {
+pkgs.mkShell rec {
   name = "modbus-env";
+
   buildInputs = with pkgs; [
     gcc
     cmake
     cmakeCurses
     doxygen
+    libnet
   ];
-
-  shellHook = ''
-    alias build="rm -rf ./build;mkdir build && cd build && cmake .."
-    alias build-docs="doxygen"
-  '';
 }

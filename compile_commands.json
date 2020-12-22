@@ -1,10 +1,5 @@
 [
 {
-  "directory": "/home/mateusz/ttais/cpp/Modbus/Modbus/build",
-  "command": "/nix/store/ppfvi0cfcpdr83klw5kx6si2l260n1gh-gcc-wrapper-9.3.0/bin/g++  -I/home/mateusz/ttais/cpp/Modbus/Modbus/include -I/home/mateusz/ttais/cpp/Modbus/Modbus/include/MB -std=gnu++2a -o CMakeFiles/ex.dir/example/main.cpp.o -c /home/mateusz/ttais/cpp/Modbus/Modbus/example/main.cpp",
-  "file": "/home/mateusz/ttais/cpp/Modbus/Modbus/example/main.cpp"
-},
-{
   "directory": "/home/mateusz/ttais/cpp/Modbus/Modbus/build/src",
   "command": "/nix/store/ppfvi0cfcpdr83klw5kx6si2l260n1gh-gcc-wrapper-9.3.0/bin/g++  -I/home/mateusz/ttais/cpp/Modbus/Modbus/include -I/home/mateusz/ttais/cpp/Modbus/Modbus/include/MB -std=gnu++2a -o CMakeFiles/Modbus_Core.dir/modbusException.cpp.o -c /home/mateusz/ttais/cpp/Modbus/Modbus/src/modbusException.cpp",
   "file": "/home/mateusz/ttais/cpp/Modbus/Modbus/src/modbusException.cpp"

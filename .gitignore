@@ -39,5 +39,6 @@ GRTAGS
 GPATH
 
 # Clangd
-compile_comands.json
+compile_commands.json
 .clang_complete
+.cache
