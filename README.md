@@ -8,6 +8,7 @@ Contains simple linux TCP and RTU implementation.
 - [Why](#why)
 - [Important Concept](#important-concept)
 - [Possibilities](#possibilities)
+- [Dependencies](#dependencies)
 - [Status](#status)
 - [Installation](#how-to-install-it-)
 - [Api](#api)
@@ -78,6 +79,9 @@ CRC for the above code:  0xfd 0xd2
 Stringed Request 1 after rawed: Read from output coils, from slave 1, starting from address 100, on 10 registers
 Stringed Request 2 after rawed: Read from output coils, from slave 1, starting from address 100, on 10 registers
 ```
+
+# Dependencies
+- libnet - only for tcp communication (not needed if communication is disabled)
 
 # STATUS
 
