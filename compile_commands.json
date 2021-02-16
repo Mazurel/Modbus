@@ -1,0 +1,32 @@
+[
+{
+  "directory": "/home/mateusz/ttais/cpp/Modbus/Modbus/build/src",
+  "command": "/nix/store/ppfvi0cfcpdr83klw5kx6si2l260n1gh-gcc-wrapper-9.3.0/bin/g++  -I/home/mateusz/ttais/cpp/Modbus/Modbus/include -I/home/mateusz/ttais/cpp/Modbus/Modbus/include/MB -std=gnu++2a -o CMakeFiles/Modbus_Core.dir/modbusException.cpp.o -c /home/mateusz/ttais/cpp/Modbus/Modbus/src/modbusException.cpp",
+  "file": "/home/mateusz/ttais/cpp/Modbus/Modbus/src/modbusException.cpp"
+},
+{
+  "directory": "/home/mateusz/ttais/cpp/Modbus/Modbus/build/src",
+  "command": "/nix/store/ppfvi0cfcpdr83klw5kx6si2l260n1gh-gcc-wrapper-9.3.0/bin/g++  -I/home/mateusz/ttais/cpp/Modbus/Modbus/include -I/home/mateusz/ttais/cpp/Modbus/Modbus/include/MB -std=gnu++2a -o CMakeFiles/Modbus_Core.dir/modbusRequest.cpp.o -c /home/mateusz/ttais/cpp/Modbus/Modbus/src/modbusRequest.cpp",
+  "file": "/home/mateusz/ttais/cpp/Modbus/Modbus/src/modbusRequest.cpp"
+},
+{
+  "directory": "/home/mateusz/ttais/cpp/Modbus/Modbus/build/src",
+  "command": "/nix/store/ppfvi0cfcpdr83klw5kx6si2l260n1gh-gcc-wrapper-9.3.0/bin/g++  -I/home/mateusz/ttais/cpp/Modbus/Modbus/include -I/home/mateusz/ttais/cpp/Modbus/Modbus/include/MB -std=gnu++2a -o CMakeFiles/Modbus_Core.dir/modbusResponse.cpp.o -c /home/mateusz/ttais/cpp/Modbus/Modbus/src/modbusResponse.cpp",
+  "file": "/home/mateusz/ttais/cpp/Modbus/Modbus/src/modbusResponse.cpp"
+},
+{
+  "directory": "/home/mateusz/ttais/cpp/Modbus/Modbus/build/src/TCP",
+  "command": "/nix/store/ppfvi0cfcpdr83klw5kx6si2l260n1gh-gcc-wrapper-9.3.0/bin/g++  -I/home/mateusz/ttais/cpp/Modbus/Modbus/include/MB -I/home/mateusz/ttais/cpp/Modbus/Modbus/include -std=gnu++2a -o CMakeFiles/Modbus_TCP.dir/connection.cpp.o -c /home/mateusz/ttais/cpp/Modbus/Modbus/src/TCP/connection.cpp",
+  "file": "/home/mateusz/ttais/cpp/Modbus/Modbus/src/TCP/connection.cpp"
+},
+{
+  "directory": "/home/mateusz/ttais/cpp/Modbus/Modbus/build/src/TCP",
+  "command": "/nix/store/ppfvi0cfcpdr83klw5kx6si2l260n1gh-gcc-wrapper-9.3.0/bin/g++  -I/home/mateusz/ttais/cpp/Modbus/Modbus/include/MB -I/home/mateusz/ttais/cpp/Modbus/Modbus/include -std=gnu++2a -o CMakeFiles/Modbus_TCP.dir/server.cpp.o -c /home/mateusz/ttais/cpp/Modbus/Modbus/src/TCP/server.cpp",
+  "file": "/home/mateusz/ttais/cpp/Modbus/Modbus/src/TCP/server.cpp"
+},
+{
+  "directory": "/home/mateusz/ttais/cpp/Modbus/Modbus/build/src/Serial",
+  "command": "/nix/store/ppfvi0cfcpdr83klw5kx6si2l260n1gh-gcc-wrapper-9.3.0/bin/g++  -I/home/mateusz/ttais/cpp/Modbus/Modbus/include/MB -I/home/mateusz/ttais/cpp/Modbus/Modbus/include -std=gnu++2a -o CMakeFiles/Modbus_Serial.dir/connection.cpp.o -c /home/mateusz/ttais/cpp/Modbus/Modbus/src/Serial/connection.cpp",
+  "file": "/home/mateusz/ttais/cpp/Modbus/Modbus/src/Serial/connection.cpp"
+}
+]

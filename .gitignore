@@ -37,3 +37,9 @@ build
 GTAGS
 GRTAGS
 GPATH
+
+# Clangd
+compile_commands.json
+.clang_complete
+.cache
+.clangd
