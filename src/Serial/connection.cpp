@@ -145,8 +145,13 @@ void Connection::send(std::vector<uint8_t> data)
     data.push_back(reinterpret_cast<const uint8_t *>(&crc)[0]);
     data.push_back(reinterpret_cast<const uint8_t *>(&crc)[1]);
 
-    ::write(_fd, data.begin().base(), data.size());
-    // ::tcdrain(_fd);
+    // Ensure that nothing will intervene in our communication
+    // WARNING: It may conflict with something (although it may also help in most cases)
+    tcflush(_fd, TCOFLUSH);
+    // Write
+    write(_fd, data.begin().base(), data.size());
+    // It may be a good idea to use tcdrain, although it has tendency to not work as expected
+    // tcdrain(_fd);
 }
 
 Connection::Connection(Connection&& moved) noexcept
@@ -164,4 +169,9 @@ Connection& Connection::operator=(Connection&& moved)
     memcpy(&_termios, &(moved._termios), sizeof(moved._termios));
     moved._fd = -1;
     return *this;
+}
+
+void Connection::clearInput() 
+{
+    tcflush(_fd, TCIFLUSH);
 }
