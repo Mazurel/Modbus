@@ -50,6 +50,8 @@ public:
    */
   void send(std::vector<uint8_t> data);
 
+  void clearInput();
+
   [[nodiscard]] MB::ModbusResponse awaitResponse();
   [[nodiscard]] MB::ModbusRequest awaitRequest();
 
