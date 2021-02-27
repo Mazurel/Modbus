@@ -52,9 +52,9 @@ public:
 
   ~Connection();
 
-  void sendRequest(const MB::ModbusRequest &req);
-  void sendResponse(const MB::ModbusResponse &res);
-  void sendException(const MB::ModbusException &ex);
+  std::vector<uint8_t> sendRequest(const MB::ModbusRequest &req);
+  std::vector<uint8_t> sendResponse(const MB::ModbusResponse &res);
+  std::vector<uint8_t> sendException(const MB::ModbusException &ex);
 
   [[nodiscard]] MB::ModbusRequest awaitRequest();
   [[nodiscard]] MB::ModbusResponse awaitResponse();

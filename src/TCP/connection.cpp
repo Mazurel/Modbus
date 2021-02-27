@@ -19,7 +19,7 @@ Connection::~Connection() {
   _sockfd = -1;
 }
 
-void Connection::sendRequest(const MB::ModbusRequest &req) {
+std::vector<uint8_t> Connection::sendRequest(const MB::ModbusRequest &req) {
   std::vector<uint8_t> rawReq;
   rawReq.reserve(6);
 
@@ -37,9 +37,11 @@ void Connection::sendRequest(const MB::ModbusRequest &req) {
   rawReq.insert(rawReq.end(), dat.begin(), dat.end());
 
   ::send(_sockfd, rawReq.begin().base(), rawReq.size(), 0);
+
+  return rawReq;
 }
 
-void Connection::sendResponse(const MB::ModbusResponse &res) {
+std::vector<uint8_t> Connection::sendResponse(const MB::ModbusResponse &res) {
   std::vector<uint8_t> rawReq;
   rawReq.reserve(6);
 
@@ -57,9 +59,11 @@ void Connection::sendResponse(const MB::ModbusResponse &res) {
   rawReq.insert(rawReq.end(), dat.begin(), dat.end());
 
   ::send(_sockfd, rawReq.begin().base(), rawReq.size(), 0);
+
+  return rawReq;
 }
 
-void Connection::sendException(const MB::ModbusException &ex) {
+std::vector<uint8_t> Connection::sendException(const MB::ModbusException &ex) {
   std::vector<uint8_t> rawReq;
   rawReq.reserve(6);
 
@@ -77,6 +81,8 @@ void Connection::sendException(const MB::ModbusException &ex) {
   rawReq.insert(rawReq.end(), dat.begin(), dat.end());
 
   ::send(_sockfd, rawReq.begin().base(), rawReq.size(), 0);
+
+  return rawReq;
 }
 
 std::vector<uint8_t> Connection::awaitRawMessage() {

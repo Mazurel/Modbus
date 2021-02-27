@@ -7,6 +7,7 @@
 #include <sstream>
 #include <stdexcept>
 #include <string>
+#include <vector>
 
 #include <cerrno>
 #include <fcntl.h>
@@ -22,7 +23,8 @@
 namespace MB::Serial {
 class Connection {
 public:
-  static const unsigned int DefaultSerialTimeout = 1000;
+  // Pretty high timeout
+  static const unsigned int DefaultSerialTimeout = 100;
 
 private:
   struct termios _termios;
@@ -40,15 +42,15 @@ public:
 
   void connect();
 
-  void sendRequest(const MB::ModbusRequest &request);
-  void sendResponse(const MB::ModbusResponse &response);
-  void sendException(const MB::ModbusException &exception);
+  std::vector<uint8_t> sendRequest(const MB::ModbusRequest &request);
+  std::vector<uint8_t> sendResponse(const MB::ModbusResponse &response);
+  std::vector<uint8_t> sendException(const MB::ModbusException &exception);
 
   /**
    * @brief Sends data through the serial
    * @param data - Vectorized data
    */
-  void send(std::vector<uint8_t> data);
+  std::vector<uint8_t> send(std::vector<uint8_t> data);
 
   void clearInput();
 

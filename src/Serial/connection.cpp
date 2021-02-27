@@ -37,19 +37,17 @@ Connection::~Connection() {
     _fd = -1;
 }
 
-void Connection::sendRequest(const MB::ModbusRequest &request) {
-    send(request.toRaw());
+std::vector<uint8_t> Connection::sendRequest(const MB::ModbusRequest &request) {
+    return send(request.toRaw());
 }
 
-void Connection::sendResponse(const MB::ModbusResponse &response) {
-    send(response.toRaw());
+std::vector<uint8_t> Connection::sendResponse(const MB::ModbusResponse &response) {
+    return send(response.toRaw());
 }
 
-void Connection::sendException(const MB::ModbusException &exception) {
-    send(exception.toRaw());
+std::vector<uint8_t> Connection::sendException(const MB::ModbusException &exception) {
+    return send(exception.toRaw());
 }
-
-#include <iostream>
 
 std::vector<uint8_t> Connection::awaitRawMessage() {
     std::vector<uint8_t> data(1024);
@@ -71,6 +69,8 @@ std::vector<uint8_t> Connection::awaitRawMessage() {
 
     return data;
 }
+
+// TODO: Listen for "divided" message as it may happen
 
 MB::ModbusResponse Connection::awaitResponse() {
     std::vector<uint8_t> data(1024);
@@ -118,7 +118,7 @@ MB::ModbusRequest Connection::awaitRequest() {
 
 #include <iostream>
 
-void Connection::send(std::vector<uint8_t> data) {
+std::vector<uint8_t> Connection::send(std::vector<uint8_t> data) {
     data.reserve(data.size() + 2);
     const auto crc = utils::calculateCRC(data.begin().base(), data.size());
 
@@ -133,6 +133,8 @@ void Connection::send(std::vector<uint8_t> data) {
     write(_fd, data.begin().base(), data.size());
     // It may be a good idea to use tcdrain, although it has tendency to not
     // work as expected tcdrain(_fd);
+    
+    return data;
 }
 
 Connection::Connection(Connection &&moved) noexcept {
