@@ -8,6 +8,7 @@
 #include <stdexcept>
 #include <string>
 #include <vector>
+#include <tuple>
 
 #include <cerrno>
 #include <fcntl.h>
@@ -54,8 +55,8 @@ public:
 
   void clearInput();
 
-  [[nodiscard]] MB::ModbusResponse awaitResponse();
-  [[nodiscard]] MB::ModbusRequest awaitRequest();
+  [[nodiscard]] std::tuple<MB::ModbusResponse, std::vector<uint8_t>> awaitResponse();
+  [[nodiscard]] std::tuple<MB::ModbusRequest, std::vector<uint8_t>> awaitRequest();
 
   [[nodiscard]] std::vector<uint8_t> awaitRawMessage();
 

@@ -70,53 +70,54 @@ std::vector<uint8_t> Connection::awaitRawMessage() {
     return data;
 }
 
-// TODO: Listen for "divided" message as it may happen
+// TODO: Figure out how to return raw data when exception is being thrown
+std::tuple<MB::ModbusResponse, std::vector<uint8_t>> Connection::awaitResponse() {
+    std::vector<uint8_t> data;
+    data.reserve(8);
 
-MB::ModbusResponse Connection::awaitResponse() {
-    std::vector<uint8_t> data(1024);
+    MB::ModbusResponse response(0, MB::utils::ReadAnalogInputRegisters);
 
-    pollfd waitingFD = {.fd = _fd, .events = POLLIN, .revents = POLLIN};
+    while (true) {
+        try {
+            auto tmpResponse = awaitRawMessage();
+            data.insert(data.end(), tmpResponse.begin(), tmpResponse.end());
+            
+            if (MB::ModbusException::exist(data)) throw MB::ModbusException(data);
 
-    if (::poll(&waitingFD, 1, _timeout) <= 0) {
-        throw MB::ModbusException(MB::utils::Timeout);
+            response = MB::ModbusResponse::fromRawCRC(data);
+            break;
+        }
+        catch (const MB::ModbusException& ex) {
+            if (MB::utils::isStandardErrorCode(ex.getErrorCode()) || ex.getErrorCode() == MB::utils::Timeout || ex.getErrorCode() == MB::utils::SlaveDeviceFailure) throw ex;
+            continue;
+        }
     }
 
-    auto size = ::read(_fd, data.begin().base(), 1024);
-
-    if (size < 0) {
-        throw MB::ModbusException(MB::utils::SlaveDeviceFailure);
-    }
-
-    data.resize(size);
-    data.shrink_to_fit();
-
-    if (MB::ModbusException::exist(data)) {
-        throw MB::ModbusException(data);
-    }
-
-    return MB::ModbusResponse::fromRawCRC(data);
+    return std::tie(response, data);
 }
 
-MB::ModbusRequest Connection::awaitRequest() {
-    std::vector<uint8_t> data(1024);
+std::tuple<MB::ModbusRequest, std::vector<uint8_t>> Connection::awaitRequest() {
+    std::vector<uint8_t> data;
+    data.reserve(8);
 
-    auto size = ::read(_fd, data.begin().base(), 1024);
+    MB::ModbusRequest request(0, MB::utils::ReadAnalogInputRegisters);
 
-    if (size < 0) {
-        throw MB::ModbusException(MB::utils::SlaveDeviceFailure);
+    while (true) {
+        try {
+            auto tmpResponse = awaitRawMessage();
+            data.insert(data.end(), tmpResponse.begin(), tmpResponse.end());
+            
+            request = MB::ModbusRequest::fromRawCRC(data);
+            break;
+        }
+        catch (const MB::ModbusException& ex) {
+            if (ex.getErrorCode() == MB::utils::Timeout || ex.getErrorCode() == MB::utils::SlaveDeviceFailure) throw ex;
+            continue;
+        }
     }
 
-    data.resize(size);
-    data.shrink_to_fit();
-
-    if (MB::ModbusException::exist(data)) {
-        throw MB::ModbusException(data);
-    }
-
-    return MB::ModbusRequest::fromRawCRC(data);
+    return std::tie(request, data);
 }
-
-#include <iostream>
 
 std::vector<uint8_t> Connection::send(std::vector<uint8_t> data) {
     data.reserve(data.size() + 2);
@@ -151,5 +152,3 @@ Connection &Connection::operator=(Connection &&moved) {
     moved._fd = -1;
     return *this;
 }
-
-void Connection::clearInput() { tcflush(_fd, TCIFLUSH); }
