@@ -10,6 +10,7 @@
 #include <stdexcept>
 #include <string>
 #include <vector>
+#include <tuple>
 
 /*!
  * Namespace that contains many useful utility functions and enums
@@ -258,4 +259,20 @@ inline uint16_t calculateCRC(const uint8_t *buff, size_t len) {
 inline uint16_t calculateCRC(const std::vector<uint8_t> &buffer) {
   return calculateCRC(buffer.begin().base(), buffer.size());
 }
+
+//! Split uint16_t to two uint8_t in big endian form
+//!
+//! Example usage:
+//! auto [highByte, lowByte] = utils::splitUint16(val);
+inline std::pair<uint8_t, uint8_t> splitUint16(const uint16_t val) {
+  return std::make_pair((val >> 8) & 0xFF, val & 0xFF);
+}
+
+//! Insert uint16_t into buffer of uint8_t's. Preserve big endianess.
+inline void pushUint16(std::vector<uint8_t>& buffer, uint16_t val) {
+  auto [high, low] = splitUint16(val);
+  buffer.push_back(high);
+  buffer.push_back(low);
+}
+
 } // namespace MB::utils

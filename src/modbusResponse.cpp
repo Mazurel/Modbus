@@ -3,6 +3,9 @@
 // Licensed under: MIT License <http://opensource.org/licenses/MIT>
 
 #include "modbusResponse.hpp"
+#include "modbusUtils.hpp"
+
+#include <sstream>
 
 using namespace MB;
 
@@ -106,31 +109,31 @@ ModbusResponse::ModbusResponse(std::vector<uint8_t> inputData, bool CRC) {
 }
 
 std::string ModbusResponse::toString() const {
-  std::string result;
+  std::stringstream result;
 
-  result.append(utils::mbFunctionToStr(_functionCode));
-  result.append(", from slave " + std::to_string(_slaveID));
+  result << utils::mbFunctionToStr(_functionCode)
+         << ", from slave " + std::to_string(_slaveID);
 
   if (functionType() != utils::WriteSingle) {
-    result.append(", starting from address " + std::to_string(_address));
-    result.append(", on " + std::to_string(_registersNumber) + " registers");
+    result << ", starting from address " + std::to_string(_address)
+           << ", on " + std::to_string(_registersNumber) + " registers";
     if (functionType() == utils::WriteMultiple) {
-      result.append("\n values = { ");
+      result << "\n values = { ";
       for (decltype(_values)::size_type i = 0; i < _values.size(); i++) {
-        result.append(_values[i].toString() + " , ");
+        result << _values[i].toString() + " , ";
         if (i >= 3) {
-          result.append(" , ... ");
+          result << " , ... ";
           break;
         }
       }
-      result.append("}");
+      result << "}";
     }
   } else {
-    result.append(", starting from address " + std::to_string(_address));
-    result.append("\nvalue = " + (*_values.begin()).toString());
+    result << ", starting from address " + std::to_string(_address)
+           << "\nvalue = " + (*_values.begin()).toString();
   }
 
-  return result;
+  return result.str();
 }
 
 std::vector<uint8_t> ModbusResponse::toRaw() const {
@@ -156,29 +159,21 @@ std::vector<uint8_t> ModbusResponse::toRaw() const {
     } else {
       result.push_back(_registersNumber * 2); // number of bytes to follow
       for (auto _value : _values) {
-        const auto raw = reinterpret_cast<const uint8_t *>(&_value.reg());
-        result.push_back(raw[1]);
-        result.push_back(raw[0]);
+        utils::pushUint16(result, _value.reg());
       }
     }
   } else {
-    auto raw = reinterpret_cast<const uint8_t *>(&_address);
-    result.push_back(raw[1]);
-    result.push_back(raw[0]);
+    utils::pushUint16(result, _address);
 
     if (functionType() == utils::WriteSingle) {
       if (_values[0].isCoil()) {
         result.push_back(_values[0].coil() ? 0xFF : 0x00);
         result.push_back(0x00);
       } else {
-        raw = reinterpret_cast<const uint8_t *>(&_values[0].reg());
-        result.push_back(raw[1]);
-        result.push_back(raw[0]);
+        utils::pushUint16(result, _values[0].reg());
       }
     } else {
-      raw = reinterpret_cast<const uint8_t *>(&_registersNumber);
-      result.push_back(raw[1]);
-      result.push_back(raw[0]);
+      utils::pushUint16(result, _registersNumber);
     }
   }
 

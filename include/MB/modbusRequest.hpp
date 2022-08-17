@@ -12,7 +12,6 @@
 
 #include "modbusCell.hpp"
 #include "modbusException.hpp"
-#include "modbusUtils.hpp"
 
 /**
  * Namespace that contains whole project

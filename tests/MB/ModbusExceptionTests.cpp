@@ -3,7 +3,6 @@
 // Licensed under: MIT License <http://opensource.org/licenses/MIT>
 
 #include "MB/modbusException.hpp"
-#include "MB/modbusUtils.hpp"
 #include "gtest/gtest.h"
 
 TEST(ModbusException, Exists) {

@@ -3,6 +3,9 @@
 // Licensed under: MIT License <http://opensource.org/licenses/MIT>
 
 #include "modbusRequest.hpp"
+#include "modbusUtils.hpp"
+
+#include <sstream>
 
 using namespace MB;
 
@@ -102,31 +105,31 @@ ModbusRequest::ModbusRequest(const std::vector<uint8_t> &inputData, bool CRC) {
 }
 
 std::string ModbusRequest::toString() const noexcept {
-  std::string result;
+  std::stringstream result;
 
-  result.append(utils::mbFunctionToStr(_functionCode));
-  result.append(", from slave " + std::to_string(_slaveID));
+  result << utils::mbFunctionToStr(_functionCode)
+         << ", from slave " + std::to_string(_slaveID);
 
   if (functionType() != utils::WriteSingle) {
-    result.append(", starting from address " + std::to_string(_address));
-    result.append(", on " + std::to_string(_registersNumber) + " registers");
+    result << ", starting from address " + std::to_string(_address)
+           << ", on " + std::to_string(_registersNumber) + " registers";
     if (functionType() == utils::WriteMultiple) {
-      result.append("\n values = { ");
-      for (decltype(_values)::size_type i = 0; i < _values.size(); i++) {
-        result.append(_values[i].toString() + " , ");
+      result << "\n values = { ";
+      for (std::size_t i = 0; i < _values.size(); i++) {
+        result << _values[i].toString() + " , ";
         if (i >= 3) {
-          result.append(" , ... ");
+          result << " , ... ";
           break;
         }
       }
-      result.append("}");
+      result << "}";
     }
   } else {
-    result.append(", starting from address " + std::to_string(_address));
-    result.append("\nvalue = " + (*_values.begin()).toString());
+    result << ", starting from address " + std::to_string(_address)
+           << "\nvalue = " + (*_values.begin()).toString();
   }
 
-  return result;
+  return result.str();
 }
 
 std::vector<uint8_t> ModbusRequest::toRaw() const noexcept {
@@ -135,12 +138,10 @@ std::vector<uint8_t> ModbusRequest::toRaw() const noexcept {
 
   result.push_back(_slaveID);
   result.push_back(_functionCode);
-  result.push_back(reinterpret_cast<const uint8_t *>(&_address)[1]);
-  result.push_back(reinterpret_cast<const uint8_t *>(&_address)[0]);
+  utils::pushUint16(result, _address);
 
   if (functionType() != utils::WriteSingle) {
-    result.push_back(reinterpret_cast<const uint8_t *>(&_registersNumber)[1]);
-    result.push_back(reinterpret_cast<const uint8_t *>(&_registersNumber)[0]);
+    utils::pushUint16(result, _registersNumber);
   }
 
   if (_functionCode == utils::WriteMultipleAnalogOutputHoldingRegisters) {
@@ -152,14 +153,12 @@ std::vector<uint8_t> ModbusRequest::toRaw() const noexcept {
 
   if (functionType() == utils::WriteMultiple) {
     if (_values[0].isReg()) {
-      for (auto _value : _values) {
-        const auto raw = reinterpret_cast<const uint8_t *>(&_value.reg());
-        result.push_back(raw[1]);
-        result.push_back(raw[0]);
+      for (auto value : _values) {
+        utils::pushUint16(result, value.reg());
       }
     } else {
       int end = result.size() - 1;
-      for (decltype(_values)::size_type i = 0; i < _values.size(); i++) {
+      for (std::size_t i = 0; i < _values.size(); i++) {
         if (i % 8 == 0) {
           result.push_back(0x00);
           end++;
@@ -169,9 +168,7 @@ std::vector<uint8_t> ModbusRequest::toRaw() const noexcept {
     }
   } else if (functionType() == utils::WriteSingle) {
     if (_values[0].isReg()) {
-      const auto raw = reinterpret_cast<const uint8_t *>(&_values[0].reg());
-      result.push_back(raw[1]);
-      result.push_back(raw[0]);
+      utils::pushUint16(result, _values[0].reg());
     } else {
       result.push_back(_values[0].coil() ? 0xFF : 0x00);
       result.push_back(0x00);
