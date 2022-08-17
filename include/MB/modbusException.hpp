@@ -6,8 +6,6 @@
 
 #include <cstdint>
 #include <cstring>
-#include <memory>
-#include <optional>
 #include <stdexcept>
 #include <vector>
 

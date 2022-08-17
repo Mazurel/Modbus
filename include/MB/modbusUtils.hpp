@@ -269,7 +269,7 @@ inline std::pair<uint8_t, uint8_t> splitUint16(const uint16_t val) {
 }
 
 //! Insert uint16_t into buffer of uint8_t's. Preserve big endianess.
-inline void pushUint16(std::vector<uint8_t>& buffer, uint16_t val) {
+inline void pushUint16(std::vector<uint8_t>& buffer, const uint16_t val) {
   auto [high, low] = splitUint16(val);
   buffer.push_back(high);
   buffer.push_back(low);

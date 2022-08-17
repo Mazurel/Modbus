@@ -6,6 +6,7 @@
 #include "modbusUtils.hpp"
 
 #include <sstream>
+#include <algorithm>
 
 using namespace MB;
 
