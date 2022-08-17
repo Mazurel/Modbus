@@ -1,6 +1,6 @@
 <h1>Modbus library for modern c++</h1>
 
-Modbus library for high level frame manipulation with modern c++17/20.
+Modbus library for high level frame manipulation with modern C++17.
 
 Contains simple linux TCP and RTU implementation.
 
