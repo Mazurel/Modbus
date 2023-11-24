@@ -8,13 +8,17 @@ using namespace MB::TCP;
 
 Server::Server(int port) {
   _port = port;
-  _serverfd = socket(AF_INET, SOCK_STREAM, 0);
+  _serverfd = (int)socket(AF_INET, SOCK_STREAM, 0);
 
   if (_serverfd == -1)
     throw std::runtime_error("Cannot create socket");
 
-  setsockopt(_serverfd, SOL_SOCKET, SO_REUSEADDR, new int(1), sizeof(int));
-  setsockopt(_serverfd, SOL_SOCKET, SO_REUSEPORT, new int(1), sizeof(int));
+  uint32_t reuseaddr = 1;
+  setsockopt(_serverfd, SOL_SOCKET, SO_REUSEADDR, (char*)&reuseaddr, sizeof(reuseaddr));
+#ifdef SO_REUSEPORT
+  setsockopt(_serverfd, SOL_SOCKET, SO_REUSEPORT, (const char*)&reuseaddr, sizeof(reuseaddr));
+  (const char*)&reuseaddr
+#endif
 
   _server = {};
 
@@ -30,8 +34,13 @@ Server::Server(int port) {
 }
 
 Server::~Server() {
-  if (_serverfd >= 0)
-    ::close(_serverfd);
+  if (_serverfd >= 0) {
+#ifdef _WIN32
+     closesocket(_serverfd);
+#else
+     ::close(_serverfd);
+#endif
+  }
 
   _serverfd = -1;
 }
@@ -45,5 +54,5 @@ std::optional<Connection> Server::awaitConnection() {
   if (connfd < 0)
     throw;
 
-  return Connection(connfd);
+  return Connection((int)connfd);
 }

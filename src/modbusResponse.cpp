@@ -96,7 +96,7 @@ ModbusResponse::ModbusResponse(std::vector<uint8_t> inputData, bool CRC) {
 
       auto recievedCRC =
           *reinterpret_cast<const uint16_t *>(&inputData[crcIndex]);
-      auto myCRC = utils::calculateCRC(inputData.begin().base(), crcIndex);
+      auto myCRC = utils::calculateCRC(inputData.data(), crcIndex);
 
       if (recievedCRC != myCRC) {
         throw ModbusException(utils::InvalidCRC, _slaveID);
@@ -104,7 +104,7 @@ ModbusResponse::ModbusResponse(std::vector<uint8_t> inputData, bool CRC) {
     }
   } catch (const ModbusException &ex) {
     throw ex;
-  } catch (const std::exception &ex) {
+  } catch (const std::exception /*&ex*/) {
     throw ModbusException(utils::InvalidByteOrder);
   }
 }

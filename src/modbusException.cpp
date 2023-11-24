@@ -24,7 +24,7 @@ ModbusException::ModbusException(const std::vector<uint8_t> &inputData,
 
   if (CRC) {
     auto CRC = *reinterpret_cast<const uint16_t *>(&inputData[3]);
-    auto calculatedCRC = utils::calculateCRC(inputData.begin().base(), 3);
+    auto calculatedCRC = utils::calculateCRC(inputData.data(), 3);
 
     if (CRC != calculatedCRC) {
       _errorCode = utils::ErrorCodeCRCError;

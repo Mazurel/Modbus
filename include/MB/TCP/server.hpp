@@ -8,13 +8,20 @@
 #include <stdexcept>
 #include <string>
 
+#ifdef _WIN32
+#include <Winsock2.h>
+#include <Ws2tcpip.h>
+#define poll(a, b, c)  WSAPoll((a), (b), (c))
+#else
 #include <libnet.h>
 #include <netinet/in.h>
 #include <sys/socket.h>
+#endif
 
 #include "connection.hpp"
 
-namespace MB::TCP {
+namespace MB {
+namespace TCP {
 class Server {
 private:
   int _serverfd;
@@ -45,4 +52,4 @@ public:
 
   std::optional<Connection> awaitConnection();
 };
-} // namespace MB::TCP
+}} // namespace MB::TCP

@@ -5,13 +5,22 @@
 #pragma once
 
 #include <memory>
+#include <string>
 #include <type_traits>
 
 #include <cerrno>
+
+#ifdef _WIN32
+#include <Winsock2.h>
+#include <Ws2tcpip.h>
+#define poll(a, b, c)  WSAPoll((a), (b), (c))
+#else
+#define SOCKET (int)
 #include <libnet.h>
 #include <netinet/in.h>
 #include <poll.h>
 #include <sys/socket.h>
+#endif
 
 #include "MB/modbusException.hpp"
 #include "MB/modbusRequest.hpp"
@@ -36,8 +45,13 @@ public:
     if (this == &other)
       return *this;
 
-    if (_sockfd != -1 && _sockfd != other._sockfd)
-      ::close(_sockfd);
+    if (_sockfd != -1 && _sockfd != other._sockfd) {
+#ifdef _WIN32
+        closesocket(_sockfd);
+#else
+        ::close(_sockfd);
+#endif
+    }
 
     _sockfd = other._sockfd;
     _messageID = other._messageID;
