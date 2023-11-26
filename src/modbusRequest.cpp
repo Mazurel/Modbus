@@ -92,7 +92,7 @@ ModbusRequest::ModbusRequest(const std::vector<uint8_t> &inputData, bool CRC) {
         throw ModbusException(utils::InvalidByteOrder);
 
       auto recvCRC = *reinterpret_cast<const uint16_t *>(&inputData[crcIndex]);
-      auto myCRC = utils::calculateCRC(inputData.begin().base(), crcIndex);
+      auto myCRC = utils::calculateCRC(inputData.data(), crcIndex);
 
       if (recvCRC != myCRC) {
         throw ModbusException(utils::InvalidCRC, _slaveID);
@@ -100,7 +100,7 @@ ModbusRequest::ModbusRequest(const std::vector<uint8_t> &inputData, bool CRC) {
     }
   } catch (const ModbusException &ex) {
     throw ex;
-  } catch (const std::exception &ex) {
+  } catch (const std::exception /*&ex*/) {
     throw ModbusException(utils::InvalidByteOrder);
   }
 }
@@ -158,7 +158,7 @@ std::vector<uint8_t> ModbusRequest::toRaw() const noexcept {
         utils::pushUint16(result, value.reg());
       }
     } else {
-      int end = result.size() - 1;
+      size_t end = result.size() - 1;
       for (std::size_t i = 0; i < _values.size(); i++) {
         if (i % 8 == 0) {
           result.push_back(0x00);

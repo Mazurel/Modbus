@@ -32,6 +32,8 @@
 *.app
 
 build
+out
+.vs
 
 # Gtags
 GTAGS

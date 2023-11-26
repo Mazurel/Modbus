@@ -13,9 +13,9 @@ using namespace MB;
 ModbusResponse::ModbusResponse(uint8_t slaveId,
                                utils::MBFunctionCode functionCode,
                                uint16_t address, uint16_t registersNumber,
-                               std::vector<ModbusCell> values)
+                               const std::vector<ModbusCell> &values)
     : _slaveID(slaveId), _functionCode(functionCode), _address(address),
-      _registersNumber(registersNumber), _values(std::move(values)) {
+      _registersNumber(registersNumber), _values(values) {
   // Force proper modbuscell type
   switch (functionRegisters()) {
   case utils::OutputCoils:
@@ -31,7 +31,7 @@ ModbusResponse::ModbusResponse(uint8_t slaveId,
   }
 }
 
-ModbusResponse::ModbusResponse(std::vector<uint8_t> inputData, bool CRC) {
+ModbusResponse::ModbusResponse(const std::vector<uint8_t> &inputData, bool CRC) {
   try {
     if (inputData.size() < 3)
       throw ModbusException(utils::InvalidByteOrder);
@@ -96,7 +96,7 @@ ModbusResponse::ModbusResponse(std::vector<uint8_t> inputData, bool CRC) {
 
       auto recievedCRC =
           *reinterpret_cast<const uint16_t *>(&inputData[crcIndex]);
-      auto myCRC = utils::calculateCRC(inputData.begin().base(), crcIndex);
+      auto myCRC = utils::calculateCRC(inputData.data(), crcIndex);
 
       if (recievedCRC != myCRC) {
         throw ModbusException(utils::InvalidCRC, _slaveID);
@@ -104,7 +104,7 @@ ModbusResponse::ModbusResponse(std::vector<uint8_t> inputData, bool CRC) {
     }
   } catch (const ModbusException &ex) {
     throw ex;
-  } catch (const std::exception &ex) {
+  } catch (const std::exception /*&ex*/) {
     throw ModbusException(utils::InvalidByteOrder);
   }
 }

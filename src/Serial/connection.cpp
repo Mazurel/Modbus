@@ -2,6 +2,7 @@
 // Copyright (c) 2020 Mateusz Mazur aka Mazurel
 // Licensed under: MIT License <http://opensource.org/licenses/MIT>
 
+#ifndef _WIN32
 #include "Serial/connection.hpp"
 
 using namespace MB::Serial;
@@ -152,3 +153,5 @@ Connection &Connection::operator=(Connection &&moved) {
     moved._fd = -1;
     return *this;
 }
+
+#endif
