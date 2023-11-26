@@ -17,7 +17,7 @@
  */
 namespace MB {
 /**
- * This class represent Modbus response, it allows
+ * This class represent Modbus request, it allows
  * user to manipulate and display it in various ways.
  */
 class ModbusRequest {
@@ -69,7 +69,7 @@ public:
   }
 
   /**
-   * Simple constructor, that allows to create "dummy" ModbusResponse
+   * Simple constructor, that allows to create "dummy" ModbusRequest
    * object. May be useful in some cases.
    */
   explicit ModbusRequest(uint8_t slaveId = 0,

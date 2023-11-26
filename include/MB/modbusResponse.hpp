@@ -46,14 +46,14 @@ public:
    *exception if it is invalid
    * @throws ModbusException
    **/
-  explicit ModbusResponse(std::vector<uint8_t> inputData, bool CRC = false);
+  explicit ModbusResponse(const std::vector<uint8_t> &inputData, bool CRC = false);
 
   /*
    * @description Constructs Response from raw data
    * @params inputData is a vector of bytes that will be interpreted
    * @throws ModbusException
    **/
-  static ModbusResponse fromRaw(std::vector<uint8_t> inputData) {
+  static ModbusResponse fromRaw(const std::vector<uint8_t> &inputData) {
     return ModbusResponse(inputData);
   }
   /*
@@ -63,7 +63,7 @@ public:
    * @note This methods performs CRC check that may throw ModbusException on
    * invalid CRC
    **/
-  static ModbusResponse fromRawCRC(std::vector<uint8_t> inputData) {
+  static ModbusResponse fromRawCRC(const std::vector<uint8_t> &inputData) {
     return ModbusResponse(inputData, true);
   }
 
@@ -75,7 +75,7 @@ public:
                  utils::MBFunctionCode functionCode =
                      static_cast<utils::MBFunctionCode>(0),
                  uint16_t address = 0, uint16_t registersNumber = 0,
-                 std::vector<ModbusCell> values = {});
+                 const std::vector<ModbusCell> &values = {});
 
   ModbusResponse(const ModbusResponse &) = default;
 

@@ -4,29 +4,16 @@
 
 #pragma once
 
-#include <memory>
 #include <string>
-#include <type_traits>
+#include <vector>
 
-#include <cerrno>
+#include "../modbusException.hpp"
+#include "../modbusRequest.hpp"
+#include "../modbusResponse.hpp"
 
-#ifdef _WIN32
-#include <Winsock2.h>
-#include <Ws2tcpip.h>
-#define poll(a, b, c)  WSAPoll((a), (b), (c))
-#else
-#define SOCKET (int)
-#include <libnet.h>
-#include <netinet/in.h>
-#include <poll.h>
-#include <sys/socket.h>
-#endif
+namespace MB {
+namespace TCP {
 
-#include "MB/modbusException.hpp"
-#include "MB/modbusRequest.hpp"
-#include "MB/modbusResponse.hpp"
-
-namespace MB::TCP {
 class Connection {
 public:
   static const unsigned int DefaultTCPTimeout = 500;
@@ -36,33 +23,18 @@ private:
   uint16_t _messageID = 0;
   int _timeout = Connection::DefaultTCPTimeout;
 
+  void closeSockfd(void);
+
 public:
   explicit Connection() noexcept : _sockfd(-1), _messageID(0){};
   explicit Connection(int sockfd) noexcept;
   Connection(const Connection &copy) = delete;
   Connection(Connection &&moved) noexcept;
-  Connection &operator=(Connection &&other) noexcept {
-    if (this == &other)
-      return *this;
-
-    if (_sockfd != -1 && _sockfd != other._sockfd) {
-#ifdef _WIN32
-        closesocket(_sockfd);
-#else
-        ::close(_sockfd);
-#endif
-    }
-
-    _sockfd = other._sockfd;
-    _messageID = other._messageID;
-    other._sockfd = -1;
-
-    return *this;
-  }
+  Connection& operator=(Connection&& other) noexcept;
 
   [[nodiscard]] int getSockfd() const { return _sockfd; }
 
-  static Connection with(std::string addr, int port);
+  static Connection with(const std::string &addr, int port);
 
   ~Connection();
 
@@ -79,4 +51,4 @@ public:
 
   void setMessageId(uint16_t messageId) { _messageID = messageId; }
 };
-} // namespace MB::TCP
+}} // namespace MB::TCP

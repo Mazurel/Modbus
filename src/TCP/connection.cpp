@@ -2,7 +2,22 @@
 // Copyright (c) 2020 Mateusz Mazur aka Mazurel
 // Licensed under: MIT License <http://opensource.org/licenses/MIT>
 
+#include <memory>
+#include <type_traits>
+#include <cerrno>
 #include "TCP/connection.hpp"
+
+#ifdef _WIN32
+#include <Winsock2.h>
+#include <Ws2tcpip.h>
+#define poll(a, b, c)  WSAPoll((a), (b), (c))
+#else
+#define SOCKET (int)
+#include <libnet.h>
+#include <netinet/in.h>
+#include <poll.h>
+#include <sys/socket.h>
+#endif
 
 using namespace MB::TCP;
 
@@ -11,15 +26,33 @@ Connection::Connection(const int sockfd) noexcept {
   _messageID = 0;
 }
 
-Connection::~Connection() {
-  if (_sockfd == -1)
-    return;
+Connection& Connection::operator=(Connection&& other) noexcept {
+  if (this == &other)
+      return *this;
 
+  if (_sockfd != -1 && _sockfd != other._sockfd) {
+      closeSockfd();
+  }
+
+  _sockfd = other._sockfd;
+  _messageID = other._messageID;
+  other._sockfd = -1;
+
+  return *this;
+}
+
+Connection::~Connection() {
+  closeSockfd();
+}
+
+void Connection::closeSockfd(void) {
+  if (_sockfd >= 0) {
 #ifdef _WIN32
-  closesocket(_sockfd);
+    closesocket(_sockfd);
 #else
-  ::close(_sockfd);
+    ::close(_sockfd);
 #endif
+  }
   _sockfd = -1;
 }
 
@@ -174,12 +207,7 @@ MB::ModbusResponse Connection::awaitResponse() {
 
 Connection::Connection(Connection &&moved) noexcept {
   if (_sockfd != -1 && moved._sockfd != _sockfd) {
-#ifdef _WIN32
-        closesocket(_sockfd);
-#else
-        ::close(_sockfd);
-#endif
-
+    closeSockfd();
   }
 
   _sockfd = moved._sockfd;
@@ -187,24 +215,26 @@ Connection::Connection(Connection &&moved) noexcept {
   moved._sockfd = -1;
 }
 
-Connection Connection::with(std::string addr, int port) {
+Connection Connection::with(const std::string &addr, int port) {
+#ifdef _WIN32
+  // initialize Windows Socket API with given VERSION.
+  WSADATA wsaData;
+  if (WSAStartup(MAKEWORD(2, 2), &wsaData)) {
+      throw std::runtime_error("WSAStartup failure, errno = " +
+          std::to_string(errno));
+  }
+#endif
+
   auto sock = socket(AF_INET, SOCK_STREAM, 0);
   if (sock == -1)
     throw std::runtime_error("Cannot open socket, errno = " +
                              std::to_string(errno));
 
-#ifdef _WIN32
   sockaddr_in server = { .sin_family = AF_INET,
                          .sin_port = htons(port),
                          .sin_addr = {},
                          .sin_zero = {} };
-  inet_pton(AF_INET, addr.c_str(), &server.sin_addr);
-#else
-  sockaddr_in server = {.sin_family = AF_INET,
-                        .sin_port = htons(port),
-                        .sin_addr = {inet_addr(addr.c_str())},
-                        .sin_zero = {}};
-#endif
+  ::inet_pton(AF_INET, addr.c_str(), &server.sin_addr);
 
   if (::connect(sock, reinterpret_cast<struct sockaddr *>(&server),
                 sizeof(server)) < 0)

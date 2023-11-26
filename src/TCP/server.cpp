@@ -2,6 +2,8 @@
 // Copyright (c) 2020 Mateusz Mazur aka Mazurel
 // Licensed under: MIT License <http://opensource.org/licenses/MIT>
 
+#include <stdexcept>
+#include <string>
 #include "TCP/server.hpp"
 
 using namespace MB::TCP;
@@ -21,7 +23,6 @@ Server::Server(int port) {
 #endif
 
   _server = {};
-
   _server.sin_family = AF_INET;
   _server.sin_addr.s_addr = INADDR_ANY;
   _server.sin_port = ::htons(_port);
@@ -45,7 +46,7 @@ Server::~Server() {
   _serverfd = -1;
 }
 
-std::optional<Connection> Server::awaitConnection() {
+Connection Server::awaitConnection() {
   socklen_t addrLen = sizeof(_server);
 
   auto connfd = ::accept(

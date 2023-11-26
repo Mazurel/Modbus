@@ -7,7 +7,6 @@
 #include <sstream>
 #include <stdexcept>
 #include <string>
-#ifndef _WIN32
 #include <vector>
 #include <tuple>
 
@@ -126,4 +125,3 @@ public:
   void setTimeout(int timeout) { _timeout = timeout; }
 };
 } // namespace MB::Serial
-#endif

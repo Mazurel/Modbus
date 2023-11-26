@@ -18,6 +18,7 @@
  */
 namespace MB {
 namespace utils {
+
 /*! All possible modbus error codes
  * @note Contains custom, non standard codes
  */
@@ -276,5 +277,4 @@ inline void pushUint16(std::vector<uint8_t>& buffer, const uint16_t val) {
   buffer.push_back(low);
 }
 
-}
-} // namespace MB::utils
+}} // namespace MB::utils

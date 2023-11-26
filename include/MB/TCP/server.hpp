@@ -4,14 +4,9 @@
 
 #pragma once
 
-#include <optional>
-#include <stdexcept>
-#include <string>
-
 #ifdef _WIN32
 #include <Winsock2.h>
 #include <Ws2tcpip.h>
-#define poll(a, b, c)  WSAPoll((a), (b), (c))
 #else
 #include <libnet.h>
 #include <netinet/in.h>
@@ -22,6 +17,7 @@
 
 namespace MB {
 namespace TCP {
+
 class Server {
 private:
   int _serverfd;
@@ -33,23 +29,25 @@ public:
   ~Server();
 
   Server(const Server &) = delete;
-  Server(Server &&moved) {
+  Server(Server &&moved) noexcept {
     _serverfd = moved._serverfd;
     _port = moved._port;
+    _server = moved._server;
     moved._serverfd = -1;
   }
-  Server &operator=(Server &&moved) {
+  Server &operator=(Server &&moved) noexcept {
     if (this == &moved)
       return *this;
 
     _serverfd = moved._serverfd;
     _port = moved._port;
+    _server = moved._server;
     moved._serverfd = -1;
     return *this;
   }
 
-  [[nodiscard]] int nativeHandle() { return _serverfd; }
+  [[nodiscard]] int nativeHandle() const { return _serverfd; }
 
-  std::optional<Connection> awaitConnection();
+  Connection awaitConnection();
 };
 }} // namespace MB::TCP
