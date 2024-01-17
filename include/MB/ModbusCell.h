@@ -2,12 +2,15 @@
 
 #include <cstdint>
 #include <stdexcept>
+#include <string>
 #include <variant>
+
+#include "Export.h"
 
 namespace MB {
 
 /// @brief 类表示单个modbus cell，它是coil(bool)或reg(uint16_t)。
-class ModbusCell
+class MODBUS_EXPORT ModbusCell
 {
   public:
     /// @brief 构造寄存器类型为0的单元格。

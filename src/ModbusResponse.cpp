@@ -1,9 +1,9 @@
-#include "ModbusResponse.hpp"
+#include "ModbusResponse.h"
 
 #include <algorithm>
 #include <sstream>
 
-#include "ModbusUtils.hpp"
+#include "ModbusUtils.h"
 
 namespace MB {
 

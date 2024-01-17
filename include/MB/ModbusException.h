@@ -5,7 +5,7 @@
 #include <stdexcept>
 #include <vector>
 
-#include "ModbusUtils.hpp"
+#include "ModbusUtils.h"
 
 namespace MB {
 
@@ -40,13 +40,13 @@ class ModbusException : public std::exception
         return input_data[1] & 0b10000000;
     }
 
-    /// @brief Returns attached slave id
+    /// @brief 返回附加的从属id
     /// @note it is worth to check if slave id is specified with is_slave_valid()
-    /// @return
+    /// @return uint8_t
     [[nodiscard]] uint8_t slave_id() const noexcept { return _slave_id; }
 
     /// @brief Checks if slave id is specified
-    /// @return
+    /// @return bool
     [[nodiscard]] bool is_slave_valid() const noexcept { return _valid_slave; }
 
     /// @brief  Sets slave id
@@ -61,18 +61,11 @@ class ModbusException : public std::exception
     /// @return
     [[nodiscard]] Utils::MBErrorCode get_error_code() const noexcept { return _error_code; }
 
-    /// @brief This function is less optimal, it is just to be compatible with std::excepetion You should preferably use
-    /// to_string()
+    /// @brief 这个函数不是最优的，它只是为了与std:: exception兼容。您最好使用to_string()
     /// @return
-    [[nodiscard]] const char *what() const noexcept override
-    {
-        auto og = to_string();
-        char *str = new char[og.size()];
-        memcpy(str, og.c_str(), og.size());
-        return str;
-    }
+    [[nodiscard]] const char *what() const noexcept override;
 
-    /// @brief Returns string representation of object
+    /// @brief 返回对象的字符串表示形式
     /// @return
     [[nodiscard]] std::string to_string() const noexcept;
 
@@ -85,10 +78,10 @@ class ModbusException : public std::exception
     void set_function_code(Utils::MBFunctionCode function_code) noexcept { _function_code = function_code; }
 
   private:
-    uint8_t _slave_id;
-    bool _valid_slave;
+    uint8_t _slave_id{0};
+    bool _valid_slave{false};
     Utils::MBErrorCode _error_code;
-    Utils::MBFunctionCode _function_code;
+    Utils::MBFunctionCode _function_code{Utils::MBFunctionCode::Undefined};
 };
 
 }  // namespace MB

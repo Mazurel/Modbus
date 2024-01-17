@@ -1,5 +1,5 @@
 /// @file ModbusUtils.hpp
-/// @brief This header files contain various utilities for Modbus Core library
+/// @brief 这个头文件包含Modbus Core库的各种实用程序
 #pragma once
 
 #include <cstdint>
@@ -8,11 +8,11 @@
 #include <tuple>
 #include <vector>
 
-/// @brief Namespace that contains many useful utility functions and enums that are used in the whole project.
+/// @brief 命名空间，其中包含整个项目中使用的许多有用的实用程序函数和枚举。
 namespace MB::Utils {
 
-/// @brief All possible modbus error codes
-/// @note Contains custom, non standard codes
+/// @brief 所有可能的modbus错误码
+/// @note 包含自定义的非标准代码
 enum MBErrorCode : uint8_t
 {
     // Documentation modbus errors
@@ -65,7 +65,7 @@ inline bool is_standard_error_code(MBErrorCode code)
 }
 
 /// @brief Converts Modbus error code to it's string representation
-inline std::string modbus_error_code_to_str(MBErrorCode code) noexcept
+inline std::string modbus_error_code_to_str(MBErrorCode code)
 {
     switch (code) {
         case IllegalFunction:
@@ -95,7 +95,7 @@ inline std::string modbus_error_code_to_str(MBErrorCode code) noexcept
         case InvalidByteOrder:
             return "Invalid byte order";
         case InvalidMessageID:
-            return "Invalid messageID (TCP/IP)";
+            return "Invalid message id (TCP/IP)";
         case ProtocolError:
             return "Protocol error (may be timeout)";
         case ConnectionClosed:
@@ -128,7 +128,7 @@ enum MBFunctionCode : uint8_t
     Undefined = 0x00
 };
 
-/// @brief Simplified function types
+/// @brief 功能类型
 enum MBFunctionType
 {
     Read,
@@ -156,7 +156,7 @@ inline MBFunctionType function_type(const MBFunctionCode code)
     }
 }
 
-/// @brief 简化寄存器类型
+/// @brief 寄存器类型
 enum MBFunctionRegisters
 {
     OutputCoils,
@@ -187,7 +187,7 @@ inline MBFunctionRegisters function_register(const MBFunctionCode code)
 }
 
 /// @brief Converts modbus function code to its string represenatiton
-inline std::string modbus_function_to_str(MBFunctionCode code) noexcept
+inline std::string modbus_function_to_str(MBFunctionCode code)
 {
     switch (code) {
         case ReadDiscreteOutputCoils:

@@ -2,9 +2,9 @@
 #include <iomanip>
 #include <iostream>
 
-#include "MB/ModbusException.hpp"
-#include "MB/ModbusRequest.hpp"
-#include "MB/ModbusResponse.hpp"
+#include "MB/ModbusException.h"
+#include "MB/ModbusRequest.h"
+#include "MB/ModbusResponse.h"
 
 void create_request()
 {

@@ -7,8 +7,6 @@ file(GLOB_RECURSE INCS *.hpp *.h)
 
 add_executable(${PROJECT_NAME} ${SRCS} ${INCS})
 
-target_link_libraries(${PROJECT_NAME})
-
 # 设置编译器选项
 if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
   target_compile_options(${PROJECT_NAME} PRIVATE /utf-8)

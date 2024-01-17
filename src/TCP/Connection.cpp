@@ -1,4 +1,4 @@
-#include "TCP/Connection.hpp"
+#include "TCP/Connection.h"
 
 namespace MB::TCP {
 
@@ -40,11 +40,7 @@ std::vector<uint8_t> Connection::send_request(const MB::ModbusRequest &req)
 
     raw_req.insert(raw_req.end(), dat.begin(), dat.end());
 
-#ifdef _WIN32
     send(_sockfd, (const char *)raw_req.data(), (int)raw_req.size(), 0);
-#else
-    ::send(_sockfd, raw_req.data(), raw_req.size(), 0);
-#endif
 
     return raw_req;
 }
@@ -67,11 +63,7 @@ std::vector<uint8_t> Connection::send_response(const MB::ModbusResponse &res)
 
     raw_req.insert(raw_req.end(), dat.begin(), dat.end());
 
-#ifdef _WIN32
     send(_sockfd, (const char *)raw_req.data(), (int)raw_req.size(), 0);
-#else
-    ::send(_sockfd, raw_req.data(), raw_req.size(), 0);
-#endif
 
     return raw_req;
 }
@@ -94,41 +86,33 @@ std::vector<uint8_t> Connection::send_exception(const MB::ModbusException &ex)
 
     raw_req.insert(raw_req.end(), dat.begin(), dat.end());
 
-#ifdef _WIN32
     send(_sockfd, (const char *)raw_req.data(), (int)raw_req.size(), 0);
-#else
-    ::send(_sockfd, raw_req.data(), raw_req.size(), 0);
-#endif
 
     return raw_req;
 }
 
 std::vector<uint8_t> Connection::await_raw_message()
 {
-    pollfd _pfd = {_sockfd, POLLIN, POLLIN};
-    if (
+    pollfd pfd = {_sockfd, POLLIN, POLLIN};
 #ifdef _WIN32
-        WSAPoll(&_pfd, 1, 60 * 1000 /* 1 minute means the connection has died */) <= 0
-#else
-        ::poll(&_pfd, 1, 60 * 1000 /* 1 minute means the connection has died */) <= 0
-#endif
-    ) {
-        throw MB::ModbusException(MB::Utils::ConnectionClosed);
+    if (WSAPoll(&pfd, 1, 60 * 1000 /* 1 minute means the connection has died */) <= 0) {
+        throw MB::ModbusException(MB::Utils::Timeout);
     }
+#else
+    if (poll(&pfd, 1, 60 * 1000 /* 1 minute means the connection has died */) <= 0) {
+        throw MB::ModbusException(MB::Utils::Timeout);
+    }
+#endif
 
     std::vector<uint8_t> r(1024);
 
-#ifdef _WIN32
     auto size = recv(_sockfd, (char *)r.data(), (int)r.size(), 0);
-#else
-    auto size = ::recv(_sockfd, r.data(), r.size(), 0);
-#endif
 
-    if (size == -1) {
-        throw MB::ModbusException(MB::Utils::ProtocolError);
-    }
     if (size == 0) {
         throw MB::ModbusException(MB::Utils::ConnectionClosed);
+    }
+    if (size == -1) {
+        throw MB::ModbusException(MB::Utils::ProtocolError);
     }
 
     r.resize(size);  // Set vector to proper shape
@@ -139,29 +123,26 @@ std::vector<uint8_t> Connection::await_raw_message()
 
 MB::ModbusRequest Connection::await_request()
 {
+    pollfd pfd = {_sockfd, POLLIN, POLLIN};
 #ifdef _WIN32
-//  WSAPoll(&_pfd, 1, 60 * 1000 /* 1 minute means the connection has died */) <= 0
+    if (WSAPoll(&pfd, 1, 60 * 1000 /* 1 minute means the connection has died */) <= 0) {
+        throw MB::ModbusException(MB::Utils::Timeout);
+    }
 #else
-    pollfd _pfd = {_sockfd, POLLIN, POLLIN};
-    if (::poll(&_pfd, 1, 60 * 1000 /* 1 minute means the connection has died */) <= 0) {
+    if (poll(&pfd, 1, 60 * 1000 /* 1 minute means the connection has died */) <= 0) {
         throw MB::ModbusException(MB::Utils::Timeout);
     }
 #endif
 
-    std::vector<uint8_t> r;
-    r.reserve(1024);
+    std::vector<uint8_t> r(1024);
 
-#ifdef _WIN32
     auto size = recv(_sockfd, (char *)r.data(), (int)r.size(), 0);
-#else
-    auto size = ::recv(_sockfd, r.data(), r.size(), 0);
-#endif
 
-    if (size == -1) {
-        throw MB::ModbusException(MB::Utils::ProtocolError);
-    }
     if (size == 0) {
         throw MB::ModbusException(MB::Utils::ConnectionClosed);
+    }
+    if (size == -1) {
+        throw MB::ModbusException(MB::Utils::ProtocolError);
     }
 
     r.resize(size);  // Set vector to proper shape
@@ -178,28 +159,26 @@ MB::ModbusRequest Connection::await_request()
 
 MB::ModbusResponse Connection::await_response()
 {
+    pollfd pfd = {_sockfd, POLLIN, POLLIN};
 #ifdef _WIN32
-//  WSAPoll(&_pfd, 1, 60 * 1000 /* 1 minute means the connection has died */) <= 0
+    if (WSAPoll(&pfd, 1, 60 * 1000 /* 1 minute means the connection has died */) <= 0) {
+        throw MB::ModbusException(MB::Utils::Timeout);
+    }
 #else
-    pollfd _pfd = {_sockfd, POLLIN, POLLIN};
-    if (::poll(&_pfd, 1, 60 * 1000 /* 1 minute means the connection has died */) <= 0) {
+    if (poll(&pfd, 1, 60 * 1000 /* 1 minute means the connection has died */) <= 0) {
         throw MB::ModbusException(MB::Utils::Timeout);
     }
 #endif
 
     std::vector<uint8_t> r(1024);
 
-#ifdef _WIN32
     auto size = recv(_sockfd, (char *)r.data(), (int)r.size(), 0);
-#else
-    auto size = ::recv(_sockfd, r.data(), r.size(), 0);
-#endif
 
-    if (size == -1) {
-        throw MB::ModbusException(MB::Utils::ProtocolError);
-    }
     if (size == 0) {
         throw MB::ModbusException(MB::Utils::ConnectionClosed);
+    }
+    if (size == -1) {
+        throw MB::ModbusException(MB::Utils::ProtocolError);
     }
 
     r.resize(size);  // Set vector to proper shape
@@ -244,7 +223,7 @@ Connection Connection::with(std::string addr, int port)
 
     sockaddr_in server = {AF_INET, htons(port), {(unsigned char)inet_addr(addr.c_str())}, {}};
 
-    if (::connect(sock, reinterpret_cast<struct sockaddr *>(&server), sizeof(server)) < 0) {
+    if (connect(sock, reinterpret_cast<struct sockaddr *>(&server), sizeof(server)) < 0) {
         throw std::runtime_error("Cannot connect, errno = " + std::to_string(errno));
     }
 

@@ -5,13 +5,14 @@
 #include <string>
 #include <vector>
 
-#include "ModbusCell.hpp"
-#include "ModbusException.hpp"
+#include "Export.h"
+#include "ModbusCell.h"
+#include "ModbusException.h"
 
 namespace MB {
 
 /// @brief 这个类表示Modbus响应，它允许用户以各种方式操作和显示它。
-class ModbusRequest
+class MODBUS_EXPORT ModbusRequest
 {
   public:
     /// @brief 从原始数据构造请求
@@ -50,6 +51,8 @@ class ModbusRequest
                            uint16_t address = 0, uint16_t registers_number = 0,
                            std::vector<ModbusCell> values = {}) noexcept;
 
+    /// @brief
+    /// @param
     ModbusRequest(const ModbusRequest &) = default;
 
     /// @brief 返回对象的字符串表示形式
@@ -58,36 +61,65 @@ class ModbusRequest
     /// @brief 返回对象的原始字节表示，为modbus通信做好准备
     [[nodiscard]] std::vector<uint8_t> to_raw() const noexcept;
 
-    /// @brief Returns function type based on Modbus function code
-    [[nodiscard]] Utils::MBFunctionType function_type() const noexcept { return Utils::function_type(_function_code); }
-    /// @brief Returns register type based on Modbus function code
-    [[nodiscard]] Utils::MBFunctionRegisters function_registers() const noexcept
+    /// @brief 根据Modbus函数代码返回函数类型
+    [[nodiscard]] Utils::MBFunctionType function_type() const { return Utils::function_type(_function_code); }
+
+    /// @brief 根据Modbus函数代码返回寄存器类型
+    [[nodiscard]] Utils::MBFunctionRegisters function_registers() const
     {
         return Utils::function_register(_function_code);
     }
 
+    /// @brief 从站id号
+    /// @return uint8_t
     [[nodiscard]] uint8_t slave_id() const { return _slave_id; }
+
+    /// @brief 功能码
+    /// @return Utils::MBFunctionCode
     [[nodiscard]] Utils::MBFunctionCode function_code() const { return _function_code; }
+
+    /// @brief 寄存器地址
+    /// @return uint16_t
     [[nodiscard]] uint16_t register_address() const { return _address; }
+
+    /// @brief 寄存器数量
+    /// @return uint16_t
     [[nodiscard]] uint16_t number_of_registers() const { return _registers_number; }
+
+    /// @brief 寄存器值
+    /// @return const std::vector<ModbusCell> &
     [[nodiscard]] const std::vector<ModbusCell> &register_values() const { return _values; }
 
+    /// @brief 设置从站id
+    /// @param slave_id
     void set_slave_id(uint8_t slave_id) { _slave_id = slave_id; }
+
+    /// @brief 设置功能码
+    /// @param function_code
     void set_function_code(Utils::MBFunctionCode function_code) { _function_code = function_code; }
+
+    /// @brief 设置寄存器地址
+    /// @param address
     void set_address(uint16_t address) { _address = address; }
+
+    /// @brief 设置寄存器数量
+    /// @param registers_number
     void set_registers_number(uint16_t registers_number)
     {
         _registers_number = registers_number;
         _values.resize(registers_number);
     }
+
+    /// @brief 设置寄存器值
+    /// @param values
     void set_values(const std::vector<ModbusCell> &values) { _values = values; }
 
   private:
-    uint8_t _slave_id;
-    Utils::MBFunctionCode _function_code;
+    uint8_t _slave_id{0};
+    Utils::MBFunctionCode _function_code{Utils::MBFunctionCode::Undefined};
 
-    uint16_t _address;
-    uint16_t _registers_number;
+    uint16_t _address{0};
+    uint16_t _registers_number{0};
 
     std::vector<ModbusCell> _values;
 };

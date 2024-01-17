@@ -1,4 +1,4 @@
-#include "ModbusException.hpp"
+#include "ModbusException.h"
 
 namespace MB {
 
@@ -57,6 +57,14 @@ std::vector<uint8_t> ModbusException::to_raw() const noexcept
     result[2] = static_cast<uint8_t>(_function_code);
 
     return result;
+}
+
+const char *ModbusException::what() const noexcept
+{
+    auto og = to_string();
+    char *str = new char[og.size()];
+    strcpy(str, og.c_str());
+    return str;
 }
 
 }  // namespace MB

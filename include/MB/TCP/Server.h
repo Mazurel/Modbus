@@ -6,7 +6,6 @@
 
 #ifdef _WIN32
 #    include <winsock2.h>
-
 #    pragma comment(lib, "ws2_32.lib")
 #elif __APPLE__
 #else
@@ -14,11 +13,12 @@
 #    include <sys/socket.h>
 #endif
 
-#include "Connection.hpp"
+#include "Connection.h"
+#include "Export.h"
 
 namespace MB::TCP {
 
-class Server
+class MODBUS_EXPORT Server
 {
   public:
     explicit Server(int port);
@@ -44,7 +44,7 @@ class Server
         return *this;
     }
 
-    [[nodiscard]] int native_handle() { return _serverfd; }
+    [[nodiscard]] int native_handle() const { return (int)_serverfd; }
 
     std::optional<Connection> await_connection();
 
@@ -54,6 +54,7 @@ class Server
 #else
     int _serverfd;
 #endif
+
     int _port;
     sockaddr_in _server;
 };

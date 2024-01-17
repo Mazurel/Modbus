@@ -6,6 +6,7 @@
 
 #ifdef _WIN32
 #    include <winsock2.h>
+#    include <ws2tcpip.h>
 #elif __APPLE__
 #else
 #    include <arpa/inet.h>
@@ -17,13 +18,14 @@
 #    include <unistd.h>
 #endif
 
-#include "MB/ModbusException.hpp"
-#include "MB/ModbusRequest.hpp"
-#include "MB/ModbusResponse.hpp"
+#include "Export.h"
+#include "MB/ModbusException.h"
+#include "MB/ModbusRequest.h"
+#include "MB/ModbusResponse.h"
 
 namespace MB::TCP {
 
-class Connection
+class MODBUS_EXPORT Connection
 {
   public:
     static const unsigned int default_tcp_timeout = 500;
