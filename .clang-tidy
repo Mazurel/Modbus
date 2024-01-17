@@ -1,0 +1,70 @@
+---
+Checks: "\
+    bugprone-*,\
+    cert-*,\
+    clang-analyzer-*,\
+    concurrency-*,\
+    google-*,\
+    llvm-*,\
+    misc-*,\
+    modernize-*,\
+    portability-*,\
+    performance-*,\
+    readability-*,\
+    -bugprone-easily-swappable-parameters,\
+    -bugprone-reserved-identifier,\
+    -cert-dcl51-cpp,\
+    -cert-dcl37-c,\
+    -readability-magic-numbers,\
+    -readability-identifier-length,\
+    -readability-implicit-bool-conversion,\
+    -readability-isolate-declaration,\
+    -readability-static-accessed-through-instance,\
+    -readability-redundant-access-specifiers,\
+    -google-build-using-namespace,\
+    -google-readability-casting,\
+    -google-readability-todo,\
+    -modernize-avoid-c-arrays,\
+    -modernize-use-trailing-return-type,\
+    -misc-non-private-member-variables-in-classes,\
+    -llvm-header-guard,\
+    -misc-include-cleaner\
+    "
+WarningsAsErrors: "-*"
+HeaderFilterRegex: '^.*\.hpp$'
+FormatStyle: file
+AnalyzeTemporaryDtors: false
+# check https://clang.llvm.org/extra/clang-tidy/checks/readability/identifier-naming.html
+CheckOptions:
+    - key: readability-identifier-naming.ClassCase
+      value: CamelCase
+    - key: readability-identifier-naming.EnumCase
+      value: CamelCase
+    - key: readability-identifier-naming.ClassMemberCase
+      value: lower_case
+    - key: readability-identifier-naming.FunctionCase
+      value: lower_case
+    - key: readability-identifier-naming.ParameterCase
+      value: lower_case
+    - key: readability-identifier-naming.VariableCase
+      value: lower_case
+    - key: readability-identifier-naming.MethodCase
+      value: lower_case
+    - key: readability-identifier-naming.MemberCase
+      value: lower_case
+    - key: readability-identifier-naming.PrivateMemberCase
+      value: lower_case
+    - key: readability-identifier-naming.MacroDefinitionCase
+      value: UPPER_CASE
+    - key: readability-identifier-naming.PublicMemberPrefix
+      value: ""
+    - key: readability-identifier-naming.ProtectedMemberPrefix
+      value: ""
+    - key: readability-identifier-naming.PrivateMemberPrefix
+      value: "_"
+    - key: readability-identifier-naming.PublicMethodPrefix
+      value: ""
+    - key: readability-identifier-naming.ProtectedMethodPrefix
+      value: ""
+    - key: readability-identifier-naming.PrivateMethodPrefix
+      value: "_"

@@ -1,0 +1,22 @@
+---
+# https://clang.llvm.org/docs/ClangFormatStyleOptions.html
+BasedOnStyle: Google # 基于Google的代码风格
+IndentWidth: 4 # 缩进宽度为4个空格
+Language: Cpp # 语言为C++
+AccessModifierOffset: -2 # 访问修饰符偏移-2个空格
+AllowShortBlocksOnASingleLine: Empty # 允许在单行上写短代码块(Empty表示不设置)
+AllowShortFunctionsOnASingleLine: Inline # 允许在单行上写短函数(Inline表示与函数声明在同一行)
+AllowShortIfStatementsOnASingleLine: Never # 禁止在单行上写短if语句
+AllowShortLoopsOnASingleLine: false # 禁止在单行上写短循环
+BreakBeforeBraces: Mozilla # 在大括号前换行，与Mozilla风格保持一致
+BreakConstructorInitializers: BeforeComma # 在逗号前换行，适用于构造函数初始化列表
+BreakInheritanceList: BeforeComma # 在逗号前换行，适用于继承列表
+ColumnLimit: 120 # 限制每行代码的最大字符数为120个
+DerivePointerAlignment: false # 不从指针对齐中派生(false表示不设置)
+DisableFormat: false # 不禁用格式化(false表示不设置)
+IndentPPDirectives: AfterHash # 在hash符号后缩进预处理指令
+PackConstructorInitializers: NextLine # 在下一行打包构造函数初始化列表
+PointerAlignment: Right # 指针对齐在右侧
+ReflowComments: true # 重新排列注释(true表示开启)
+SortIncludes: CaseSensitive # 按字母顺序排序包含文件(CaseSensitive表示区分大小写)
+UseTab: Never # 从不使用制表符(Never表示不设置)

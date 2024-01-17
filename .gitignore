@@ -31,7 +31,7 @@
 *.out
 *.app
 
-build
+/*[Bb]uild*/
 
 # Gtags
 GTAGS
@@ -43,3 +43,8 @@ compile_commands.json
 .clang_complete
 .cache
 .clangd
+
+# vscode
+
+.vscode/*
+!.vscode/launch.json

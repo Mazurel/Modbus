@@ -3,11 +3,15 @@ project(protocolConverter)
 
 set(CMAKE_CXX_STANDARD 17)
 
-if (DCMAKE_BUILD_TYPE MATCHES Debug)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -lpthread -Wall")
+if(DCMAKE_BUILD_TYPE MATCHES Debug)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -lpthread -Wall")
 endif()
 
-option(MODBUS_EXAMPLE "Build example program" OFF)
+if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+  add_compile_options(/utf-8)
+endif()
+
+option(MODBUS_EXAMPLE "Build example program" ON)
 option(MODBUS_TESTS "Build tests" OFF)
 option(MODBUS_COMMUNICATION "Use Modbus communication library" ON)
 
@@ -18,7 +22,5 @@ if(MODBUS_TESTS)
 endif()
 
 if(MODBUS_EXAMPLE)
-    add_executable(ex example/main.cpp)
-    target_link_libraries(ex Modbus)
+  add_subdirectory(example)
 endif()
-
