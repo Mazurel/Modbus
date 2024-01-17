@@ -17,7 +17,7 @@ Connection::~Connection()
 #ifdef _WIN32
     closesocket(_sockfd);
 #else
-    ::close(_sockfd);
+    close(_sockfd);
 #endif
     _sockfd = (uint64_t)(-1);
 }
@@ -43,7 +43,7 @@ std::vector<uint8_t> Connection::send_request(const MB::ModbusRequest &req)
 #ifdef _WIN32
     send(_sockfd, (const char *)raw_req.data(), (int)raw_req.size(), 0);
 #else
-    ::send(_sockfd, rawReq.data(), rawReq.size(), 0);
+    ::send(_sockfd, raw_req.data(), raw_req.size(), 0);
 #endif
 
     return raw_req;
@@ -70,7 +70,7 @@ std::vector<uint8_t> Connection::send_response(const MB::ModbusResponse &res)
 #ifdef _WIN32
     send(_sockfd, (const char *)raw_req.data(), (int)raw_req.size(), 0);
 #else
-    ::send(_sockfd, rawReq.data(), rawReq.size(), 0);
+    ::send(_sockfd, raw_req.data(), raw_req.size(), 0);
 #endif
 
     return raw_req;
@@ -97,7 +97,7 @@ std::vector<uint8_t> Connection::send_exception(const MB::ModbusException &ex)
 #ifdef _WIN32
     send(_sockfd, (const char *)raw_req.data(), (int)raw_req.size(), 0);
 #else
-    ::send(_sockfd, rawReq.data(), rawReq.size(), 0);
+    ::send(_sockfd, raw_req.data(), raw_req.size(), 0);
 #endif
 
     return raw_req;
@@ -105,10 +105,10 @@ std::vector<uint8_t> Connection::send_exception(const MB::ModbusException &ex)
 
 std::vector<uint8_t> Connection::await_raw_message()
 {
-    pollfd pfd = {_sockfd, POLLIN, POLLIN};
+    pollfd _pfd = {_sockfd, POLLIN, POLLIN};
     if (
 #ifdef _WIN32
-        WSAPoll(&pfd, 1, 60 * 1000 /* 1 minute means the connection has died */) <= 0
+        WSAPoll(&_pfd, 1, 60 * 1000 /* 1 minute means the connection has died */) <= 0
 #else
         ::poll(&_pfd, 1, 60 * 1000 /* 1 minute means the connection has died */) <= 0
 #endif
@@ -140,9 +140,9 @@ std::vector<uint8_t> Connection::await_raw_message()
 MB::ModbusRequest Connection::await_request()
 {
 #ifdef _WIN32
-//  WSAPoll(&pfd, 1, 60 * 1000 /* 1 minute means the connection has died */) <= 0
+//  WSAPoll(&_pfd, 1, 60 * 1000 /* 1 minute means the connection has died */) <= 0
 #else
-    pollfd pfd = {_sockfd, POLLIN, POLLIN};
+    pollfd _pfd = {_sockfd, POLLIN, POLLIN};
     if (::poll(&_pfd, 1, 60 * 1000 /* 1 minute means the connection has died */) <= 0) {
         throw MB::ModbusException(MB::Utils::Timeout);
     }
@@ -179,9 +179,9 @@ MB::ModbusRequest Connection::await_request()
 MB::ModbusResponse Connection::await_response()
 {
 #ifdef _WIN32
-//  WSAPoll(&pfd, 1, 60 * 1000 /* 1 minute means the connection has died */) <= 0
+//  WSAPoll(&_pfd, 1, 60 * 1000 /* 1 minute means the connection has died */) <= 0
 #else
-    pollfd pfd = {_sockfd, POLLIN, POLLIN};
+    pollfd _pfd = {_sockfd, POLLIN, POLLIN};
     if (::poll(&_pfd, 1, 60 * 1000 /* 1 minute means the connection has died */) <= 0) {
         throw MB::ModbusException(MB::Utils::Timeout);
     }

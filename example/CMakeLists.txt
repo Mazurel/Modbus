@@ -1,2 +1,3 @@
 add_subdirectory(modbus_tcp_slave)
 add_subdirectory(request)
+add_subdirectory(tcp_server)

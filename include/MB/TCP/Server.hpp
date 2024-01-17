@@ -10,7 +10,6 @@
 #    pragma comment(lib, "ws2_32.lib")
 #elif __APPLE__
 #else
-#    include <libnet.h>
 #    include <netinet/in.h>
 #    include <sys/socket.h>
 #endif

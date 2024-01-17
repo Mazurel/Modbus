@@ -1,10 +1,10 @@
 set(
   MODBUS_TCP_HEADER_FILES
-  ${MODBUS_HEADER_FILES_DIR}/TCP/connection.hpp
-  ${MODBUS_HEADER_FILES_DIR}/TCP/server.hpp
+  ${MODBUS_HEADER_FILES_DIR}/TCP/Connection.hpp
+  ${MODBUS_HEADER_FILES_DIR}/TCP/Server.hpp
 )
 
-set(MODBUS_TCP_SOURCE_FILES connection.cpp server.cpp)
+set(MODBUS_TCP_SOURCE_FILES Connection.cpp Server.cpp)
 
 add_library(Modbus_TCP)
 
