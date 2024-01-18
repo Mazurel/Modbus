@@ -24,7 +24,7 @@ int main()
     cell[6] = MB::ModbusCell::init_reg(7);
     cell[17] = MB::ModbusCell::init_reg(0xFFFF);
 
-    MB::ModbusResponse resp(1, MB::Utils::ReadAnalogOutputHoldingRegisters, 0x1F0, 18, cell);
+    MB::ModbusResponse resp(1, MB::Utils::ReadAnalogOutputHoldingRegisters, 0x40C, 18, cell);
 
     while (true) {
         auto conn = slave.await_connection();
@@ -49,7 +49,7 @@ int main()
                     throw MB::ModbusException(MB::Utils::MBErrorCode::IllegalFunction);
                 }
 
-                if (req.register_address() != 0x1F0) {
+                if (req.register_address() != 0x40C) {
                     throw MB::ModbusException(MB::Utils::MBErrorCode::IllegalDataAddress);
                 }
 

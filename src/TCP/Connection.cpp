@@ -27,16 +27,13 @@ std::vector<uint8_t> Connection::send_request(const MB::ModbusRequest &req)
     std::vector<uint8_t> raw_req;
     raw_req.reserve(6);
 
-    raw_req.push_back(reinterpret_cast<const uint8_t *>(&_message_id)[1]);
-    raw_req.push_back(reinterpret_cast<const uint8_t *>(&_message_id)[0]);
+    Utils::push_uint16(raw_req, _message_id);
     raw_req.push_back(0x00);
     raw_req.push_back(0x00);
 
     std::vector<uint8_t> dat = req.to_raw();
 
-    size_t size = dat.size();
-    raw_req.push_back(reinterpret_cast<uint16_t *>(&size)[1]);
-    raw_req.push_back(reinterpret_cast<uint16_t *>(&size)[0]);
+    Utils::push_uint16(raw_req, (uint16_t)dat.size());
 
     raw_req.insert(raw_req.end(), dat.begin(), dat.end());
 
@@ -50,16 +47,13 @@ std::vector<uint8_t> Connection::send_response(const MB::ModbusResponse &res)
     std::vector<uint8_t> raw_req;
     raw_req.reserve(6);
 
-    raw_req.push_back(reinterpret_cast<const uint8_t *>(&_message_id)[1]);
-    raw_req.push_back(reinterpret_cast<const uint8_t *>(&_message_id)[0]);
+    Utils::push_uint16(raw_req, _message_id);
     raw_req.push_back(0x00);
     raw_req.push_back(0x00);
 
     std::vector<uint8_t> dat = res.to_raw();
 
-    size_t size = dat.size();
-    raw_req.push_back(reinterpret_cast<uint16_t *>(&size)[1]);
-    raw_req.push_back(reinterpret_cast<uint16_t *>(&size)[0]);
+    Utils::push_uint16(raw_req, (uint16_t)dat.size());
 
     raw_req.insert(raw_req.end(), dat.begin(), dat.end());
 
@@ -73,16 +67,13 @@ std::vector<uint8_t> Connection::send_exception(const MB::ModbusException &ex)
     std::vector<uint8_t> raw_req;
     raw_req.reserve(6);
 
-    raw_req.push_back(reinterpret_cast<const uint8_t *>(&_message_id)[1]);
-    raw_req.push_back(reinterpret_cast<const uint8_t *>(&_message_id)[0]);
+    Utils::push_uint16(raw_req, _message_id);
     raw_req.push_back(0x00);
     raw_req.push_back(0x00);
 
     std::vector<uint8_t> dat = ex.to_raw();
 
-    size_t size = dat.size();
-    raw_req.push_back(reinterpret_cast<uint16_t *>(&size)[1]);
-    raw_req.push_back(reinterpret_cast<uint16_t *>(&size)[0]);
+    Utils::push_uint16(raw_req, (uint16_t)dat.size());
 
     raw_req.insert(raw_req.end(), dat.begin(), dat.end());
 
@@ -214,7 +205,7 @@ Connection::Connection(Connection &&moved) noexcept
     moved._sockfd = -1;
 }
 
-Connection Connection::with(std::string addr, int port)
+Connection Connection::with(const std::string &addr, int port)
 {
     auto sock = socket(AF_INET, SOCK_STREAM, 0);
     if (sock == -1) {

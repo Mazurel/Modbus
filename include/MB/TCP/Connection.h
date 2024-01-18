@@ -61,7 +61,7 @@ class MODBUS_EXPORT Connection
 
     [[nodiscard]] uint64_t get_sockfd() const { return _sockfd; }
 
-    static Connection with(std::string addr, int port);
+    static Connection with(const std::string &addr, int port);
 
     std::vector<uint8_t> send_request(const MB::ModbusRequest &req);
     std::vector<uint8_t> send_response(const MB::ModbusResponse &res);
