@@ -139,7 +139,7 @@ MB::ModbusRequest Connection::await_request()
     r.resize(size);  // Set vector to proper shape
     r.shrink_to_fit();
 
-    const auto result_message_id = *reinterpret_cast<uint16_t *>(&r[0]);
+    const uint16_t result_message_id = (uint16_t)r[0] << 8 | r[1];
 
     _message_id = result_message_id;
 
@@ -175,7 +175,7 @@ MB::ModbusResponse Connection::await_response()
     r.resize(size);  // Set vector to proper shape
     r.shrink_to_fit();
 
-    const auto result_message_id = *reinterpret_cast<uint16_t *>(&r[0]);
+    const uint16_t result_message_id = (uint16_t)r[0] << 8 | r[1];
 
     if (result_message_id != _message_id) {
         throw MB::ModbusException(MB::Utils::InvalidMessageID);
