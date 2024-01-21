@@ -90,8 +90,9 @@ ModbusResponse::ModbusResponse(std::vector<uint8_t> input_data, bool crc)
         _values.resize(_registers_number);
 
         if (crc) {
-            if (crc_index == -1 || static_cast<size_t>(crc_index) + 2 > input_data.size())
+            if (crc_index == -1 || static_cast<size_t>(crc_index) + 2 > input_data.size()) {
                 throw ModbusException(Utils::InvalidByteOrder);
+            }
 
             auto recieved_crc = *reinterpret_cast<const uint16_t *>(&input_data[crc_index]);
             auto my_crc = Utils::calculate_crc(input_data.data(), crc_index);

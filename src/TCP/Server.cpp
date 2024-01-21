@@ -50,7 +50,7 @@ Server::~Server()
 #endif
 }
 
-std::optional<Connection> Server::await_connection()
+std::optional<Connection> Server::await_connection() const
 {
     sockaddr_in client_address;
 
@@ -59,7 +59,7 @@ std::optional<Connection> Server::await_connection()
     SOCKET client_sock = accept(_serverfd, (struct sockaddr *)&client_address, &client_len);
 #else
     socklen_t client_len = sizeof(client_address);
-    int client_sock = accept(_serverfd, (struct sockaddr *)&client_address, &client_len);
+    const int client_sock = accept(_serverfd, (struct sockaddr *)&client_address, &client_len);
 #endif
 
     if (client_sock == -1) {

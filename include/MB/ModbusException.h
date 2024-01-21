@@ -3,6 +3,7 @@
 #include <cstdint>
 #include <cstring>
 #include <stdexcept>
+#include <string>
 #include <vector>
 
 #include "ModbusUtils.h"
@@ -13,27 +14,31 @@ namespace MB {
 class ModbusException : public std::exception
 {
   public:
-    /// @brief Constructs Exception from raw data
-    /// @param inputData is vector of bytes that will be be interpreted
-    /// @param CRC based on this param method performs CRC calculation and throws exception if it is invalid
-    /// @note if CRC = true input data needs to contain 2 CRC bytes on back (used in RS)
+    /// @brief 从原始数据构造Exception
+    /// @param[in] input_data 将被解释的字节向量
+    /// @param[in] crc 基于此参数方法执行CRC计算，如果无效则抛出异常
+    /// @note 如果CRC = true输入数据需要包含2个CRC字节在背面(在RS中使用)
     explicit ModbusException(const std::vector<uint8_t> &input_data, bool crc = false) noexcept;
 
-    //! Constructs Exception based on error code, function code and slaveId
+    /// @brief 基于错误码、函数码和从站id构造Exception
+    /// @param[in] error_code
+    /// @param[in] slave_id
+    /// @param[in] function_code
     explicit ModbusException(Utils::MBErrorCode error_code, uint8_t slave_id = 0xFF,
                              Utils::MBFunctionCode function_code = Utils::Undefined) noexcept
         : _slave_id(slave_id), _valid_slave(true), _error_code(error_code), _function_code(function_code)
     {
     }
 
-    /// @brief Check if there is Modbus error in raw modbus input
-    /// @note this method doesn't detect invalid byte order, byte order is checked at @see ModbusRequest/ @see
-    /// ModbusResponse
+    /// @brief 检查Modbus输入是否有Modbus错误
+    /// @note 这个方法不会检测到无效的字节顺序，字节顺序在 @see ModbusRequest / @see ModbusResponse中检查。
     /// @param input_data
     /// @return bool
+    /// @retval true 存在
+    /// @retval false 不存在
     static bool exist(const std::vector<uint8_t> &input_data) noexcept
     {
-        if (input_data.size() < 2) {  // TODO Figure out better solution to such mistake
+        if (input_data.size() < 2) {  // TODO 找出解决这种错误的更好办法
             return false;
         }
 
@@ -45,11 +50,11 @@ class ModbusException : public std::exception
     /// @return uint8_t
     [[nodiscard]] uint8_t slave_id() const noexcept { return _slave_id; }
 
-    /// @brief Checks if slave id is specified
+    /// @brief 检查从站是否有效
     /// @return bool
     [[nodiscard]] bool is_slave_valid() const noexcept { return _valid_slave; }
 
-    /// @brief  Sets slave id
+    /// @brief 设置从站id
     /// @param slave_id
     void set_slave_id(uint8_t slave_id) noexcept
     {
@@ -57,24 +62,28 @@ class ModbusException : public std::exception
         _slave_id = slave_id;
     }
 
-    /// @brief Returns detected error code
-    /// @return
+    /// @brief 返回检测到的错误代码
+    /// @return Utils::MBErrorCode
     [[nodiscard]] Utils::MBErrorCode get_error_code() const noexcept { return _error_code; }
 
-    /// @brief 这个函数不是最优的，它只是为了与std:: exception兼容。您最好使用to_string()
-    /// @return
+    /// @brief 返回错误消息内容
+    /// @return const char*
     [[nodiscard]] const char *what() const noexcept override;
 
-    /// @brief 返回对象的字符串表示形式
-    /// @return
+    /// @brief 返回异常的字符串表示形式
+    /// @return std::string
     [[nodiscard]] std::string to_string() const noexcept;
 
     /// @brief 将对象转换为modbus字节表示
-    /// @return
+    /// @return std::vector<uint8_t>
     [[nodiscard]] std::vector<uint8_t> to_raw() const noexcept;
 
+    /// @brief
+    /// @return Utils::MBFunctionCode
     [[nodiscard]] Utils::MBFunctionCode function_code() const noexcept { return _function_code; }
 
+    /// @brief Set the function code object
+    /// @param[in] function_code
     void set_function_code(Utils::MBFunctionCode function_code) noexcept { _function_code = function_code; }
 
   private:
@@ -82,6 +91,8 @@ class ModbusException : public std::exception
     bool _valid_slave{false};
     Utils::MBErrorCode _error_code;
     Utils::MBFunctionCode _function_code{Utils::MBFunctionCode::Undefined};
+
+    mutable std::string _error_message{};
 };
 
 }  // namespace MB

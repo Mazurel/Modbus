@@ -7,7 +7,6 @@
 #ifdef _WIN32
 #    include <winsock2.h>
 #    include <ws2tcpip.h>
-#elif __APPLE__
 #else
 #    include <arpa/inet.h>
 #    include <fcntl.h>
@@ -77,7 +76,12 @@ class MODBUS_EXPORT Connection
     void set_message_id(uint16_t message_id) { _message_id = message_id; }
 
   private:
-    uint64_t _sockfd{uint64_t(-1)};
+#ifdef _WIN32
+    SOCKET _sockfd;
+#else
+    int _sockfd;
+#endif
+
     uint16_t _message_id{0};
     int _timeout = Connection::default_tcp_timeout;
 };

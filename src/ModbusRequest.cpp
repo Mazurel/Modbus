@@ -65,7 +65,7 @@ ModbusRequest::ModbusRequest(const std::vector<uint8_t> &input_data, bool crc)
                 _registers_number = Utils::big_endian_conv(&input_data[4]);
                 follow = (int8_t)input_data[6];
                 _values = std::vector<ModbusCell>(_registers_number);
-                for (int8_t i = 0; i < _registers_number; i++) {
+                for (uint16_t i = 0; i < _registers_number; i++) {
                     _values[i].coil() = input_data[7 + (i / 8)] & (1 << (i % 8));
                 }
                 crc_index = 6 + follow + 1;
@@ -74,7 +74,7 @@ ModbusRequest::ModbusRequest(const std::vector<uint8_t> &input_data, bool crc)
                 _registers_number = Utils::big_endian_conv(&input_data[4]);
                 follow = (int8_t)input_data[6];
                 _values = std::vector<ModbusCell>(_registers_number);
-                for (int8_t i = 0; i < _registers_number; i++) {
+                for (uint16_t i = 0; i < _registers_number; i++) {
                     _values[i].reg() = Utils::big_endian_conv(&input_data[i * 2 + 7]);
                 }
                 crc_index = 6 + follow + 1;
@@ -86,8 +86,9 @@ ModbusRequest::ModbusRequest(const std::vector<uint8_t> &input_data, bool crc)
         _values.resize(_registers_number);
 
         if (crc) {
-            if (crc_index == -1 || static_cast<size_t>(crc_index) + 2 > input_data.size())
+            if (crc_index == -1 || static_cast<size_t>(crc_index) + 2 > input_data.size()) {
                 throw ModbusException(Utils::InvalidByteOrder);
+            }
 
             auto recv_crc = *reinterpret_cast<const uint16_t *>(&input_data[crc_index]);
             auto my_crc = Utils::calculate_crc(input_data.data(), crc_index);

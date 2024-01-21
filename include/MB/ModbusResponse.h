@@ -47,8 +47,9 @@ class MODBUS_EXPORT ModbusResponse
     /// @param[in] address
     /// @param[in] registers_number
     /// @param[in] values
-    ModbusResponse(uint8_t slave_id = 0, Utils::MBFunctionCode function_code = static_cast<Utils::MBFunctionCode>(0),
-                   uint16_t address = 0, uint16_t registers_number = 0, std::vector<ModbusCell> values = {});
+    explicit ModbusResponse(uint8_t slave_id = 0,
+                            Utils::MBFunctionCode function_code = static_cast<Utils::MBFunctionCode>(0),
+                            uint16_t address = 0, uint16_t registers_number = 0, std::vector<ModbusCell> values = {});
 
     ModbusResponse(const ModbusResponse &) = default;
 

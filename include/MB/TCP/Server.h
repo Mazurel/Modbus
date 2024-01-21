@@ -7,7 +7,6 @@
 #ifdef _WIN32
 #    include <winsock2.h>
 #    pragma comment(lib, "ws2_32.lib")
-#elif __APPLE__
 #else
 #    include <netinet/in.h>
 #    include <sys/socket.h>
@@ -46,7 +45,7 @@ class MODBUS_EXPORT Server
 
     [[nodiscard]] int native_handle() const { return (int)_serverfd; }
 
-    std::optional<Connection> await_connection();
+    [[nodiscard]] std::optional<Connection> await_connection() const;
 
   private:
 #ifdef _WIN32

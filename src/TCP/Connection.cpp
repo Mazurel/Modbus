@@ -19,7 +19,8 @@ Connection::~Connection()
 #else
     close(_sockfd);
 #endif
-    _sockfd = (uint64_t)(-1);
+
+    _sockfd = -1;
 }
 
 std::vector<uint8_t> Connection::send_request(const MB::ModbusRequest &req)
@@ -212,7 +213,10 @@ Connection Connection::with(const std::string &addr, int port)
         throw std::runtime_error("Cannot open socket, errno = " + std::to_string(errno));
     }
 
-    sockaddr_in server = {AF_INET, htons(port), {(unsigned char)inet_addr(addr.c_str())}, {}};
+    sockaddr_in server;
+    server.sin_family = AF_INET;
+    server.sin_port = htons(port);
+    server.sin_addr.s_addr = inet_addr(addr.c_str());
 
     if (connect(sock, reinterpret_cast<struct sockaddr *>(&server), sizeof(server)) < 0) {
         throw std::runtime_error("Cannot connect, errno = " + std::to_string(errno));
