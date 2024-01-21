@@ -56,7 +56,7 @@ std::optional<Connection> Server::await_connection() const
 
 #ifdef _WIN32
     int client_len = sizeof(client_address);
-    SOCKET client_sock = accept(_serverfd, (struct sockaddr *)&client_address, &client_len);
+    const SOCKET client_sock = accept(_serverfd, (struct sockaddr *)&client_address, &client_len);
 #else
     socklen_t client_len = sizeof(client_address);
     const int client_sock = accept(_serverfd, (struct sockaddr *)&client_address, &client_len);

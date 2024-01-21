@@ -23,7 +23,7 @@ Connection::~Connection()
     _sockfd = -1;
 }
 
-std::vector<uint8_t> Connection::send_request(const MB::ModbusRequest &req)
+std::vector<uint8_t> Connection::send_request(const MB::ModbusRequest &req) const
 {
     std::vector<uint8_t> raw_req;
     raw_req.reserve(6);
@@ -43,7 +43,7 @@ std::vector<uint8_t> Connection::send_request(const MB::ModbusRequest &req)
     return raw_req;
 }
 
-std::vector<uint8_t> Connection::send_response(const MB::ModbusResponse &res)
+std::vector<uint8_t> Connection::send_response(const MB::ModbusResponse &res) const
 {
     std::vector<uint8_t> raw_req;
     raw_req.reserve(6);
@@ -63,7 +63,7 @@ std::vector<uint8_t> Connection::send_response(const MB::ModbusResponse &res)
     return raw_req;
 }
 
-std::vector<uint8_t> Connection::send_exception(const MB::ModbusException &ex)
+std::vector<uint8_t> Connection::send_exception(const MB::ModbusException &ex) const
 {
     std::vector<uint8_t> raw_req;
     raw_req.reserve(6);
@@ -222,7 +222,7 @@ Connection Connection::with(const std::string &addr, int port)
         throw std::runtime_error("Cannot connect, errno = " + std::to_string(errno));
     }
 
-    return Connection((uint64_t)sock);
+    return Connection(sock);
 }
 
 }  // namespace MB::TCP

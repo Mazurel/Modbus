@@ -62,9 +62,9 @@ class MODBUS_EXPORT Connection
 
     static Connection with(const std::string &addr, int port);
 
-    std::vector<uint8_t> send_request(const MB::ModbusRequest &req);
-    std::vector<uint8_t> send_response(const MB::ModbusResponse &res);
-    std::vector<uint8_t> send_exception(const MB::ModbusException &ex);
+    std::vector<uint8_t> send_request(const MB::ModbusRequest &req) const;
+    std::vector<uint8_t> send_response(const MB::ModbusResponse &res) const;
+    std::vector<uint8_t> send_exception(const MB::ModbusException &ex) const;
 
     [[nodiscard]] MB::ModbusRequest await_request();
     [[nodiscard]] MB::ModbusResponse await_response();
