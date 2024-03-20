@@ -18,7 +18,7 @@ When I was working on my last project and tried to find a good c++ Modbus librar
 That is why I have decided to share my own implementation of it.
 
 # Important Concept
-This library is **mainly** for providing Modbus logic, it doesnt aim to have best communiaction implementation.
+This library is **mainly** for providing Modbus logic, it doesnt aim to have best communication implementation.
 It gives user ability to create Modbus frames in high level api and convert them to raw bytes or show them as string.
 That is why *Modbus Core* is OS independent and can be easily used with other communication frameworks.
 
