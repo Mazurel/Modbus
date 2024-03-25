@@ -1,8 +1,7 @@
-#include "ModbusException.hpp"
+#include "ModbusException.h"
 
 namespace MB {
 
-// Construct Modbus exception from raw data
 ModbusException::ModbusException(const std::vector<uint8_t> &input_data, bool crc) noexcept
 {
     if (input_data.size() != ((crc) ? 5 : 3)) {
@@ -28,7 +27,6 @@ ModbusException::ModbusException(const std::vector<uint8_t> &input_data, bool cr
     }
 }
 
-// Returns string representation of exception
 std::string ModbusException::to_string() const noexcept
 {
     std::string res;
@@ -45,6 +43,7 @@ std::string ModbusException::to_string() const noexcept
         res += Utils::modbus_function_to_str(_function_code);
         res += " )";
     }
+
     return res;
 }
 
@@ -57,6 +56,12 @@ std::vector<uint8_t> ModbusException::to_raw() const noexcept
     result[2] = static_cast<uint8_t>(_function_code);
 
     return result;
+}
+
+const char *ModbusException::what() const noexcept
+{
+    _error_message = to_string();
+    return _error_message.c_str();
 }
 
 }  // namespace MB
