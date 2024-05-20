@@ -4,20 +4,16 @@
 
 #pragma once
 
-#include <memory>
-#include <type_traits>
+#include <string>
+#include <vector>
 
-#include <cerrno>
-#include <libnet.h>
-#include <netinet/in.h>
-#include <poll.h>
-#include <sys/socket.h>
+#include "../modbusException.hpp"
+#include "../modbusRequest.hpp"
+#include "../modbusResponse.hpp"
 
-#include "MB/modbusException.hpp"
-#include "MB/modbusRequest.hpp"
-#include "MB/modbusResponse.hpp"
+namespace MB {
+namespace TCP {
 
-namespace MB::TCP {
 class Connection {
 public:
   static const unsigned int DefaultTCPTimeout = 500;
@@ -27,28 +23,18 @@ private:
   uint16_t _messageID = 0;
   int _timeout = Connection::DefaultTCPTimeout;
 
+  void closeSockfd(void);
+
 public:
   explicit Connection() noexcept : _sockfd(-1), _messageID(0){};
   explicit Connection(int sockfd) noexcept;
   Connection(const Connection &copy) = delete;
   Connection(Connection &&moved) noexcept;
-  Connection &operator=(Connection &&other) noexcept {
-    if (this == &other)
-      return *this;
-
-    if (_sockfd != -1 && _sockfd != other._sockfd)
-      ::close(_sockfd);
-
-    _sockfd = other._sockfd;
-    _messageID = other._messageID;
-    other._sockfd = -1;
-
-    return *this;
-  }
+  Connection& operator=(Connection&& other) noexcept;
 
   [[nodiscard]] int getSockfd() const { return _sockfd; }
 
-  static Connection with(std::string addr, int port);
+  static Connection with(const std::string &addr, int port);
 
   ~Connection();
 
@@ -65,4 +51,4 @@ public:
 
   void setMessageId(uint16_t messageId) { _messageID = messageId; }
 };
-} // namespace MB::TCP
+}} // namespace MB::TCP

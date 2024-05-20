@@ -85,7 +85,11 @@ public:
   [[nodiscard]] const char *what() const noexcept override {
     auto og = toString();
     char *str = new char[og.size()];
+#ifdef _WIN32
+    strncpy_s(str, og.size(), og.c_str(), og.size());
+#else
     stpcpy(str, og.c_str());
+#endif
     return str;
   }
 

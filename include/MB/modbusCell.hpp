@@ -7,6 +7,7 @@
 #include <cstdint>
 #include <stdexcept>
 #include <variant>
+#include <string>
 
 /**
  * Namespace that contains whole project
@@ -18,7 +19,7 @@ namespace MB {
  */
 class ModbusCell {
 private:
-  std::variant<uint16_t, bool> _value;
+    std::variant<uint16_t, bool> _value;
 
 public:
   /**

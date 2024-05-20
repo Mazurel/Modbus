@@ -16,7 +16,9 @@
  * Namespace that contains many useful utility functions and enums
  * that are used in the whole project.
  */
-namespace MB::utils {
+namespace MB {
+namespace utils {
+
 /*! All possible modbus error codes
  * @note Contains custom, non standard codes
  */
@@ -257,7 +259,7 @@ inline uint16_t calculateCRC(const uint8_t *buff, size_t len) {
 
 //! Calculate CRC wrapper
 inline uint16_t calculateCRC(const std::vector<uint8_t> &buffer) {
-  return calculateCRC(buffer.begin().base(), buffer.size());
+  return calculateCRC(buffer.data(), buffer.size());
 }
 
 //! Split uint16_t to two uint8_t in big endian form
@@ -275,4 +277,4 @@ inline void pushUint16(std::vector<uint8_t>& buffer, const uint16_t val) {
   buffer.push_back(low);
 }
 
-} // namespace MB::utils
+}} // namespace MB::utils

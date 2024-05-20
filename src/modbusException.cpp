@@ -24,7 +24,7 @@ ModbusException::ModbusException(const std::vector<uint8_t> &inputData,
 
   if (CRC) {
     auto CRC = *reinterpret_cast<const uint16_t *>(&inputData[3]);
-    auto calculatedCRC = utils::calculateCRC(inputData.begin().base(), 3);
+    auto calculatedCRC = utils::calculateCRC(inputData.data(), 3);
 
     if (CRC != calculatedCRC) {
       _errorCode = utils::ErrorCodeCRCError;
@@ -54,8 +54,8 @@ std::vector<uint8_t> ModbusException::toRaw() const noexcept {
   std::vector<uint8_t> result(3);
 
   result[0] = _slaveId;
-  result[1] = static_cast<uint8_t>(_errorCode | 0b10000000);
-  result[2] = static_cast<uint8_t>(_functionCode);
+  result[1] = static_cast<uint8_t>(_functionCode | 0b10000000);
+  result[2] = static_cast<uint8_t>(_errorCode);
 
   return result;
 }
