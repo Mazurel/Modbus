@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['reg_27',['reg',['../classMB_1_1ModbusCell.html#a07ff3991875f54c85affdc07e4c26fbb',1,'MB::ModbusCell::reg()'],['../classMB_1_1ModbusCell.html#a783e3b1e2e0ee1c819e77f8eda22ef8a',1,'MB::ModbusCell::reg() const']]]
+  ['how_20to_20install_20it_0',['How to install it ?',['../index.html#autotoc_md7',1,'']]],
+  ['how_20to_20learn_20modbus_1',['How to learn Modbus ?',['../index.html#autotoc_md6',1,'']]]
 ];

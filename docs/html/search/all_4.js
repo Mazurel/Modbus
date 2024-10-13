@@ -1,9 +1,7 @@
 var searchData=
 [
-  ['initcoil_9',['initCoil',['../classMB_1_1ModbusCell.html#aa7aa19c9be4c990fc16fcde1c027e485',1,'MB::ModbusCell']]],
-  ['initreg_10',['initReg',['../classMB_1_1ModbusCell.html#a890610419b58a1ec8f7e5cffa6a69d72',1,'MB::ModbusCell']]],
-  ['iscoil_11',['isCoil',['../classMB_1_1ModbusCell.html#a282399413ae7f24830680bbd46c8757b',1,'MB::ModbusCell']]],
-  ['isreg_12',['isReg',['../classMB_1_1ModbusCell.html#a517c883a6008a6df97aeed57fdbb9126',1,'MB::ModbusCell']]],
-  ['isslavevalid_13',['isSlaveValid',['../classMB_1_1ModbusException.html#a2d93520088d9adac402b4558a7441d80',1,'MB::ModbusException']]],
-  ['isstandarderrorcode_14',['isStandardErrorCode',['../namespaceMB_1_1utils.html#a7aa22230ea192f06612fbc809fca2335',1,'MB::utils']]]
+  ['from_0',['from',['../classMB_1_1ModbusResponse.html#a637d66a0504981767fc185f64f57059c',1,'MB::ModbusResponse']]],
+  ['functionregister_1',['functionRegister',['../namespaceMB_1_1utils.html#ad967d0ef18fecbc1a231143db3793991',1,'MB::utils']]],
+  ['functionregisters_2',['functionRegisters',['../classMB_1_1ModbusRequest.html#a8097a0866398cef7f1244ca7ca412062',1,'MB::ModbusRequest']]],
+  ['functiontype_3',['functionType',['../classMB_1_1ModbusRequest.html#a22966d0c19bb79c4e8cf03edb5b74a4e',1,'MB::ModbusRequest::functionType()'],['../namespaceMB_1_1utils.html#ab24a81a029cf6c4765eab5d74b7d8dff',1,'MB::utils::functionType()']]]
 ];

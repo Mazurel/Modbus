@@ -1,7 +1,10 @@
 var searchData=
 [
-  ['from_4',['from',['../classMB_1_1ModbusResponse.html#a637d66a0504981767fc185f64f57059c',1,'MB::ModbusResponse']]],
-  ['functionregister_5',['functionRegister',['../namespaceMB_1_1utils.html#ad967d0ef18fecbc1a231143db3793991',1,'MB::utils']]],
-  ['functionregisters_6',['functionRegisters',['../classMB_1_1ModbusRequest.html#a8097a0866398cef7f1244ca7ca412062',1,'MB::ModbusRequest']]],
-  ['functiontype_7',['functionType',['../classMB_1_1ModbusRequest.html#a22966d0c19bb79c4e8cf03edb5b74a4e',1,'MB::ModbusRequest::functionType()'],['../namespaceMB_1_1utils.html#ab24a81a029cf6c4765eab5d74b7d8dff',1,'MB::utils::functionType()']]]
+  ['calculatecrc_0',['calculateCRC',['../namespaceMB_1_1utils.html#aa419ed339bbdacd4108fb5cc1cd14539',1,'MB::utils::calculateCRC(const uint8_t *buff, size_t len)'],['../namespaceMB_1_1utils.html#a102e7bc4008a2658a5db76a9b70bec97',1,'MB::utils::calculateCRC(const std::vector&lt; uint8_t &gt; &amp;buffer)']]],
+  ['cmake_20and_20git_1',['Using CMAKE and git',['../index.html#autotoc_md8',1,'']]],
+  ['coil_2',['coil',['../classMB_1_1ModbusCell.html#a8d0771f1c9b700dfd479c03f427fc195',1,'MB::ModbusCell::coil()'],['../classMB_1_1ModbusCell.html#a431d6e379b18657ddbb2a84fcd947f83',1,'MB::ModbusCell::coil() const']]],
+  ['concept_3',['Important Concept',['../index.html#autotoc_md2',1,'']]],
+  ['connection_4',['Connection',['../classMB_1_1Serial_1_1Connection.html',1,'MB::Serial::Connection'],['../classMB_1_1TCP_1_1Connection.html',1,'MB::TCP::Connection']]],
+  ['content_5',['Table of content',['../index.html#autotoc_md0',1,'']]],
+  ['cpp_6',['Modbus cpp',['../index.html',1,'']]]
 ];

@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['toraw_65',['toRaw',['../classMB_1_1ModbusException.html#a3f288bfe0b2b0f646ab0019faae78142',1,'MB::ModbusException::toRaw()'],['../classMB_1_1ModbusRequest.html#a869361ddbd05931ca0dbcebe688b0cb3',1,'MB::ModbusRequest::toRaw()']]],
-  ['tostring_66',['toString',['../classMB_1_1ModbusCell.html#ab1af80c9aa58f7d02d79cb5fe6085c62',1,'MB::ModbusCell::toString()'],['../classMB_1_1ModbusException.html#a29d776e7ae321fbeba28a25df5159c79',1,'MB::ModbusException::toString()'],['../classMB_1_1ModbusRequest.html#a6d08428234559ffb96e5ef956b859442',1,'MB::ModbusRequest::toString()'],['../classMB_1_1ModbusResponse.html#ac5ff14306fc2b4886241602e6cdfd12e',1,'MB::ModbusResponse::toString()']]]
+  ['send_0',['send',['../classMB_1_1Serial_1_1Connection.html#a1df3d9e4323cfc0bf4f1a54c3fd07ee8',1,'MB::Serial::Connection']]],
+  ['setslaveid_1',['setSlaveID',['../classMB_1_1ModbusException.html#a344445f1b157f5e5d66946cd893c72fd',1,'MB::ModbusException']]],
+  ['splituint16_2',['splitUint16',['../namespaceMB_1_1utils.html#a370eb8cec7aed7dedd555c231fe46094',1,'MB::utils']]]
 ];
