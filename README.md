@@ -22,7 +22,7 @@ That is why I have decided to share my own implementation of Modbus.
 # Important Concept
 
 This library is **mainly** for providing Modbus logic.
-It doesnt aim to have best communiaction implementation, as it is usually HW-specific.
+It doesnt aim to have best communication implementation, as it is usually HW-specific.
 It gives user ability to create Modbus frames using high level api and convert them to raw bytes or show them as string.
 That is why *Modbus Core* is OS independent and can be easily used with other communication frameworks,
 assuming that you compiler supports at least C++17.
