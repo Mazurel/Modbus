@@ -33,7 +33,8 @@ ModbusException::ModbusException(const std::vector<uint8_t> &inputData,
 
     if (checkCRC) {
         const auto actualCrc = *reinterpret_cast<const uint16_t *>(&inputData[3]);
-        const uint16_t calculatedCRC = MB::CRC::calculateCRC(inputData, PACKET_SIZE_WITHOUT_CRC);
+        const uint16_t calculatedCRC =
+            MB::CRC::calculateCRC(inputData, PACKET_SIZE_WITHOUT_CRC);
 
         if (actualCrc != calculatedCRC) {
             _errorCode = utils::ErrorCodeCRCError;

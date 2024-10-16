@@ -1,5 +1,5 @@
 // Modbus for c++ <https://github.com/Mazurel/Modbus>
-// Copyright (c) 2020 Mateusz Mazur aka Mazurel
+// Copyright (c) 2024 Mateusz Mazur aka Mazurel
 // Licensed under: MIT License <http://opensource.org/licenses/MIT>
 
 #pragma once
@@ -95,7 +95,12 @@ class ModbusException : public std::exception {
 
     //! Returns string representation of object
     [[nodiscard]] std::string toString() const noexcept;
-    //! Converts object to modbus byte representation
+    /**
+     * @brief Convert Modbus request object into the vector of bytes,
+     * representing modbus frame, ready to be sent over HW interface
+     *
+     * @throws ModbusException - if modbus data in the object is invalid
+     */
     [[nodiscard]] std::vector<uint8_t> toRaw() const noexcept;
 
     [[nodiscard]] utils::MBFunctionCode functionCode() const noexcept {

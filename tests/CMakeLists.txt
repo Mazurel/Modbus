@@ -11,6 +11,7 @@ set(TestFiles MB/ModbusRequestTests.cpp
   MB/ModbusResponseTests.cpp
   MB/ModbusExceptionTests.cpp
   MB/ModbusCellTests.cpp
+  MB/ModbusFunctionalTests.cpp
   main.cpp)
 
 add_executable(Google_Tests_run ${TestFiles})
