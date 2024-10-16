@@ -1,15 +1,15 @@
 // Modbus for c++ <https://github.com/Mazurel/Modbus>
-// Copyright (c) 2020 Mateusz Mazur aka Mazurel
+// Copyright (c) 2024 Mateusz Mazur aka Mazurel
 // Licensed under: MIT License <http://opensource.org/licenses/MIT>
 
 // This header files contain various utilities for Modbus Core library
 
 #pragma once
 
+#include <cassert>
 #include <cstdint>
 #include <stdexcept>
 #include <string>
-#include <tuple>
 #include <vector>
 
 #include "MB/crc.hpp"
@@ -35,14 +35,18 @@ enum MBErrorCode : uint8_t {
     GatewayPathUnavailable             = 0x10,
     GatewayTargetDeviceFailedToRespond = 0x11,
 
-    // Custom modbus errors
+    // Custom modbus errors for Modbus for C++ library
     ErrorCodeCRCError = 0b0111111,
     InvalidCRC        = 0b01111110,
     InvalidByteOrder  = 0b01111101,
     InvalidMessageID  = 0b01111100,
     ProtocolError     = 0b01111011,
     ConnectionClosed  = 0b01111010,
-    Timeout           = 0b01111001
+    Timeout           = 0b01111001,
+    // Specific for modbus response, when number of registers is too big
+    // See issue: https://github.com/Mazurel/Modbus/issues/3
+    NumberOfRegistersInvalid = 0b01111000,
+    NumberOfValuesInvalid    = 0b01110111,
 };
 
 //! Checks if error code is modbus standard error code
@@ -66,6 +70,7 @@ inline bool isStandardErrorCode(MBErrorCode code) {
     case ProtocolError:
     case ConnectionClosed:
     case Timeout:
+    case NumberOfRegistersInvalid:
     default:
         return false;
     }
@@ -108,9 +113,13 @@ inline std::string mbErrorCodeToStr(MBErrorCode code) noexcept {
         return "Connection is closed";
     case Timeout:
         return "Timeout";
-    default:
-        return "Undefined Error";
+    case NumberOfRegistersInvalid:
+        return "Number of registers in response is too big - cannot be serialized";
+    case NumberOfValuesInvalid:
+        return "Number of values is not valid";
     }
+
+    return "Unknown";
 }
 
 //! All modbus standard function codes + Undefined one
@@ -150,9 +159,10 @@ inline MBFunctionType functionType(const MBFunctionCode code) {
     case WriteMultipleAnalogOutputHoldingRegisters:
     case WriteMultipleDiscreteOutputCoils:
         return WriteMultiple;
-    default:
+    case Undefined:
         throw std::runtime_error("The function code is undefined");
     }
+    throw std::runtime_error("The function code is undefined");
 }
 
 //! Simplified register types
@@ -173,9 +183,10 @@ inline MBFunctionRegisters functionRegister(const MBFunctionCode code) {
         return HoldingRegisters;
     case ReadAnalogInputRegisters:
         return InputRegisters;
-    default:
+    case Undefined:
         throw std::runtime_error("The function code is undefined");
     }
+    throw std::runtime_error("The function code is undefined");
 }
 
 //! Converts modbus function code to its string represenatiton
@@ -197,9 +208,10 @@ inline std::string mbFunctionToStr(MBFunctionCode code) noexcept {
         return "Write to multiple holding registers";
     case WriteMultipleDiscreteOutputCoils:
         return "Write to multiple output coils";
-    default:
+    case Undefined:
         return "Undefined";
     }
+    return "Undefined";
 }
 
 //! Create uint16_t from buffer of two bytes, ex. { 0x01, 0x02 } => 0x0102
