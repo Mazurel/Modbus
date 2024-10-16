@@ -76,7 +76,7 @@ $(function() {
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md_README"></a> </p><h1>Modbus library for modern C++</h1>
 <p>Library for high level Modbus frame manipulation, including encoding and decoding, written in modern C++17.</p>
-<p>Additionally, library contains simple linux TCP and RTU implementation, that you can use as a starting point for you application !</p>
+<p>Additionally, library contains reference TCP and RTU implementation (on Linux only !), that you can use as a starting point for you application ! Until there will some reliable way to test it, it will be treated as such.</p>
 <h1><a class="anchor" id="autotoc_md0"></a>
 Table of content</h1>
 <ul>
@@ -93,13 +93,16 @@ Why</h1>
 <p>When I was working on my last project and tried to find a good C++ Modbus library (other than Qt) I was unable to find it. That is why I have decided to share my own implementation of Modbus.</p>
 <h1><a class="anchor" id="autotoc_md2"></a>
 Important Concept</h1>
-<p>This library is <b>mainly</b> for providing Modbus logic. It doesnt aim to have best communiaction implementation, as it is usually HW-specific. It gives user ability to create Modbus frames using high level api and convert them to raw bytes or show them as string. That is why <em>Modbus Core</em> is OS independent and can be easily used with other communication frameworks, assuming that you compiler supports at least C++17.</p>
+<p>This library is <b>mainly</b> for providing Modbus logic. It doesnt aim to have best communication implementation, as it is usually HW-specific. It gives user ability to create Modbus frames using high level api and convert them to raw bytes or show them as string. That is why <em>Modbus Core</em> is OS independent and can be easily used with other communication frameworks, assuming that you compiler supports at least C++17.</p>
 <p>Modbus communiaction module is <b>enabled</b> by default and works pretty well on linux. If you are using your own communication, be sure to disable it via cmake variable.</p>
 <h1><a class="anchor" id="autotoc_md3"></a>
 Possibilities</h1>
 <p>Quick example of what Modbus Core can do:</p>
-<p>Code: </p><div class="fragment"><div class="line"> ++</div>
-<div class="line"><span class="preprocessor">#include &lt;modbusRequest.hpp&gt;</span></div>
+<p>Code:</p>
+<div class="fragment"><div class="line"> ++</div>
+<div class="line"><span class="preprocessor">#include &quot;MB/modbusException.hpp&quot;</span></div>
+<div class="line"><span class="preprocessor">#include &quot;MB/modbusRequest.hpp&quot;</span></div>
+<div class="line"><span class="preprocessor">#include &quot;MB/modbusResponse.hpp&quot;</span></div>
 <div class="line"> </div>
 <div class="line"><span class="comment">// Create simple request</span></div>
 <div class="line"><a class="code hl_class" href="classMB_1_1ModbusRequest.html">MB::ModbusRequest</a> request(1, MB::utils::ReadDiscreteOutputCoils, 100, 10);</div>
@@ -112,9 +115,9 @@ Possibilities</h1>
 <div class="line">std::vector&lt;uint8_t&gt; rawed = request.toRaw();</div>
 <div class="line"> </div>
 <div class="line"><span class="comment">// Method for showing byte</span></div>
-<div class="line"><span class="keyword">auto</span> showByte = [](<span class="keyword">const</span> uint8_t&amp; byte)</div>
-<div class="line">{</div>
-<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot; 0x&quot;</span> &lt;&lt; std::hex &lt;&lt; std::setw(2) &lt;&lt; std::setfill(&#39;0&#39;) &lt;&lt; static_cast&lt;int&gt;(<span class="keywordtype">byte</span>);</div>
+<div class="line"><span class="keyword">auto</span> showByte = [](<span class="keyword">const</span> uint8_t &amp;byte) {</div>
+<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot; 0x&quot;</span> &lt;&lt; std::hex &lt;&lt; std::setw(2) &lt;&lt; std::setfill(<span class="charliteral">&#39;0&#39;</span>)</div>
+<div class="line">                &lt;&lt; <span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span><span class="keyword">&gt;</span>(byte);</div>
 <div class="line">};</div>
 <div class="line"> </div>
 <div class="line"><span class="comment">// Show all bytes</span></div>
@@ -123,24 +126,23 @@ Possibilities</h1>
 <div class="line"> </div>
 <div class="line"><span class="comment">// Create CRC and pointer to its bytes</span></div>
 <div class="line">uint16_t CRC = <a class="code hl_function" href="namespaceMB_1_1utils.html#aa419ed339bbdacd4108fb5cc1cd14539">MB::utils::calculateCRC</a>(rawed);</div>
-<div class="line"><span class="keyword">auto</span> CRCptr = <span class="keyword">reinterpret_cast&lt;</span>uint8_t *<span class="keyword">&gt;</span>(&amp;CRC);</div>
+<div class="line"><span class="keyword">auto</span> CRCptr  = <span class="keyword">reinterpret_cast&lt;</span>uint8_t *<span class="keyword">&gt;</span>(&amp;CRC);</div>
 <div class="line"> </div>
 <div class="line"><span class="comment">// Show byted CRC for request</span></div>
 <div class="line">std::cout &lt;&lt; <span class="stringliteral">&quot;CRC for the above code: &quot;</span>;</div>
 <div class="line">std::for_each(CRCptr, CRCptr + 2, showByte);</div>
 <div class="line">std::cout &lt;&lt; std::endl;</div>
 <div class="line"> </div>
-<div class="line"> </div>
 <div class="line"><span class="keyword">auto</span> request1 = MB::ModbusRequest::fromRaw(rawed);</div>
 <div class="line">std::cout &lt;&lt; <span class="stringliteral">&quot;Stringed Request 1 after rawed: &quot;</span> &lt;&lt; request1.toString() &lt;&lt; std::endl;</div>
 <div class="line"> </div>
 <div class="line"><span class="comment">// Add CRC to the end of raw request so that it can be loaded with CRC check</span></div>
-<div class="line">rawed.insert(rawed.end() , CRCptr, CRCptr + 2);</div>
+<div class="line">rawed.insert(rawed.end(), CRCptr, CRCptr + 2);</div>
 <div class="line"><span class="keyword">auto</span> request2 = MB::ModbusRequest::fromRawCRC(rawed); <span class="comment">// Throws on invalid CRC</span></div>
 <div class="line">std::cout &lt;&lt; <span class="stringliteral">&quot;Stringed Request 2 after rawed: &quot;</span> &lt;&lt; request2.toString() &lt;&lt; std::endl;</div>
 <div class="ttc" id="aclassMB_1_1ModbusRequest_html"><div class="ttname"><a href="classMB_1_1ModbusRequest.html">MB::ModbusRequest</a></div><div class="ttdef"><b>Definition</b> modbusRequest.hpp:23</div></div>
-<div class="ttc" id="anamespaceMB_1_1utils_html_aa419ed339bbdacd4108fb5cc1cd14539"><div class="ttname"><a href="namespaceMB_1_1utils.html#aa419ed339bbdacd4108fb5cc1cd14539">MB::utils::calculateCRC</a></div><div class="ttdeci">uint16_t calculateCRC(const uint8_t *buff, size_t len)</div><div class="ttdoc">Calculates CRC.</div><div class="ttdef"><b>Definition</b> modbusUtils.hpp:215</div></div>
-</div><!-- fragment --><p> Output: </p><div class="fragment"><div class="line">Stringed Request: Read from output coils, from slave 1, starting from address 100, on 10 registers</div>
+<div class="ttc" id="anamespaceMB_1_1utils_html_aa419ed339bbdacd4108fb5cc1cd14539"><div class="ttname"><a href="namespaceMB_1_1utils.html#aa419ed339bbdacd4108fb5cc1cd14539">MB::utils::calculateCRC</a></div><div class="ttdeci">uint16_t calculateCRC(const uint8_t *buff, size_t len)</div><div class="ttdef"><b>Definition</b> modbusUtils.hpp:212</div></div>
+</div><!-- fragment --><p>Output: </p><div class="fragment"><div class="line">Stringed Request: Read from output coils, from slave 1, starting from address 100, on 10 registers</div>
 <div class="line">Raw request:</div>
 <div class="line"> 0x01 0x01 0x00 0x64 0x00 0x0a</div>
 <div class="line">CRC for the above code:  0xfd 0xd2</div>

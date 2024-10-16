@@ -165,13 +165,9 @@ std::string&#160;</td><td class="memItemRight" valign="bottom"><b>mbFunctionToSt
 uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>bigEndianConv</b> (const uint8_t *buf)</td></tr>
 <tr class="memdesc:a2057e90dfbefb2bc7cea23f6140d5a04"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create uint16_t from buffer of two bytes, ex. { 0x01, 0x02 } =&gt; 0x0102. <br /></td></tr>
 <tr class="separator:a2057e90dfbefb2bc7cea23f6140d5a04"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa419ed339bbdacd4108fb5cc1cd14539" id="r_aa419ed339bbdacd4108fb5cc1cd14539"><td class="memItemLeft" align="right" valign="top"><a id="aa419ed339bbdacd4108fb5cc1cd14539" name="aa419ed339bbdacd4108fb5cc1cd14539"></a>
-uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>calculateCRC</b> (const uint8_t *buff, size_t len)</td></tr>
-<tr class="memdesc:aa419ed339bbdacd4108fb5cc1cd14539"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates CRC. <br /></td></tr>
+<tr class="memitem:aa419ed339bbdacd4108fb5cc1cd14539" id="r_aa419ed339bbdacd4108fb5cc1cd14539"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa419ed339bbdacd4108fb5cc1cd14539">calculateCRC</a> (const uint8_t *buff, size_t len)</td></tr>
 <tr class="separator:aa419ed339bbdacd4108fb5cc1cd14539"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a102e7bc4008a2658a5db76a9b70bec97" id="r_a102e7bc4008a2658a5db76a9b70bec97"><td class="memItemLeft" align="right" valign="top"><a id="a102e7bc4008a2658a5db76a9b70bec97" name="a102e7bc4008a2658a5db76a9b70bec97"></a>
-uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>calculateCRC</b> (const std::vector&lt; uint8_t &gt; &amp;buffer)</td></tr>
-<tr class="memdesc:a102e7bc4008a2658a5db76a9b70bec97"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate CRC wrapper. <br /></td></tr>
+<tr class="memitem:a102e7bc4008a2658a5db76a9b70bec97" id="r_a102e7bc4008a2658a5db76a9b70bec97"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a102e7bc4008a2658a5db76a9b70bec97">calculateCRC</a> (const std::vector&lt; uint8_t &gt; &amp;buffer)</td></tr>
 <tr class="separator:a102e7bc4008a2658a5db76a9b70bec97"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a370eb8cec7aed7dedd555c231fe46094" id="r_a370eb8cec7aed7dedd555c231fe46094"><td class="memItemLeft" align="right" valign="top">std::pair&lt; uint8_t, uint8_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a370eb8cec7aed7dedd555c231fe46094">splitUint16</a> (const uint16_t val)</td></tr>
 <tr class="separator:a370eb8cec7aed7dedd555c231fe46094"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -199,6 +195,62 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>pushUint16</b> (std::
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
+<a id="a102e7bc4008a2658a5db76a9b70bec97" name="a102e7bc4008a2658a5db76a9b70bec97"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a102e7bc4008a2658a5db76a9b70bec97">&#9670;&#160;</a></span>calculateCRC() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t MB::utils::calculateCRC </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; uint8_t &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>buffer</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000002">Deprecated</a></b></dt><dd>Calculates <a class="el" href="namespaceMB_1_1CRC.html" title="This namespace contains functions used for CRC calculation.">CRC</a> - please use functions from <code><a class="el" href="namespaceMB_1_1CRC.html" title="This namespace contains functions used for CRC calculation.">MB::CRC</a></code> </dd></dl>
+
+</div>
+</div>
+<a id="aa419ed339bbdacd4108fb5cc1cd14539" name="aa419ed339bbdacd4108fb5cc1cd14539"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa419ed339bbdacd4108fb5cc1cd14539">&#9670;&#160;</a></span>calculateCRC() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t MB::utils::calculateCRC </td>
+          <td>(</td>
+          <td class="paramtype">const uint8_t *</td>          <td class="paramname"><span class="paramname"><em>buff</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t</td>          <td class="paramname"><span class="paramname"><em>len</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000001">Deprecated</a></b></dt><dd>Calculates <a class="el" href="namespaceMB_1_1CRC.html" title="This namespace contains functions used for CRC calculation.">CRC</a> - please use functions from <code><a class="el" href="namespaceMB_1_1CRC.html" title="This namespace contains functions used for CRC calculation.">MB::CRC</a></code> </dd></dl>
+
+</div>
+</div>
 <a id="a370eb8cec7aed7dedd555c231fe46094" name="a370eb8cec7aed7dedd555c231fe46094"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a370eb8cec7aed7dedd555c231fe46094">&#9670;&#160;</a></span>splitUint16()</h2>
 

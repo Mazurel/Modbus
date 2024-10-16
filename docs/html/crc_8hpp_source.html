@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.10.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Modbus cpp: include/MB Directory Reference</title>
+<title>Modbus cpp: include/MB/crc.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -48,6 +48,11 @@ $(function() {
 /* @license-end */
 </script>
 <div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() { codefold.init(0); });
+/* @license-end */
+</script>
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -75,33 +80,26 @@ $(function() {
 </div>
 </div><!-- top -->
 <div class="header">
-  <div class="headertitle"><div class="title">MB Directory Reference</div></div>
+  <div class="headertitle"><div class="title">crc.hpp</div></div>
 </div><!--header-->
 <div class="contents">
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="subdirs" name="subdirs"></a>
-Directories</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top"><span class="iconfclosed"></span>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dir_fa17a7b3bf7c731ce009520520ae23a8.html">Serial</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top"><span class="iconfclosed"></span>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dir_89deb882b528f943e97271a20701dad4.html">TCP</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="files" name="files"></a>
-Files</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top"><a href="crc_8hpp_source.html"><span class="icondoc"></span></a>&#160;</td><td class="memItemRight" valign="bottom"><b>crc.hpp</b></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top"><a href="modbusCell_8hpp_source.html"><span class="icondoc"></span></a>&#160;</td><td class="memItemRight" valign="bottom"><b>modbusCell.hpp</b></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top"><a href="modbusException_8hpp_source.html"><span class="icondoc"></span></a>&#160;</td><td class="memItemRight" valign="bottom"><b>modbusException.hpp</b></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top"><a href="modbusRequest_8hpp_source.html"><span class="icondoc"></span></a>&#160;</td><td class="memItemRight" valign="bottom"><b>modbusRequest.hpp</b></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top"><a href="modbusResponse_8hpp_source.html"><span class="icondoc"></span></a>&#160;</td><td class="memItemRight" valign="bottom"><b>modbusResponse.hpp</b></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top"><a href="modbusUtils_8hpp_source.html"><span class="icondoc"></span></a>&#160;</td><td class="memItemRight" valign="bottom"><b>modbusUtils.hpp</b></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
-</div><!-- contents -->
+<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#include &lt;cstdint&gt;</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
+<div class="foldopen" id="foldopen00005" data-start="{" data-end="}">
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno"><a class="line" href="namespaceMB.html">    5</a></span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceMB_1_1CRC.html">MB::CRC</a> {</div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span>    uint16_t <a class="code hl_function" href="namespaceMB_1_1CRC.html#a2a8e570461d56e3a269e2d1c242bcf2f">calculateCRC</a>(<span class="keyword">const</span> uint8_t *buff, std::size_t len);</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
+<div class="foldopen" id="foldopen00010" data-start="{" data-end="}">
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno"><a class="line" href="namespaceMB_1_1CRC.html#a2c9c245bb92560f18d3127961c3e2d5f">   10</a></span>    <span class="keyword">inline</span> uint16_t <a class="code hl_function" href="namespaceMB_1_1CRC.html#a2a8e570461d56e3a269e2d1c242bcf2f">calculateCRC</a>(<span class="keyword">const</span> std::vector&lt;uint8_t&gt; &amp;buffer) {</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>        <span class="keywordflow">return</span> <a class="code hl_function" href="namespaceMB_1_1CRC.html#a2a8e570461d56e3a269e2d1c242bcf2f">calculateCRC</a>(buffer.begin().base(), buffer.size());</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>    }</div>
+</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>};</div>
+</div>
+<div class="ttc" id="anamespaceMB_1_1CRC_html"><div class="ttname"><a href="namespaceMB_1_1CRC.html">MB::CRC</a></div><div class="ttdoc">This namespace contains functions used for CRC calculation.</div><div class="ttdef"><b>Definition</b> crc.hpp:5</div></div>
+<div class="ttc" id="anamespaceMB_1_1CRC_html_a2a8e570461d56e3a269e2d1c242bcf2f"><div class="ttname"><a href="namespaceMB_1_1CRC.html#a2a8e570461d56e3a269e2d1c242bcf2f">MB::CRC::calculateCRC</a></div><div class="ttdeci">uint16_t calculateCRC(const uint8_t *buff, std::size_t len)</div><div class="ttdoc">Calculates CRC based on the input buffer - C style.</div><div class="ttdef"><b>Definition</b> crc.cpp:3</div></div>
+</div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.10.0
