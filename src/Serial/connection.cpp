@@ -3,6 +3,7 @@
 // Licensed under: MIT License <http://opensource.org/licenses/MIT>
 
 #include "Serial/connection.hpp"
+#include <sys/poll.h>
 
 using namespace MB::Serial;
 
@@ -52,7 +53,10 @@ std::vector<uint8_t> Connection::sendException(const MB::ModbusException &except
 std::vector<uint8_t> Connection::awaitRawMessage() {
     std::vector<uint8_t> data(1024);
 
-    pollfd waitingFD = {.fd = _fd, .events = POLLIN, .revents = POLLIN};
+    pollfd waitingFD;
+    waitingFD.fd = this->_fd;
+    waitingFD.events = POLLIN;
+    waitingFD.revents = POLLIN;
 
     if (::poll(&waitingFD, 1, _timeout) <= 0) {
         throw MB::ModbusException(MB::utils::Timeout);

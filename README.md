@@ -2,8 +2,9 @@
 
 Library for high level Modbus frame manipulation, including encoding and decoding, written in modern C++17.
 
-Additionally, library contains simple linux TCP and RTU implementation,
+Additionally, library contains reference TCP and RTU implementation (on Linux only !),
 that you can use as a starting point for you application !
+Until there will some reliable way to test it, it will be treated as such.
 
 # Table of content
 - [Why](#why)
