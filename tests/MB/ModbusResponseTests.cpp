@@ -2,7 +2,6 @@
 // Copyright (c) 2020 Mateusz Mazur aka Mazurel
 // Licensed under: MIT License <http://opensource.org/licenses/MIT>
 
-#include "MB/modbusRequest.hpp"
 #include "MB/modbusResponse.hpp"
 #include "gtest/gtest.h"
 

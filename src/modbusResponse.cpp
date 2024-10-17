@@ -3,9 +3,11 @@
 // Licensed under: MIT License <http://opensource.org/licenses/MIT>
 
 #include "modbusResponse.hpp"
+#include "modbusException.hpp"
 #include "modbusUtils.hpp"
 
 #include <algorithm>
+#include <cstdint>
 #include <sstream>
 
 using namespace MB;
@@ -135,6 +137,13 @@ std::string ModbusResponse::toString() const {
 }
 
 std::vector<uint8_t> ModbusResponse::toRaw() const {
+    // Fix for: https://github.com/Mazurel/Modbus/issues/3
+    const auto longBytesToFollow = this->numberOfBytesToFollow();
+    if (longBytesToFollow > 0xFF) {
+        throw ModbusException(utils::NumberOfRegistersInvalid);
+    }
+    const uint8_t bytesToFollow = static_cast<uint8_t>(longBytesToFollow);
+
     std::vector<uint8_t> result;
     result.reserve(6);
 
@@ -143,9 +152,7 @@ std::vector<uint8_t> ModbusResponse::toRaw() const {
 
     if (functionType() == utils::Read) {
         if (_values[0].isCoil()) {
-            result.push_back(
-                (_registersNumber / 8) +
-                (_registersNumber % 8 == 0 ? 0 : 1)); // number of bytes to follow
+            result.push_back(bytesToFollow); // number of bytes to follow
             auto end = result.size() - 1;
             for (std::size_t i = 0; i < _values.size(); i++) {
                 if (i % 8 == 0) {
@@ -155,7 +162,7 @@ std::vector<uint8_t> ModbusResponse::toRaw() const {
                 result[end] |= _values[i].coil() << (i % 8);
             }
         } else {
-            result.push_back(_registersNumber * 2); // number of bytes to follow
+            result.push_back(bytesToFollow); // number of bytes to follow
             for (auto _value : _values) {
                 utils::pushUint16(result, _value.reg());
             }
@@ -171,22 +178,9 @@ std::vector<uint8_t> ModbusResponse::toRaw() const {
                 utils::pushUint16(result, _values[0].reg());
             }
         } else {
-            utils::pushUint16(result, _registersNumber);
+            utils::pushUint16(result, bytesToFollow);
         }
     }
 
     return result;
-}
-
-void ModbusResponse::from(const ModbusRequest &req) {
-    if (functionType() == utils::Read) {
-        _address = req.registerAddress();
-        if (_registersNumber > req.numberOfRegisters()) {
-            _registersNumber = req.numberOfRegisters();
-            _values.resize(req.numberOfRegisters());
-        }
-    } else if (functionType() == utils::WriteMultiple) {
-        _values = req.registerValues();
-        _values.resize(_registersNumber);
-    }
 }
