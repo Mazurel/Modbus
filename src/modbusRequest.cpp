@@ -30,6 +30,23 @@ ModbusRequest::ModbusRequest(uint8_t slaveId, utils::MBFunctionCode functionCode
     }
 }
 
+ModbusRequest::ModbusRequest(const ModbusRequest& reference) :
+    _slaveID(reference.slaveID()),
+    _functionCode(reference.functionCode()),
+    _address(reference.registerAddress()),
+    _registersNumber(reference.numberOfRegisters()),
+    _values(reference.registerValues()){ }
+
+
+ModbusRequest& ModbusRequest::operator=(const ModbusRequest &reference) {
+    this->_slaveID = reference.slaveID();
+    this->_functionCode = reference.functionCode();
+    this->_address = reference.registerAddress();
+    this->_registersNumber = reference.numberOfRegisters();
+    this->_values = reference.registerValues();
+    return *this;
+}
+
 ModbusRequest::ModbusRequest(const std::vector<uint8_t> &inputData, bool CRC) {
     try {
         if (inputData.size() < 3)

@@ -71,7 +71,7 @@ class ModbusRequest {
     }
 
     /**
-     * Simple constructor, that allows to create "dummy" ModbusResponse
+     * Simple constructor, that allows to create "dummy" ModbusRequest
      * object. May be useful in some cases.
      */
     explicit ModbusRequest(
@@ -80,7 +80,15 @@ class ModbusRequest {
         uint16_t address = 0, uint16_t registersNumber = 0,
         std::vector<ModbusCell> values = {}) noexcept;
 
-    ModbusRequest(const ModbusRequest &) = default;
+    /**
+    * Copy constructor for the response.
+    */
+    ModbusRequest(const ModbusRequest&);
+
+    /**
+    * Equal operator for the response.
+    */
+    ModbusRequest& operator=(const ModbusRequest &);
 
     //! Returns string representation of object
     [[nodiscard]] std::string toString() const noexcept;

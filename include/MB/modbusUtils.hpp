@@ -233,4 +233,8 @@ inline void pushUint16(std::vector<uint8_t> &buffer, const uint16_t val) {
     buffer.push_back(low);
 }
 
+//! Ignore some value explicitly
+template<typename T>
+inline void ignore_result(T&& v) { (void)v; }
+
 } // namespace MB::utils
