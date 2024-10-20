@@ -3,7 +3,11 @@ project(protocolConverter)
 
 set(CMAKE_CXX_STANDARD 17)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Werror -pedantic -Werror=unused-result")
+if (MSVC)
+    add_compile_options(/W3)
+else()
+    add_compile_options(-Wall -Wextra -Werror -pedantic)
+endif()
 
 option(MODBUS_EXAMPLE "Build example program" OFF)
 option(MODBUS_TESTS "Build tests" OFF)
