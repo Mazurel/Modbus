@@ -80,7 +80,15 @@ class ModbusResponse {
         uint16_t address = 0, uint16_t registersNumber = 0,
         std::vector<ModbusCell> values = {});
 
-    ModbusResponse(const ModbusResponse &) = default;
+    /**
+     * Copy constructor for the response.
+     */
+    ModbusResponse(const ModbusResponse&);
+
+    /**
+    * Equal operator for the response.
+    */
+    ModbusResponse& operator=(const ModbusResponse &);
 
     //! Converts object to it's string representation
     [[nodiscard]] std::string toString() const;

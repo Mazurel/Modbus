@@ -3,6 +3,7 @@
 // Licensed under: MIT License <http://opensource.org/licenses/MIT>
 
 #include "Serial/connection.hpp"
+#include "modbusUtils.hpp"
 #include <sys/poll.h>
 
 using namespace MB::Serial;
@@ -139,7 +140,7 @@ std::vector<uint8_t> Connection::send(std::vector<uint8_t> data) {
     // most cases)
     tcflush(_fd, TCOFLUSH);
     // Write
-    write(_fd, data.begin().base(), data.size());
+    utils::ignore_result(write(_fd, data.begin().base(), data.size()));
     // It may be a good idea to use tcdrain, although it has tendency to not
     // work as expected tcdrain(_fd);
 
