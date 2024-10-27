@@ -81,14 +81,14 @@ class ModbusRequest {
         std::vector<ModbusCell> values = {}) noexcept;
 
     /**
-    * Copy constructor for the response.
-    */
-    ModbusRequest(const ModbusRequest&);
+     * Copy constructor for the response.
+     */
+    ModbusRequest(const ModbusRequest &);
 
     /**
-    * Equal operator for the response.
-    */
-    ModbusRequest& operator=(const ModbusRequest &);
+     * Equal operator for the response.
+     */
+    ModbusRequest &operator=(const ModbusRequest &);
 
     //! Returns string representation of object
     [[nodiscard]] std::string toString() const noexcept;

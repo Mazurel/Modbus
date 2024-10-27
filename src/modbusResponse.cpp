@@ -30,20 +30,18 @@ ModbusResponse::ModbusResponse(uint8_t slaveId, utils::MBFunctionCode functionCo
     }
 }
 
-ModbusResponse::ModbusResponse(const ModbusResponse& reference) :
-    _slaveID(reference.slaveID()),
-    _functionCode(reference.functionCode()),
-    _address(reference.registerAddress()),
-    _registersNumber(reference.numberOfRegisters()),
-    _values(reference.registerValues()){ }
+ModbusResponse::ModbusResponse(const ModbusResponse &reference)
+    : _slaveID(reference.slaveID()), _functionCode(reference.functionCode()),
+      _address(reference.registerAddress()),
+      _registersNumber(reference.numberOfRegisters()),
+      _values(reference.registerValues()) {}
 
-
-ModbusResponse& ModbusResponse::operator=(const ModbusResponse &reference) {
-    this->_slaveID = reference.slaveID();
-    this->_functionCode = reference.functionCode();
-    this->_address = reference.registerAddress();
+ModbusResponse &ModbusResponse::operator=(const ModbusResponse &reference) {
+    this->_slaveID         = reference.slaveID();
+    this->_functionCode    = reference.functionCode();
+    this->_address         = reference.registerAddress();
     this->_registersNumber = reference.numberOfRegisters();
-    this->_values = reference.registerValues();
+    this->_values          = reference.registerValues();
     return *this;
 }
 
@@ -109,16 +107,18 @@ ModbusResponse::ModbusResponse(std::vector<uint8_t> inputData, bool CRC) {
             if (crcIndex == -1 || static_cast<size_t>(crcIndex) + 2 > inputData.size())
                 throw ModbusException(utils::InvalidByteOrder);
 
-            auto recievedCRC = *reinterpret_cast<const uint16_t *>(&inputData[crcIndex]);
-            auto myCRC       = utils::calculateCRC(inputData.begin().base(), crcIndex);
+            const auto receivedCRC = *reinterpret_cast<const uint16_t *>(&inputData[crcIndex]);
+            const auto inputDataLen = static_cast<std::size_t>(crcIndex);
+            const auto calculatedCRC   = MB::CRC::calculateCRC(inputData, inputDataLen);
 
-            if (recievedCRC != myCRC) {
+            if (receivedCRC != calculatedCRC) {
                 throw ModbusException(utils::InvalidCRC, _slaveID);
             }
         }
     } catch (const ModbusException &ex) {
         throw ex;
-    } catch (const std::exception &ex) {
+    } catch (const std::exception&) {
+        // TODO: Save the exception somewhere
         throw ModbusException(utils::InvalidByteOrder);
     }
 }

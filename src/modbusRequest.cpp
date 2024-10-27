@@ -6,6 +6,7 @@
 #include "modbusUtils.hpp"
 
 #include <algorithm>
+#include <iterator>
 #include <sstream>
 
 using namespace MB;
@@ -30,20 +31,18 @@ ModbusRequest::ModbusRequest(uint8_t slaveId, utils::MBFunctionCode functionCode
     }
 }
 
-ModbusRequest::ModbusRequest(const ModbusRequest& reference) :
-    _slaveID(reference.slaveID()),
-    _functionCode(reference.functionCode()),
-    _address(reference.registerAddress()),
-    _registersNumber(reference.numberOfRegisters()),
-    _values(reference.registerValues()){ }
+ModbusRequest::ModbusRequest(const ModbusRequest &reference)
+    : _slaveID(reference.slaveID()), _functionCode(reference.functionCode()),
+      _address(reference.registerAddress()),
+      _registersNumber(reference.numberOfRegisters()),
+      _values(reference.registerValues()) {}
 
-
-ModbusRequest& ModbusRequest::operator=(const ModbusRequest &reference) {
-    this->_slaveID = reference.slaveID();
-    this->_functionCode = reference.functionCode();
-    this->_address = reference.registerAddress();
+ModbusRequest &ModbusRequest::operator=(const ModbusRequest &reference) {
+    this->_slaveID         = reference.slaveID();
+    this->_functionCode    = reference.functionCode();
+    this->_address         = reference.registerAddress();
     this->_registersNumber = reference.numberOfRegisters();
-    this->_values = reference.registerValues();
+    this->_values          = reference.registerValues();
     return *this;
 }
 
@@ -106,16 +105,18 @@ ModbusRequest::ModbusRequest(const std::vector<uint8_t> &inputData, bool CRC) {
             if (crcIndex == -1 || static_cast<size_t>(crcIndex) + 2 > inputData.size())
                 throw ModbusException(utils::InvalidByteOrder);
 
-            auto recvCRC = *reinterpret_cast<const uint16_t *>(&inputData[crcIndex]);
-            auto myCRC   = utils::calculateCRC(inputData.begin().base(), crcIndex);
+            auto receivedCRC = *reinterpret_cast<const uint16_t *>(&inputData[crcIndex]);
+            const auto inputDataLen = static_cast<std::size_t>(crcIndex);
+            auto calculatedCRC   = MB::CRC::calculateCRC(inputData, inputDataLen);
 
-            if (recvCRC != myCRC) {
+            if (receivedCRC != calculatedCRC) {
                 throw ModbusException(utils::InvalidCRC, _slaveID);
             }
         }
     } catch (const ModbusException &ex) {
         throw ex;
-    } catch (const std::exception &ex) {
+    } catch (const std::exception&) {
+        // TODO: Save the exception somewhere
         throw ModbusException(utils::InvalidByteOrder);
     }
 }
@@ -172,7 +173,7 @@ std::vector<uint8_t> ModbusRequest::toRaw() const noexcept {
                 utils::pushUint16(result, value.reg());
             }
         } else {
-            int end = result.size() - 1;
+            std::size_t end = result.size() - 1;
             for (std::size_t i = 0; i < _values.size(); i++) {
                 if (i % 8 == 0) {
                     result.push_back(0x00);

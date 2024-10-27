@@ -55,8 +55,8 @@ std::vector<uint8_t> Connection::awaitRawMessage() {
     std::vector<uint8_t> data(1024);
 
     pollfd waitingFD;
-    waitingFD.fd = this->_fd;
-    waitingFD.events = POLLIN;
+    waitingFD.fd      = this->_fd;
+    waitingFD.events  = POLLIN;
     waitingFD.revents = POLLIN;
 
     if (::poll(&waitingFD, 1, _timeout) <= 0) {

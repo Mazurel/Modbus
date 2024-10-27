@@ -30,9 +30,10 @@ jobs:
           - os: ubuntu-latest
             c_compiler: clang
             cpp_compiler: clang++
-        exclude:
           - os: windows-latest
             c_compiler: cl
+            cpp_compiler: cl
+        exclude:
           - os: windows-latest
             c_compiler: gcc
           - os: windows-latest
@@ -67,11 +68,12 @@ jobs:
           -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
           -DMODBUS_EXAMPLE=ON
           -DMODBUS_TESTS=ON
-          -DMODBUS_COMMUNICATION=${{ matrix.os == 'windows-latest' && 'OFF' || matrix.os == 'ubuntu-latest' && 'ON' }}
+          -DMODBUS_TCP_COMMUNICATION=${{ matrix.os == 'windows-latest' && 'OFF' || matrix.os == 'ubuntu-latest' && 'ON' }}
+          -DMODBUS_SERIAL_COMMUNICATION=${{ matrix.os == 'windows-latest' && 'OFF' || matrix.os == 'ubuntu-latest' && 'ON' }}
           -S ${{ github.workspace }}
 
       - name: Build
         run: cmake --build ${{ steps.strings.outputs.build-output-dir }} --config ${{ matrix.build_type }}
 
       - name: Test
-        run: ${{ steps.strings.outputs.build-output-dir }}/tests/Google_Tests_run
+        run: ${{ steps.strings.outputs.build-output-dir }}/${{ matrix.os == 'windows-latest' && 'tests\Release\Google_Tests_run.exe' || matrix.os == 'ubuntu-latest' && '/tests/Google_Tests_run' }}

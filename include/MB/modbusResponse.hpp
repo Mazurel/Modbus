@@ -83,12 +83,12 @@ class ModbusResponse {
     /**
      * Copy constructor for the response.
      */
-    ModbusResponse(const ModbusResponse&);
+    ModbusResponse(const ModbusResponse &);
 
     /**
-    * Equal operator for the response.
-    */
-    ModbusResponse& operator=(const ModbusResponse &);
+     * Equal operator for the response.
+     */
+    ModbusResponse &operator=(const ModbusResponse &);
 
     //! Converts object to it's string representation
     [[nodiscard]] std::string toString() const;

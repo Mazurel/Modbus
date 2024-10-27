@@ -204,8 +204,7 @@ inline std::string mbFunctionToStr(MBFunctionCode code) noexcept {
 
 //! Create uint16_t from buffer of two bytes, ex. { 0x01, 0x02 } => 0x0102
 inline uint16_t bigEndianConv(const uint8_t *buf) {
-    return static_cast<uint16_t>(buf[1]) +
-           (static_cast<uint16_t>(buf[0]) << 8u);
+    return static_cast<uint16_t>(buf[1]) + (static_cast<uint16_t>(buf[0]) << 8u);
 }
 
 //! @deprecated Calculates CRC - please use functions from `MB::CRC`
@@ -234,7 +233,6 @@ inline void pushUint16(std::vector<uint8_t> &buffer, const uint16_t val) {
 }
 
 //! Ignore some value explicitly
-template<typename T>
-inline void ignore_result(T&& v) { (void)v; }
+template <typename T> inline void ignore_result(T &&v) { (void)v; }
 
 } // namespace MB::utils
