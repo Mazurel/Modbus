@@ -1,16 +1,15 @@
 // Modbus for c++ <https://github.com/Mazurel/Modbus>
-// Copyright (c) 2020 Mateusz Mazur aka Mazurel
+// Copyright (c) 2024 Mateusz Mazur aka Mazurel
 // Licensed under: MIT License <http://opensource.org/licenses/MIT>
 
 #pragma once
 
 #include <cstdint>
-#include <stdexcept>
 #include <string>
 #include <vector>
 
 #include "modbusCell.hpp"
-#include "modbusException.hpp"
+#include "modbusUtils.hpp"
 
 /**
  * Namespace that contains whole project
@@ -94,7 +93,7 @@ class ModbusRequest {
     [[nodiscard]] std::string toString() const noexcept;
     //! Returns raw bytes representation of object, ready for modbus
     //! communication
-    [[nodiscard]] std::vector<uint8_t> toRaw() const noexcept;
+    [[nodiscard]] std::vector<uint8_t> toRaw() const;
 
     //! Returns function type based on Modbus function code
     [[nodiscard]] utils::MBFunctionType functionType() const noexcept {

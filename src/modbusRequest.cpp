@@ -1,8 +1,9 @@
 // Modbus for c++ <https://github.com/Mazurel/Modbus>
-// Copyright (c) 2020 Mateusz Mazur aka Mazurel
+// Copyright (c) 2024 Mateusz Mazur aka Mazurel
 // Licensed under: MIT License <http://opensource.org/licenses/MIT>
 
 #include "modbusRequest.hpp"
+#include "modbusException.hpp"
 #include "modbusUtils.hpp"
 
 #include <algorithm>
@@ -107,7 +108,7 @@ ModbusRequest::ModbusRequest(const std::vector<uint8_t> &inputData, bool CRC) {
 
             auto receivedCRC = *reinterpret_cast<const uint16_t *>(&inputData[crcIndex]);
             const auto inputDataLen = static_cast<std::size_t>(crcIndex);
-            auto calculatedCRC   = MB::CRC::calculateCRC(inputData, inputDataLen);
+            auto calculatedCRC      = MB::CRC::calculateCRC(inputData, inputDataLen);
 
             if (receivedCRC != calculatedCRC) {
                 throw ModbusException(utils::InvalidCRC, _slaveID);
@@ -115,7 +116,7 @@ ModbusRequest::ModbusRequest(const std::vector<uint8_t> &inputData, bool CRC) {
         }
     } catch (const ModbusException &ex) {
         throw ex;
-    } catch (const std::exception&) {
+    } catch (const std::exception &) {
         // TODO: Save the exception somewhere
         throw ModbusException(utils::InvalidByteOrder);
     }
@@ -149,13 +150,20 @@ std::string ModbusRequest::toString() const noexcept {
     return result.str();
 }
 
-std::vector<uint8_t> ModbusRequest::toRaw() const noexcept {
+std::vector<uint8_t> ModbusRequest::toRaw() const {
     std::vector<uint8_t> result;
     result.reserve(6);
 
     result.push_back(_slaveID);
     result.push_back(_functionCode);
     utils::pushUint16(result, _address);
+
+    if (this->functionType() == utils::WriteMultiple) {
+        // note: it is assumbed here, that number of registers is the "correct" one
+        if (this->numberOfRegisters() != this->registerValues().size()) {
+            throw ModbusException(utils::NumberOfValuesInvalid);
+        }
+    }
 
     if (functionType() != utils::WriteSingle) {
         utils::pushUint16(result, _registersNumber);

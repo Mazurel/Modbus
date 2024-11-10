@@ -1,9 +1,10 @@
 // Modbus for c++ <https://github.com/Mazurel/Modbus>
-// Copyright (c) 2020 Mateusz Mazur aka Mazurel
+// Copyright (c) 2024 Mateusz Mazur aka Mazurel
 // Licensed under: MIT License <http://opensource.org/licenses/MIT>
 
 #pragma once
 
+#include <cassert>
 #include <cstdint>
 #include <stdexcept>
 #include <string>
@@ -92,9 +93,24 @@ class ModbusResponse {
 
     //! Converts object to it's string representation
     [[nodiscard]] std::string toString() const;
+
+    /**
+     * @brief Convert Modbus response object into the vector of bytes,
+     * representing modbus frame, ready to be sent over HW interface
+     *
+     * @throws ModbusException - if modbus data in the object is invalid
+     */
     [[nodiscard]] std::vector<uint8_t> toRaw() const;
-    //! Fills all data from associated request
-    void from(const ModbusRequest &);
+
+    /*
+     * @description Constructs response based on input modbus request
+     * @note Resulting Modbus response is not guaranteed to be correct
+     **/
+    static ModbusResponse from(const ModbusRequest &request) {
+        return ModbusResponse(request.slaveID(), request.functionCode(),
+                              request.registerAddress(), request.numberOfRegisters(),
+                              request.registerValues());
+    }
 
     [[nodiscard]] utils::MBFunctionType functionType() const {
         return utils::functionType(_functionCode);
@@ -109,7 +125,29 @@ class ModbusResponse {
     [[nodiscard]] uint16_t registerAddress() const { return _address; }
     [[nodiscard]] uint16_t numberOfRegisters() const { return _registersNumber; }
     [[nodiscard]] const std::vector<ModbusCell> &registerValues() const {
+        if (this->_values.size() <= 0) {
+            throw ModbusException(utils::NumberOfValuesInvalid);
+        }
         return _values;
+    }
+
+    [[nodiscard]] uint16_t numberOfBytesToFollow() const {
+        if (this->functionType() == utils::Read) {
+            if ((*this->registerValues().begin()).isCoil()) {
+                // Coils
+                return (this->numberOfRegisters() / 8) +
+                       (this->numberOfRegisters() % 8 == 0 ? 0 : 1);
+            } else {
+                // Regs
+                return this->numberOfRegisters() * 2;
+            }
+        } else {
+            if (this->functionType() == utils::WriteSingle) {
+                return static_cast<uint16_t>(2);
+            } else {
+                return this->numberOfRegisters();
+            }
+        }
     }
 
     void setSlaveId(uint8_t slaveId) { _slaveID = slaveId; }
@@ -123,4 +161,5 @@ class ModbusResponse {
     }
     void setValues(const std::vector<ModbusCell> &values) { _values = values; }
 };
+
 } // namespace MB
