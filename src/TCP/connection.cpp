@@ -26,7 +26,8 @@ std::vector<uint8_t> Connection::sendRequest(const MB::ModbusRequest &req) {
     std::vector<uint8_t> rawReq;
     rawReq.reserve(6);
 
-    rawReq.push_back(static_cast<const uint8_t&&>(reinterpret_cast<const uint8_t *>(&_messageID)[1]));
+    rawReq.push_back(
+        static_cast<const uint8_t &&>(reinterpret_cast<const uint8_t *>(&_messageID)[1]));
     rawReq.push_back(static_cast<uint8_t>(_messageID));
     rawReq.push_back(0x00);
     rawReq.push_back(0x00);
@@ -34,7 +35,8 @@ std::vector<uint8_t> Connection::sendRequest(const MB::ModbusRequest &req) {
     std::vector<uint8_t> dat = req.toRaw();
 
     uint32_t size = dat.size();
-    rawReq.push_back(static_cast<const uint16_t&&>(reinterpret_cast<const uint16_t *>(&size)[1]));
+    rawReq.push_back(
+        static_cast<const uint16_t &&>(reinterpret_cast<const uint16_t *>(&size)[1]));
     rawReq.push_back(static_cast<uint16_t>(size));
 
     rawReq.insert(rawReq.end(), dat.begin(), dat.end());
@@ -48,7 +50,8 @@ std::vector<uint8_t> Connection::sendResponse(const MB::ModbusResponse &res) {
     std::vector<uint8_t> rawReq;
     rawReq.reserve(6);
 
-    rawReq.push_back(static_cast<const uint8_t&&>(reinterpret_cast<const uint8_t *>(&_messageID)[1]));
+    rawReq.push_back(
+        static_cast<const uint8_t &&>(reinterpret_cast<const uint8_t *>(&_messageID)[1]));
     rawReq.push_back(static_cast<uint8_t>(_messageID));
     rawReq.push_back(0x00);
     rawReq.push_back(0x00);
@@ -56,7 +59,8 @@ std::vector<uint8_t> Connection::sendResponse(const MB::ModbusResponse &res) {
     std::vector<uint8_t> dat = res.toRaw();
 
     uint32_t size = dat.size();
-    rawReq.push_back(static_cast<const uint16_t&&>(reinterpret_cast<const uint16_t *>(&size)[1]));
+    rawReq.push_back(
+        static_cast<const uint16_t &&>(reinterpret_cast<const uint16_t *>(&size)[1]));
     rawReq.push_back(static_cast<uint16_t>(size));
 
     rawReq.insert(rawReq.end(), dat.begin(), dat.end());
@@ -70,7 +74,8 @@ std::vector<uint8_t> Connection::sendException(const MB::ModbusException &ex) {
     std::vector<uint8_t> rawReq;
     rawReq.reserve(6);
 
-    rawReq.push_back(static_cast<const uint8_t&&>(reinterpret_cast<const uint8_t *>(&_messageID)[1]));
+    rawReq.push_back(
+        static_cast<const uint8_t &&>(reinterpret_cast<const uint8_t *>(&_messageID)[1]));
     rawReq.push_back(static_cast<uint8_t>(_messageID));
     rawReq.push_back(0x00);
     rawReq.push_back(0x00);
@@ -78,7 +83,8 @@ std::vector<uint8_t> Connection::sendException(const MB::ModbusException &ex) {
     std::vector<uint8_t> dat = ex.toRaw();
 
     uint32_t size = dat.size();
-    rawReq.push_back(static_cast<const uint16_t&&>(reinterpret_cast<const uint16_t *>(&size)[1]));
+    rawReq.push_back(
+        static_cast<const uint16_t &&>(reinterpret_cast<const uint16_t *>(&size)[1]));
     rawReq.push_back(static_cast<uint16_t>(size));
 
     rawReq.insert(rawReq.end(), dat.begin(), dat.end());
@@ -90,8 +96,8 @@ std::vector<uint8_t> Connection::sendException(const MB::ModbusException &ex) {
 
 std::vector<uint8_t> Connection::awaitRawMessage() {
     pollfd pfd;
-    pfd.fd = this->_sockfd;
-    pfd.events = POLLIN;
+    pfd.fd      = this->_sockfd;
+    pfd.events  = POLLIN;
     pfd.revents = POLLIN;
     if (::poll(&pfd, 1, 60 * 1000 /* 1 minute means the connection has died */) <= 0) {
         throw MB::ModbusException(MB::utils::ConnectionClosed);
@@ -115,8 +121,8 @@ std::vector<uint8_t> Connection::awaitRawMessage() {
 
 MB::ModbusRequest Connection::awaitRequest() {
     pollfd pfd;
-    pfd.fd = this->_sockfd;
-    pfd.events = POLLIN;
+    pfd.fd      = this->_sockfd;
+    pfd.events  = POLLIN;
     pfd.revents = POLLIN;
     if (::poll(&pfd, 1, 60 * 1000 /* 1 minute means the connection has died */) <= 0) {
         throw MB::ModbusException(MB::utils::Timeout);
@@ -146,8 +152,8 @@ MB::ModbusRequest Connection::awaitRequest() {
 
 MB::ModbusResponse Connection::awaitResponse() {
     pollfd pfd;
-    pfd.fd = this->_sockfd;
-    pfd.events = POLLIN;
+    pfd.fd      = this->_sockfd;
+    pfd.events  = POLLIN;
     pfd.revents = POLLIN;
 
     if (::poll(&pfd, 1, this->_timeout) <= 0) {
@@ -195,8 +201,8 @@ Connection Connection::with(std::string addr, int port) {
 
     sockaddr_in server;
     server.sin_family = AF_INET;
-    server.sin_port = ::htons(port);
-    server.sin_addr = { inet_addr(addr.c_str()) };
+    server.sin_port   = ::htons(port);
+    server.sin_addr   = {inet_addr(addr.c_str())};
 
     if (::connect(sock, reinterpret_cast<struct sockaddr *>(&server), sizeof(server)) < 0)
         throw std::runtime_error("Cannot connect, errno = " + std::to_string(errno));

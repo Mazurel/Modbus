@@ -3,13 +3,22 @@
 // Licensed under: MIT License <http://opensource.org/licenses/MIT>
 
 #include "modbusException.hpp"
+#include "modbusUtils.hpp"
+
+#include <cstddef>
+#include <cstdint>
+#include <vector>
 
 using namespace MB;
 
 // Construct Modbus exception from raw data
 ModbusException::ModbusException(const std::vector<uint8_t> &inputData,
-                                 bool CRC) noexcept {
-    if (inputData.size() != ((CRC) ? 5 : 3)) {
+                                 bool checkCRC) noexcept {
+    const std::size_t PACKET_SIZE_WITHOUT_CRC = 3;
+    const std::size_t PACKET_SIZE_WITH_CRC    = 5;
+
+    if (inputData.size() !=
+        ((checkCRC) ? PACKET_SIZE_WITH_CRC : PACKET_SIZE_WITHOUT_CRC)) {
         _slaveId      = 0xFF;
         _functionCode = utils::Undefined;
         _validSlave   = false;
@@ -22,11 +31,11 @@ ModbusException::ModbusException(const std::vector<uint8_t> &inputData,
     _validSlave   = true;
     _errorCode    = static_cast<utils::MBErrorCode>(inputData[2]);
 
-    if (CRC) {
-        auto CRC           = *reinterpret_cast<const uint16_t *>(&inputData[3]);
-        auto calculatedCRC = utils::calculateCRC(inputData.begin().base(), 3);
+    if (checkCRC) {
+        const auto actualCrc = *reinterpret_cast<const uint16_t *>(&inputData[3]);
+        const uint16_t calculatedCRC = MB::CRC::calculateCRC(inputData, PACKET_SIZE_WITHOUT_CRC);
 
-        if (CRC != calculatedCRC) {
+        if (actualCrc != calculatedCRC) {
             _errorCode = utils::ErrorCodeCRCError;
         }
     }

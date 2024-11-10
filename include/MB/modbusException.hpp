@@ -4,9 +4,10 @@
 
 #pragma once
 
+#include <algorithm>
+#include <cstddef>
 #include <cstdint>
 #include <cstring>
-#include <stdexcept>
 #include <vector>
 
 #include "modbusUtils.hpp"
@@ -81,12 +82,14 @@ class ModbusException : public std::exception {
 
     /**
      * This function is less optimal, it is just to be compatible with
-     * std::excepetion You should preferably use toString()
+     * `std::exception`, you should preferably use toString()
      */
     [[nodiscard]] const char *what() const noexcept override {
-        auto og   = toString();
-        char *str = new char[og.size()];
-        stpcpy(str, og.c_str());
+        const std::size_t MAX_STRING_SIZE = 1024;
+        static char str[MAX_STRING_SIZE];
+        auto originalStr = toString();
+        std::strncpy(str, originalStr.c_str(),
+                     std::min(originalStr.size(), MAX_STRING_SIZE));
         return str;
     }
 

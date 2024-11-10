@@ -30,8 +30,11 @@
 *.exe
 *.out
 *.app
-
 build
+
+# Windows specific
+out
+.vs
 
 # Gtags
 GTAGS
