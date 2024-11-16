@@ -1,0 +1,23 @@
+name: Clang formatting checker
+
+on:
+  push:
+    branches: ["master"]
+  pull_request:
+    branches: ["master"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: silkeh/clang # https://hub.docker.com/r/silkeh/clang
+    env:
+      DRY: "TRUE"
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Checking formatting
+        run: DRY=TRUE bash reformat-all.sh
