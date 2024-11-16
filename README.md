@@ -1,10 +1,24 @@
 <h1>Modbus library for modern C++</h1>
 
-Library for high level Modbus frame manipulation, including encoding and decoding, written in modern C++17.
+[![CMake on multiple platforms](https://github.com/Mazurel/Modbus/actions/workflows/cmake-multi-platform.yml/badge.svg?branch=master)](https://github.com/Mazurel/Modbus/actions/workflows/cmake-multi-platform.yml)
+[![Clang formatting checker](https://github.com/Mazurel/Modbus/actions/workflows/clang-format.yml/badge.svg?branch=master)](https://github.com/Mazurel/Modbus/actions/workflows/clang-format.yml)
+
+
+Library for high level Modbus frame/packet manipulation, including encoding and decoding, all written in modern C++17.
 
 Additionally, library contains reference TCP and RTU implementation (on Linux only !),
 that you can use as a starting point for you application !
 Until there will some reliable way to test it, it will be treated as such.
+
+<details>
+
+<summary>More informations for Windows users</summary>
+
+If you are interested in Windows RTU implementation, you can look at to pull request: https://github.com/Mazurel/Modbus/pull/5 .
+I am currently unable to merge it, as I do not have required hardware for testing.
+
+</details>
+
 
 # Table of content
 - [Why](#why)
