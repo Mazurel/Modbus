@@ -95,6 +95,10 @@ class ModbusRequest {
     //! communication
     [[nodiscard]] std::vector<uint8_t> toRaw() const;
 
+    //! Returns raw bytes representation of object, ready for modbus
+    //! communication
+    [[nodiscard]] std::vector<uint8_t> toRawCRC() const;
+
     //! Returns function type based on Modbus function code
     [[nodiscard]] utils::MBFunctionType functionType() const noexcept {
         return utils::functionType(_functionCode);
