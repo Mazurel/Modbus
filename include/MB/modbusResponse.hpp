@@ -31,6 +31,7 @@ class ModbusResponse {
 
     uint16_t _address;
     uint16_t _registersNumber;
+    uint8_t _bytes;
 
     std::vector<ModbusCell> _values;
 

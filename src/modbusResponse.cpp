@@ -50,55 +50,57 @@ ModbusResponse &ModbusResponse::operator=(const ModbusResponse &reference) {
 ModbusResponse::ModbusResponse(std::vector<uint8_t> inputData, bool CRC) {
     try {
         if (inputData.size() < 3)
-            throw ModbusException(utils::InvalidByteOrder);
+            throw ModbusException(utils::InputDataLengthInvalid);
 
-        _slaveID      = inputData[0];
-        _functionCode = static_cast<utils::MBFunctionCode>(0b01111111 & inputData[1]);
-        _exception = (inputData[1] & 0b10000000) != 0;
+        _slaveID      = inputData.at(0);
+        _functionCode = static_cast<utils::MBFunctionCode>(0b01111111 & inputData.at(1));
+        _exception = (inputData.at(1) & 0b10000000) != 0;
 
         if (functionType() != utils::Read)
-            _address = utils::bigEndianConv(&inputData[2]);
+            _address = utils::bigEndianConv(&inputData.at(2));
 
         int crcIndex = -1;
-        uint8_t bytes;
 
         if(!_exception){
             switch (_functionCode) {
             case utils::ReadDiscreteOutputCoils:
             case utils::ReadDiscreteInputContacts:
-                bytes            = inputData[2];
-                _registersNumber = bytes * 8;
+                _bytes            = inputData.at(2);
+                _registersNumber = _bytes * 8;
                 _values          = std::vector<ModbusCell>(_registersNumber);
                 for (auto i = 0; i < _registersNumber; i++) {
-                    _values[i].coil() = inputData[3 + (i / 8)] & (1 << (i % 8));
+                    _values[i].coil() = inputData.at(3 + (i / 8)) & (1 << (i % 8));
                 }
-                crcIndex = 2 + bytes + 1;
+                crcIndex = 2 + _bytes + 1;
                 break;
             case utils::ReadAnalogOutputHoldingRegisters:
             case utils::ReadAnalogInputRegisters:
-                bytes            = inputData[2];
-                _registersNumber = bytes / 2;
-                for (auto i = 0; i < bytes / 2; i++) {
-                    _values.emplace_back(utils::bigEndianConv(&inputData[3 + (i * 2)]));
+                _bytes            = inputData.at(2);
+                _registersNumber = _bytes / 2;
+                for (auto i = 0; i < _bytes / 2; i++) {
+                    _values.emplace_back(utils::bigEndianConv(&inputData.at(3 + (i * 2))));
                 }
-                crcIndex = 2 + bytes + 1;
+                crcIndex = 2 + _bytes + 1;
                 break;
             case utils::WriteSingleDiscreteOutputCoil:
+                _bytes           = 8;
                 _registersNumber = 1;
-                _address         = utils::bigEndianConv(&inputData[2]);
-                _values          = {ModbusCell::initCoil(inputData[4] == 0xFF)};
+                _address         = utils::bigEndianConv(&inputData.at(2));
+                _values          = {ModbusCell::initCoil(inputData.at(4) == 0xFF)};
                 crcIndex         = 6;
                 break;
             case utils::WriteSingleAnalogOutputRegister:
+                _bytes           = 8;
                 _registersNumber = 1;
-                _address         = utils::bigEndianConv(&inputData[2]);
-                _values          = {ModbusCell::initReg(utils::bigEndianConv(&inputData[4]))};
+                _address         = utils::bigEndianConv(&inputData.at(2));
+                _values          = {ModbusCell::initReg(utils::bigEndianConv(&inputData.at(4)))};
                 crcIndex         = 6;
                 break;
             case utils::WriteMultipleDiscreteOutputCoils:
             case utils::WriteMultipleAnalogOutputHoldingRegisters:
-                _address         = utils::bigEndianConv(&inputData[2]);
-                _registersNumber = utils::bigEndianConv(&inputData[4]);
+                _bytes           = 8;
+                _address         = utils::bigEndianConv(&inputData.at(2));
+                _registersNumber = utils::bigEndianConv(&inputData.at(4));
                 crcIndex         = 6;
                 break;
             default:
@@ -112,10 +114,10 @@ ModbusResponse::ModbusResponse(std::vector<uint8_t> inputData, bool CRC) {
 
         if (CRC) {
             if (crcIndex == -1 || static_cast<size_t>(crcIndex) + 2 > inputData.size())
-                throw ModbusException(utils::InvalidByteOrder);
+                throw ModbusException(utils::InputDataLengthInvalid);
 
             const auto receivedCRC =
-                *reinterpret_cast<const uint16_t *>(&inputData[crcIndex]);
+                *reinterpret_cast<const uint16_t *>(&inputData.at(crcIndex));
             const auto inputDataLen  = static_cast<std::size_t>(crcIndex);
             const auto calculatedCRC = MB::CRC::calculateCRC(inputData, inputDataLen);
 
@@ -129,6 +131,8 @@ ModbusResponse::ModbusResponse(std::vector<uint8_t> inputData, bool CRC) {
 
     } catch (const ModbusException &ex) {
         throw ex;
+    } catch (const std::out_of_range& inputDataInSufficient){
+        throw ModbusException(utils::InputDataLengthInvalid);
     } catch (const std::exception &) {
         // TODO: Save the exception somewhere
         throw ModbusException(utils::InvalidByteOrder);
