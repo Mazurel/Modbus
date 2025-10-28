@@ -204,8 +204,10 @@ Connection Connection::with(std::string addr, int port) {
     server.sin_port   = ::htons(port);
     server.sin_addr   = {inet_addr(addr.c_str())};
 
-    if (::connect(sock, reinterpret_cast<struct sockaddr *>(&server), sizeof(server)) < 0)
+    if (::connect(sock, reinterpret_cast<struct sockaddr *>(&server), sizeof(server)) < 0) {
+        ::close(sock);
         throw std::runtime_error("Cannot connect, errno = " + std::to_string(errno));
+    }
 
     return Connection(sock);
 }
