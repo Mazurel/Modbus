@@ -201,3 +201,12 @@ std::vector<uint8_t> ModbusRequest::toRaw() const {
 
     return result;
 }
+
+std::vector<uint8_t> ModbusRequest::toRawCRC() const {
+    std::vector<uint8_t> result {toRaw()};
+    const auto crc = MB::utils::calculateCRC(result);
+    result.push_back(reinterpret_cast<const uint8_t *>(&crc)[0]);
+    result.push_back(reinterpret_cast<const uint8_t *>(&crc)[1]);
+
+    return result;
+}

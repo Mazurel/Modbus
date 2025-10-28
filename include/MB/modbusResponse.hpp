@@ -27,9 +27,11 @@ class ModbusResponse {
   private:
     uint8_t _slaveID;
     utils::MBFunctionCode _functionCode;
+    bool _exception;
 
     uint16_t _address;
     uint16_t _registersNumber;
+    uint8_t _bytes;
 
     std::vector<ModbusCell> _values;
 

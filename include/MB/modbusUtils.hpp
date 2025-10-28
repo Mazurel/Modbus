@@ -47,6 +47,7 @@ enum MBErrorCode : uint8_t {
     // See issue: https://github.com/Mazurel/Modbus/issues/3
     NumberOfRegistersInvalid = 0b01111000,
     NumberOfValuesInvalid    = 0b01110111,
+    InputDataLengthInvalid        = 0b01110110,
 };
 
 //! Checks if error code is modbus standard error code
@@ -71,6 +72,7 @@ inline bool isStandardErrorCode(MBErrorCode code) {
     case ConnectionClosed:
     case Timeout:
     case NumberOfRegistersInvalid:
+    case InputDataLengthInvalid:
     default:
         return false;
     }
@@ -117,6 +119,8 @@ inline std::string mbErrorCodeToStr(MBErrorCode code) noexcept {
         return "Number of registers in response is too big - cannot be serialized";
     case NumberOfValuesInvalid:
         return "Number of values is not valid";
+    case InputDataLengthInvalid:
+        return "Encountered end of data during parsing";
     }
 
     return "Unknown";
